@@ -516,6 +516,259 @@ function WhatWeLookForStackedCarousel() {
   );
 }
 
+// React Bits Vertical Stacked Card Scroll Deck for Our Culture / Values
+function OurValuesScrollStack() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const touchStartY = useRef(null);
+  const isDragging = useRef(false);
+  const dragStartY = useRef(0);
+  const lastInteractionTime = useRef(0);
+  const total = companyValues.length; // 7
+
+  const nextCard = React.useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % total);
+  }, [total]);
+
+  const prevCard = React.useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
+
+  const triggerNext = React.useCallback(() => {
+    const now = Date.now();
+    if (now - lastInteractionTime.current < 700) return;
+    lastInteractionTime.current = now;
+    nextCard();
+  }, [nextCard]);
+
+  const triggerPrev = React.useCallback(() => {
+    const now = Date.now();
+    if (now - lastInteractionTime.current < 700) return;
+    lastInteractionTime.current = now;
+    prevCard();
+  }, [prevCard]);
+
+  // Continuous automatic card transition every 3 seconds
+  // Temporarily paused when hovered or during manual interaction; resumes after 3s of inactivity
+  useEffect(() => {
+    if (isHovered) return;
+
+    const interval = setInterval(() => {
+      if (Date.now() - lastInteractionTime.current >= 2900) {
+        nextCard();
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isHovered, nextCard]);
+
+  // Touch swipe handlers (Mobile)
+  const handleTouchStart = (e) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartY.current === null) return;
+    const endY = e.changedTouches[0].clientY;
+    const delta = touchStartY.current - endY;
+    if (delta > 35) {
+      triggerNext(); // Swiped up -> next card
+    } else if (delta < -35) {
+      triggerPrev(); // Swiped down -> prev card
+    }
+    touchStartY.current = null;
+  };
+
+  // Mouse drag handlers (Desktop)
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    dragStartY.current = e.clientY;
+  };
+
+  const handleMouseUp = (e) => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    const delta = dragStartY.current - e.clientY;
+    if (delta > 35) {
+      triggerNext();
+    } else if (delta < -35) {
+      triggerPrev();
+    }
+  };
+
+  // Mouse wheel & trackpad scroll handler (debounced to prevent skipping)
+  const handleWheel = (e) => {
+    if (Math.abs(e.deltaY) < 18) return;
+    if (e.deltaY > 0) {
+      triggerNext();
+    } else {
+      triggerPrev();
+    }
+  };
+
+  return (
+    <div
+      className="relative w-full py-6 sm:py-10 select-none flex flex-col items-center justify-center overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        isDragging.current = false;
+      }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onWheel={handleWheel}
+    >
+      {/* Background Soft Ambient Light */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+        <div className="absolute -left-12 top-1/4 w-80 h-80 rounded-full bg-purple-100/25 blur-3xl" />
+        <div className="absolute -right-12 bottom-1/4 w-96 h-96 rounded-full bg-sky-100/30 blur-3xl" />
+        <div className="absolute w-[500px] h-[500px] rounded-full bg-blue-50/25 blur-[120px]" />
+      </div>
+
+      {/* Main Stack Deck Container — Centered, responsive: desktop 650–850px, tablet proportional, mobile full */}
+      <div className="relative w-full max-w-[92vw] sm:max-w-[85vw] md:max-w-[740px] lg:max-w-[820px] h-[460px] sm:h-[480px] md:h-[500px] flex items-center justify-center">
+        {companyValues.map((val, idx) => {
+          const order = (idx - activeIndex + total) % total;
+          const isActive = order === 0;
+          const Icon = val.icon;
+
+          // Realistic depth calculations for stacked cards:
+          // Front card (order 0) is lowest and largest.
+          // Cards 1, 2, 3 stack upward behind it, each slightly higher, smaller, and lower opacity.
+          let translateY = 0;
+          let scale = 1;
+          let opacity = 1;
+          let blur = 0;
+          let zIndex = 10;
+          let pointerEvents = 'none';
+
+          if (order === 0) {
+            // Front active card: large, prominent, sharp
+            translateY = 60;
+            scale = 1.0;
+            opacity = 1;
+            blur = 0;
+            zIndex = 35;
+            pointerEvents = 'auto';
+          } else if (order === 1) {
+            // 2nd card: directly behind active, slightly smaller, header/title tab clearly peeking above
+            translateY = 8;
+            scale = 0.94;
+            opacity = 0.92;
+            blur = 0;
+            zIndex = 28;
+            pointerEvents = 'auto';
+          } else if (order === 2) {
+            // 3rd card: behind 2nd card, further up
+            translateY = -40;
+            scale = 0.88;
+            opacity = 0.70;
+            blur = 0.6;
+            zIndex = 22;
+            pointerEvents = 'auto';
+          } else if (order === 3) {
+            // 4th card: far back
+            translateY = -82;
+            scale = 0.82;
+            opacity = 0.42;
+            blur = 1.8;
+            zIndex = 16;
+          } else if (order === 4) {
+            // 5th card: very far back
+            translateY = -118;
+            scale = 0.76;
+            opacity = 0.18;
+            blur = 3.2;
+            zIndex = 10;
+          } else if (order === 6) {
+            // Exiting card that was previously active — smoothly glides upward, dissolves into back
+            translateY = -165;
+            scale = 0.82;
+            opacity = 0;
+            blur = 4;
+            zIndex = 40;
+          } else {
+            // Hidden in back
+            translateY = -135;
+            scale = 0.72;
+            opacity = 0;
+            blur = 5;
+            zIndex = 2;
+          }
+
+          return (
+            <motion.div
+              key={val.title}
+              onClick={() => {
+                if (order === 1) triggerNext();
+                else if (order === 2) {
+                  lastInteractionTime.current = Date.now();
+                  setActiveIndex((prev) => (prev + 2) % total);
+                }
+              }}
+              animate={{
+                y: translateY,
+                scale,
+                opacity,
+                filter: `blur(${blur}px)`,
+                zIndex
+              }}
+              transition={{
+                duration: 0.95,
+                ease: [0.25, 1, 0.5, 1]
+              }}
+              style={{ pointerEvents }}
+              className="absolute w-full origin-center cursor-grab active:cursor-grabbing"
+            >
+              <div
+                className={`relative w-full bg-white rounded-[26px] sm:rounded-[32px] md:rounded-[36px] p-6 sm:p-8 md:p-10 text-left overflow-hidden transition-shadow duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[260px] md:min-h-[280px] ${
+                  isActive
+                    ? 'border-2 border-slate-200/90 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08),0_0_0_1px_rgba(255,255,255,0.9)_inset]'
+                    : 'border border-slate-200/70 shadow-[0_10px_32px_-10px_rgba(0,0,0,0.05)]'
+                }`}
+              >
+                {/* Subtle Organic Background Corner Glow */}
+                <div className="absolute -bottom-10 -right-10 w-44 h-44 rounded-full bg-gradient-to-tl from-slate-100/60 to-transparent pointer-events-none" />
+
+                {/* Card Top Row: Icon Container + Title + Step Counter */}
+                {/* Positioned at the very top so when stacked behind, the icon and title are visible tabs */}
+                <div className="flex items-center justify-between relative z-10 gap-3">
+                  <div className="flex items-center space-x-3.5 sm:space-x-4 min-w-0">
+                    <div
+                      className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-2xl md:rounded-[20px] border flex items-center justify-center shadow-sm shrink-0 transition-transform duration-300 ${val.bg} ${
+                        isActive ? 'scale-105 shadow-md' : ''
+                      }`}
+                    >
+                      <Icon className={`h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 ${val.color}`} />
+                    </div>
+
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug truncate">
+                      {val.title}
+                    </h3>
+                  </div>
+
+                  <span className="text-xs sm:text-sm font-bold tracking-widest text-slate-400 uppercase bg-slate-50 px-3.5 py-1.5 rounded-full border border-slate-200/60 shrink-0">
+                    0{idx + 1} / 07
+                  </span>
+                </div>
+
+                {/* Card Body: Description */}
+                <div className="mt-5 sm:mt-6 relative z-10 pr-2">
+                  <p className="text-sm sm:text-base md:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl">
+                    {val.desc}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function Careers() {
   const navigate = useNavigate();
   const { user, redirectToSSO } = useContext(AuthContext);
@@ -2323,41 +2576,8 @@ export default function Careers() {
                 </p>
               </div>
 
-              {/* Grid of 7 Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto px-4 md:px-6">
-                {companyValues.map((val, idx) => {
-                  const Icon = val.icon;
-                  return (
-                    <motion.div
-                      key={val.title}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: idx * 0.08 }}
-                      className={`relative overflow-hidden p-8 rounded-3xl border border-slate-200/80 bg-white text-left flex flex-col justify-between space-y-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group cursor-pointer ${val.glow}`}
-                    >
-                      {/* Gradient card glow on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-slate-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                      <div className="space-y-4 relative z-10">
-                        {/* Beautiful Icon Wrapper */}
-                        <div className={`h-12 w-12 rounded-2xl border flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all duration-300 ${val.bg}`}>
-                          <Icon className={`h-6 w-6 transition-transform duration-300 group-hover:rotate-6 ${val.color}`} />
-                        </div>
-
-                        <div className="space-y-2">
-                          <h4 className="text-base font-extrabold text-slate-900 group-hover:text-[#EC4899] transition-colors flex items-center gap-1.5">
-                            {val.title}
-                          </h4>
-                          <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-semibold">
-                            {val.desc}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
+              {/* Premium Vertical Stacked Card Scroll Deck */}
+              <OurValuesScrollStack />
             </div>
 
             {/* SECTION 10: PREMIUM CALL TO ACTION SECTION */}
