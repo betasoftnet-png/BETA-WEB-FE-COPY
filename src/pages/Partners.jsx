@@ -292,19 +292,19 @@ const getRoadmapColor = (index) => {
   return colorMap[index % colorMap.length];
 };
 
-// Premium Scroll-Driven Resource Card Component
+// Premium Two-Stage Scroll-Driven Resource Card Component
 function PartnerResourceScrollCard({ res, index, progress, shouldReduceMotion }) {
   const Icon = res.icon;
 
-  // Stagger intervals:
-  // 5 cards stagger sequentially across scroll progress [0, 1]
-  // Card 0: 0.00 -> 0.44
-  // Card 1: 0.12 -> 0.56
-  // Card 2: 0.24 -> 0.68
-  // Card 3: 0.36 -> 0.80
-  // Card 4: 0.48 -> 0.92
-  const startP = index * 0.12;
-  const endP = startP + 0.44;
+  // STAGE 1 — BOTTOM TO TOP ENTRANCE
+  // Stagger intervals across scroll progress [0, 0.40]:
+  // Card 0: 0.08 -> 0.28
+  // Card 1: 0.11 -> 0.31
+  // Card 2: 0.14 -> 0.34
+  // Card 3: 0.17 -> 0.37
+  // Card 4: 0.20 -> 0.40
+  const startP = 0.08 + index * 0.03;
+  const endP = startP + 0.20;
 
   // translateY: 150px (below) -> 0px (final position)
   const y = useTransform(
@@ -316,7 +316,7 @@ function PartnerResourceScrollCard({ res, index, progress, shouldReduceMotion })
   // opacity: 0 -> 1
   const opacity = useTransform(
     progress,
-    [0, startP, startP + 0.22, 1],
+    [0, startP, startP + 0.14, 1],
     [0, 0, 1, 1]
   );
 
@@ -334,7 +334,7 @@ function PartnerResourceScrollCard({ res, index, progress, shouldReduceMotion })
         opacity: shouldReduceMotion ? 1 : opacity,
         scale: shouldReduceMotion ? 1 : scale
       }}
-      className="bg-white rounded-[24px] border border-slate-200/80 p-6 sm:p-7 text-center flex flex-col justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgb(0,0,0,0.08)] transition-shadow duration-300 group cursor-pointer"
+      className="bg-white rounded-[24px] border border-slate-200/80 p-6 sm:p-7 text-center flex flex-col justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgb(0,0,0,0.08)] transition-shadow duration-300 group cursor-pointer w-full sm:w-[260px] md:w-[230px] lg:w-[245px] xl:w-[260px] shrink-0 min-h-[250px]"
     >
       <div className="h-11 w-11 mx-auto rounded-xl bg-cyan-50/80 border border-cyan-100/60 flex items-center justify-center text-cyan-500 group-hover:scale-105 group-hover:bg-cyan-50 transition-all duration-300">
         <Icon className="h-5 w-5" />
@@ -357,18 +357,40 @@ function PartnerResourceScrollCard({ res, index, progress, shouldReduceMotion })
   );
 }
 
-// Section 8: Partner Resources with Scroll-Driven Stagger Animation
+// Section 8: Partner Resources with Two-Stage Scroll Animation (Vertical Entrance -> Horizontal Movement)
 function PartnerResourcesScrollSection() {
-  const containerRef = useRef(null);
+  const outerRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
+  const [targetDistance, setTargetDistance] = useState(360);
 
-  // Scroll progress linked directly to the section's position in the viewport
+  // Responsive horizontal movement distance
+  useEffect(() => {
+    const updateDist = () => {
+      const w = window.innerWidth;
+      if (w < 768) {
+        setTargetDistance(0); // Vertical stack on mobile, no horizontal translation
+      } else if (w < 1024) {
+        setTargetDistance(200);
+      } else if (w < 1280) {
+        setTargetDistance(280);
+      } else if (w < 1536) {
+        setTargetDistance(360);
+      } else {
+        setTargetDistance(440);
+      }
+    };
+    updateDist();
+    window.addEventListener('resize', updateDist);
+    return () => window.removeEventListener('resize', updateDist);
+  }, []);
+
+  // Track scroll progress through the tall pinned section
   const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start 0.95', 'end 0.72']
+    target: outerRef,
+    offset: ['start end', 'end end']
   });
 
-  // Smooth spring physics for fluid 60fps interaction without wheel jitter
+  // Smooth physical spring to eliminate scroll steps/notches
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 240,
     damping: 28,
@@ -376,32 +398,56 @@ function PartnerResourcesScrollSection() {
     restDelta: 0.001
   });
 
-  return (
-    <div ref={containerRef} className="space-y-12 sm:space-y-16">
-      <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
-          <FileText className="h-3.5 w-3.5" />
-          <span>Developer Resources</span>
-        </div>
-        <h2 className="text-3xl md:text-5xl font-extrabold text-[#0A3161]">
-          Partner Resources
-        </h2>
-        <p className="text-slate-600 text-sm">
-          Access core developer documentation, APIs, and partner marketing kits.
-        </p>
-      </div>
+  // STAGE 2 — HORIZONTAL SCROLL (LEFT -> RIGHT)
+  // Stage 1 completes by progress = 0.40.
+  // Pause/settle buffer: 0.40 -> 0.46
+  // Stage 2 horizontal translateX: 0.46 -> 0.88
+  // Settle/release buffer: 0.88 -> 1.00
+  const horizontalX = useTransform(
+    smoothProgress,
+    [0, 0.46, 0.88, 1],
+    [0, 0, targetDistance, targetDistance]
+  );
 
-      {/* 5 Resource Cards with Scroll-Driven Staggered Upward Motion */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
-        {resources.map((res, idx) => (
-          <PartnerResourceScrollCard
-            key={res.title}
-            res={res}
-            index={idx}
-            progress={smoothProgress}
-            shouldReduceMotion={shouldReduceMotion}
-          />
-        ))}
+  return (
+    <div ref={outerRef} className="relative md:h-[220vh]">
+      {/* Sticky pinned container on desktop/tablet; normal flow on mobile */}
+      <div className="md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] flex flex-col justify-center overflow-hidden py-8">
+        <div className="space-y-10 sm:space-y-14 w-full">
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto space-y-3 px-4">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
+              <FileText className="h-3.5 w-3.5" />
+              <span>Developer Resources</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[#0A3161]">
+              Partner Resources
+            </h2>
+            <p className="text-slate-600 text-sm">
+              Access core developer documentation, APIs, and partner marketing kits.
+            </p>
+          </div>
+
+          {/* Cards Track: Stage 1 (vertical entrance) -> Stage 2 (horizontal translation translateX) */}
+          <div className="w-full overflow-hidden px-4 md:px-8">
+            <motion.div
+              style={{
+                x: shouldReduceMotion ? 0 : horizontalX
+              }}
+              className="flex flex-col sm:flex-row flex-wrap md:flex-nowrap gap-5 lg:gap-6 items-center md:items-stretch justify-center md:justify-start w-fit mx-auto md:mx-0 will-change-transform"
+            >
+              {resources.map((res, idx) => (
+                <PartnerResourceScrollCard
+                  key={res.title}
+                  res={res}
+                  index={idx}
+                  progress={smoothProgress}
+                  shouldReduceMotion={shouldReduceMotion}
+                />
+              ))}
+            </motion.div>
+          </div>
+        </div>
       </div>
     </div>
   );
