@@ -942,7 +942,7 @@ export default function Home() {
       </div>
 
       {/* SECTION 4: STATISTICS COUNTER */}
-      <div className="relative z-0 w-full bg-[#EAF6FF] -mt-[220px] pt-[175px] pb-16 sm:pb-20 mb-24 shadow-inner">
+      <div className="relative z-0 w-full bg-[#004AAD] -mt-[220px] pt-[175px] pb-16 sm:pb-20 mb-24 shadow-inner">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* SINGLE LARGE WHITE ROUNDED CONTAINER */}
           <div className="bg-white rounded-[28px] sm:rounded-[36px] shadow-sm py-10 px-6 sm:py-12 sm:px-10 max-w-6xl mx-auto">
