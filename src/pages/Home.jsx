@@ -995,25 +995,72 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-left">
             {/* Left Column: Visual Growth Roadmap */}
             <div className="lg:col-span-5 w-full">
-              <div className="relative p-6 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-2xl overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-transparent to-purple-900/30 opacity-60 pointer-events-none" />
+              <div
+                className="relative p-6 sm:p-7 rounded-3xl border border-[#D5E5F9]/80 shadow-[0_20px_50px_rgba(30,58,138,0.08)] overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, #F7FBFF 0%, #EEF6FF 50%, #F5F1FF 100%)',
+                }}
+              >
+                {/* Subtle soft bottom wave accent from the reference image */}
+                <div className="absolute bottom-0 left-0 right-0 h-24 overflow-hidden rounded-b-3xl pointer-events-none opacity-40">
+                  <svg viewBox="0 0 500 120" preserveAspectRatio="none" className="w-full h-full">
+                    <path d="M0,60 C150,110 320,20 500,75 L500,120 L0,120 Z" fill="url(#bottomWaveGrad)" />
+                    <defs>
+                      <linearGradient id="bottomWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.8" />
+                        <stop offset="60%" stopColor="#818cf8" stopOpacity="0.6" />
+                        <stop offset="100%" stopColor="#c084fc" stopOpacity="0.5" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+
                 <div className="relative z-10 space-y-5">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div className="flex items-center space-x-1.5">
-                      <div className="h-2.5 w-2.5 rounded-full bg-rose-500" />
-                      <div className="h-2.5 w-2.5 rounded-full bg-amber-500" />
-                      <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  {/* Window Controls Header */}
+                  <div className="flex items-center justify-between pb-1">
+                    <div className="flex items-center space-x-2">
+                      <div className="h-3 w-3 rounded-full bg-[#FF5F56]" />
+                      <div className="h-3 w-3 rounded-full bg-[#FFBD2E]" />
+                      <div className="h-3 w-3 rounded-full bg-[#27C93F]" />
                     </div>
-                    <span className="text-[9px] font-mono text-slate-500">product_architecture.json</span>
+                    <span className="text-[11px] font-mono text-slate-400">product_architecture.json</span>
                   </div>
 
                   {/* Pipeline visual steps */}
-                  <div className="space-y-3">
+                  <div className="space-y-3.5">
                     {[
-                      { phase: 'Layer 1', title: 'Secure SMTP & Real-Time Sync', status: 'Active', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
-                      { phase: 'Layer 2', title: 'SSO & Multi-Factor Auth Gateway', status: 'Verified', color: 'text-blue-400 bg-blue-500/10 border-blue-500/20' },
-                      { phase: 'Layer 3', title: 'Live WebSocket Channels & Boards', status: 'Connected', color: 'text-purple-400 bg-purple-500/10 border-purple-500/20' },
-                      { phase: 'Layer 4', title: 'Centralized Scalable Workspace DB', status: 'Synced', color: 'text-slate-400 bg-slate-800 border-slate-700' }
+                      {
+                        phase: 'Layer 1',
+                        title: 'Secure SMTP & Real-Time Sync',
+                        status: 'ACTIVE',
+                        lineColor: 'bg-[#0088FF]',
+                        dotColor: 'bg-emerald-500',
+                        pillColor: 'text-emerald-600 bg-emerald-50 border border-emerald-200/60'
+                      },
+                      {
+                        phase: 'Layer 2',
+                        title: 'SSO & Multi-Factor Auth Gateway',
+                        status: 'VERIFIED',
+                        lineColor: 'bg-[#6366F1]',
+                        dotColor: 'bg-blue-500',
+                        pillColor: 'text-blue-600 bg-blue-50 border border-blue-200/60'
+                      },
+                      {
+                        phase: 'Layer 3',
+                        title: 'Live WebSocket Channels & Boards',
+                        status: 'CONNECTED',
+                        lineColor: 'bg-[#EC4899]',
+                        dotColor: 'bg-pink-500',
+                        pillColor: 'text-pink-600 bg-pink-50 border border-pink-200/60'
+                      },
+                      {
+                        phase: 'Layer 4',
+                        title: 'Centralized Scalable Workspace DB',
+                        status: 'SYNCED',
+                        lineColor: 'bg-[#F59E0B]',
+                        dotColor: 'bg-amber-500',
+                        pillColor: 'text-amber-600 bg-amber-50 border border-amber-200/60'
+                      }
                     ].map((step, idx) => (
                       <motion.div
                         key={step.phase}
@@ -1021,14 +1068,16 @@ export default function Home() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.4, delay: idx * 0.12 }}
-                        className="flex items-center justify-between p-3 rounded-xl bg-slate-955/85 border border-slate-800 hover:border-slate-700 transition-colors"
+                        className="flex items-center justify-between p-3.5 rounded-2xl bg-white/80 hover:bg-white/95 backdrop-blur-sm border border-white/90 shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all duration-200"
                       >
                         <div className="flex items-center space-x-3 overflow-hidden mr-2">
-                          <span className="text-[10px] font-mono text-slate-500 w-14 flex-shrink-0">{step.phase}</span>
-                          <span className="text-[11px] font-semibold text-slate-200 truncate">{step.title}</span>
+                          <div className={`w-1 h-5 rounded-full ${step.lineColor} flex-shrink-0`} />
+                          <span className="text-xs font-medium text-slate-400 w-12 flex-shrink-0">{step.phase}</span>
+                          <span className="text-xs sm:text-sm font-bold text-slate-800 truncate">{step.title}</span>
                         </div>
-                        <span className={`text-[8px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border flex-shrink-0 ${step.color}`}>
-                          {step.status}
+                        <span className={`text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-full flex items-center space-x-1.5 flex-shrink-0 ${step.pillColor}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${step.dotColor}`} />
+                          <span>{step.status}</span>
                         </span>
                       </motion.div>
                     ))}
