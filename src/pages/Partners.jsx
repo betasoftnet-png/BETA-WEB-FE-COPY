@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import {
   Handshake,
   Award,
@@ -291,6 +291,121 @@ const getRoadmapColor = (index) => {
   ];
   return colorMap[index % colorMap.length];
 };
+
+// Premium Scroll-Driven Resource Card Component
+function PartnerResourceScrollCard({ res, index, progress, shouldReduceMotion }) {
+  const Icon = res.icon;
+
+  // Stagger intervals:
+  // 5 cards stagger sequentially across scroll progress [0, 1]
+  // Card 0: 0.00 -> 0.44
+  // Card 1: 0.12 -> 0.56
+  // Card 2: 0.24 -> 0.68
+  // Card 3: 0.36 -> 0.80
+  // Card 4: 0.48 -> 0.92
+  const startP = index * 0.12;
+  const endP = startP + 0.44;
+
+  // translateY: 150px (below) -> 0px (final position)
+  const y = useTransform(
+    progress,
+    [0, startP, endP, 1],
+    [150, 150, 0, 0]
+  );
+
+  // opacity: 0 -> 1
+  const opacity = useTransform(
+    progress,
+    [0, startP, startP + 0.22, 1],
+    [0, 0, 1, 1]
+  );
+
+  // scale: 0.94 -> 1.0
+  const scale = useTransform(
+    progress,
+    [0, startP, endP, 1],
+    [0.94, 0.94, 1.0, 1.0]
+  );
+
+  return (
+    <motion.div
+      style={{
+        y: shouldReduceMotion ? 0 : y,
+        opacity: shouldReduceMotion ? 1 : opacity,
+        scale: shouldReduceMotion ? 1 : scale
+      }}
+      className="bg-white rounded-[24px] border border-slate-200/80 p-6 sm:p-7 text-center flex flex-col justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgb(0,0,0,0.08)] transition-shadow duration-300 group cursor-pointer"
+    >
+      <div className="h-11 w-11 mx-auto rounded-xl bg-cyan-50/80 border border-cyan-100/60 flex items-center justify-center text-cyan-500 group-hover:scale-105 group-hover:bg-cyan-50 transition-all duration-300">
+        <Icon className="h-5 w-5" />
+      </div>
+
+      <div className="space-y-1.5 flex-1 flex flex-col justify-center my-4">
+        <h4 className="text-sm font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">
+          {res.title}
+        </h4>
+        <p className="text-xs text-slate-500 leading-relaxed font-normal line-clamp-3">
+          {res.desc}
+        </p>
+      </div>
+
+      <div className="flex items-center justify-center text-[10px] font-bold text-slate-400 group-hover:text-cyan-600 uppercase tracking-wider border-t border-slate-100 pt-3 transition-colors">
+        <span>Download</span>
+        <ArrowRight className="h-3 w-3 ml-1 transform group-hover:translate-x-0.5 transition-transform" />
+      </div>
+    </motion.div>
+  );
+}
+
+// Section 8: Partner Resources with Scroll-Driven Stagger Animation
+function PartnerResourcesScrollSection() {
+  const containerRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Scroll progress linked directly to the section's position in the viewport
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start 0.95', 'end 0.72']
+  });
+
+  // Smooth spring physics for fluid 60fps interaction without wheel jitter
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 240,
+    damping: 28,
+    mass: 0.6,
+    restDelta: 0.001
+  });
+
+  return (
+    <div ref={containerRef} className="space-y-12 sm:space-y-16">
+      <div className="text-center max-w-2xl mx-auto space-y-3">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
+          <FileText className="h-3.5 w-3.5" />
+          <span>Developer Resources</span>
+        </div>
+        <h2 className="text-3xl md:text-5xl font-extrabold text-[#0A3161]">
+          Partner Resources
+        </h2>
+        <p className="text-slate-600 text-sm">
+          Access core developer documentation, APIs, and partner marketing kits.
+        </p>
+      </div>
+
+      {/* 5 Resource Cards with Scroll-Driven Staggered Upward Motion */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+        {resources.map((res, idx) => (
+          <PartnerResourceScrollCard
+            key={res.title}
+            res={res}
+            index={idx}
+            progress={smoothProgress}
+            shouldReduceMotion={shouldReduceMotion}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Partners() {
   // Multi-step Application Wizard State
@@ -1337,45 +1452,8 @@ export default function Partners() {
           </div>
         </div>
 
-        {/* SECTION 8: RESOURCES SECTION */}
-        <div className="space-y-16">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
-              <FileText className="h-3.5 w-3.5" />
-              <span>Developer Resources</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white">Partner Resources</h2>
-            <p className="text-[#CBD5E1] text-sm">Access core developer documentation, APIs, and partner marketing kits.</p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {resources.map((res, idx) => {
-              const Icon = res.icon;
-              return (
-                <motion.div
-                  key={res.title}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: idx * 0.06 }}
-                  className="glass-card-neon p-6 rounded-2xl border border-purple-500/10 text-center flex flex-col justify-between space-y-4 hover:border-[#7C3AED]/40 hover:shadow-lg hover:shadow-purple-500/10 group cursor-pointer"
-                >
-                  <div className="h-10 w-10 mx-auto rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#00E5FF] group-hover:scale-105 transition-transform duration-300">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <div className="space-y-1">
-                    <h4 className="text-xs font-black text-white group-hover:text-[#00FFB2] transition-colors">{res.title}</h4>
-                    <p className="text-[9px] text-[#CBD5E1] leading-relaxed line-clamp-3 font-medium">{res.desc}</p>
-                  </div>
-                  <div className="flex items-center justify-center text-[8px] font-extrabold text-slate-500 group-hover:text-[#00E5FF] uppercase tracking-wider mt-2 border-t border-white/5 pt-3">
-                    <span>Download</span>
-                    <ArrowRight className="h-3 w-3 ml-1 transform group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
+        {/* SECTION 8: RESOURCES SECTION (SCROLL-DRIVEN) */}
+        <PartnerResourcesScrollSection />
 
         {/* SECTION 9: MULTI-STEP PARTNER APPLICATION SECTION */}
         <div id="apply-wizard" className="max-w-2xl mx-auto space-y-8">
