@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import CtaEcosystemVisual from '../components/CtaEcosystemVisual';
 import {
   ArrowRight,
   Shield,
@@ -1187,32 +1188,43 @@ export default function Home() {
 
       {/* SECTION 6: CALL TO ACTION */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="cta-colored-section animated-gradient-bg relative rounded-3xl p-8 md:p-16 border border-blue-500/20 overflow-hidden text-left shadow-2xl">
+        <div className="cta-colored-section animated-gradient-bg relative rounded-3xl p-8 sm:p-10 md:p-12 lg:p-14 border border-blue-500/20 overflow-hidden text-left shadow-2xl">
           {/* Decorative patterns */}
           <div className="absolute inset-0 bg-mesh-pattern bg-mesh opacity-10 pointer-events-none" />
           <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px] pointer-events-none" />
 
-          <div className="relative z-10 space-y-6 max-w-2xl mr-auto">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
-              Ready to Upgrade Your Corporate Software?
-            </h2>
-            <p className="text-slate-200 max-w-xl mr-auto text-sm md:text-base">
-              Unify your group mailbox, auth logs, dashboard notes, and project backlogs under one centralized and secure portal.
-            </p>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4 pt-6">
-              <button
-                type="button"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-bold bg-white text-[#004AAD] cursor-pointer"
-              >
-                Browse Product Suites
-              </button>
-              <Link
-                to="/support"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30 transition-all duration-300 hover:scale-[1.02]"
-              >
-                Contact Support
-              </Link>
+          {/* 2-Column Grid: Left Content (Unchanged) + Right Animated Ecosystem Visual */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+            
+            {/* Left Content (Unchanged) */}
+            <div className="lg:col-span-6 xl:col-span-5 space-y-6">
+              <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                Ready to Upgrade Your Corporate Software?
+              </h2>
+              <p className="text-slate-200 max-w-xl text-sm md:text-base">
+                Unify your group mailbox, auth logs, dashboard notes, and project backlogs under one centralized and secure portal.
+              </p>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4 pt-4 sm:pt-6">
+                <button
+                  type="button"
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-bold bg-white text-[#004AAD] cursor-pointer flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors"
+                >
+                  Browse Product Suites <span>→</span>
+                </button>
+                <Link
+                  to="/support"
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30 transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2"
+                >
+                  Contact Support <span>→</span>
+                </Link>
+              </div>
             </div>
+
+            {/* Right Column: Unique Futuristic Software Ecosystem Animation */}
+            <div className="lg:col-span-6 xl:col-span-7 flex items-center justify-center w-full overflow-hidden lg:overflow-visible pt-4 lg:pt-0">
+              <CtaEcosystemVisual />
+            </div>
+
           </div>
         </div>
       </div>
