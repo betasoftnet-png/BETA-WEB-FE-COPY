@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Phone, Mail } from 'lucide-react';
 import api from '../api';
 
 export default function Footer() {
@@ -30,31 +30,31 @@ export default function Footer() {
         {/* Main 6-Column Footer Grid aligned to top baseline */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-6 xl:gap-8 items-start mb-12 sm:mb-16">
           
-          {/* Column 1: Beta Logo + Social Media */}
-          <div className="space-y-4">
+          {/* Column 1: Beta Logo + Description + Social Media */}
+          <div className="flex flex-col items-center text-center space-y-4">
             <Link to="/" className="inline-block select-none focus:outline-none">
               <img
                 src="/logo.png"
                 alt="Beta Softnet"
-                className="h-10 sm:h-11 w-auto object-contain"
+                className="h-16 sm:h-20 w-auto object-contain mx-auto"
               />
             </Link>
-            <p className="text-xs text-slate-500 leading-relaxed font-normal">
+            <p className="text-xs text-slate-500 leading-relaxed font-normal max-w-[200px]">
               One platform for communication, security, and enterprise collaboration.
             </p>
-            {/* Social Icons */}
-            <div className="flex items-center space-x-2.5 pt-1">
+            {/* Social Icons without white background boxes */}
+            <div className="flex items-center justify-center space-x-4 pt-1">
               <a
                 href="https://www.instagram.com/beta_softnet/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Beta on Instagram"
-                className="w-8 h-8 rounded-lg bg-white/90 border border-slate-200/90 flex items-center justify-center shadow-xs hover:shadow-sm hover:border-[#004AAD]/40 hover:scale-105 transition-all duration-200 group"
+                className="inline-flex items-center justify-center hover:opacity-80 hover:scale-110 transition-all duration-200"
               >
                 <img
                   src="/instagram.png"
                   alt="Instagram"
-                  className="h-4.5 w-4.5 object-contain group-hover:opacity-90 transition-opacity"
+                  className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
                 />
               </a>
               <a
@@ -62,12 +62,12 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Beta on LinkedIn"
-                className="w-8 h-8 rounded-lg bg-white/90 border border-slate-200/90 flex items-center justify-center shadow-xs hover:shadow-sm hover:border-[#004AAD]/40 hover:scale-105 transition-all duration-200 group"
+                className="inline-flex items-center justify-center hover:opacity-80 hover:scale-110 transition-all duration-200"
               >
                 <img
                   src="/linkedin.png"
                   alt="LinkedIn"
-                  className="h-4.5 w-4.5 object-contain group-hover:opacity-90 transition-opacity"
+                  className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
                 />
               </a>
               <a
@@ -75,13 +75,12 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Beta on X"
-                className="w-8 h-8 rounded-lg bg-white/90 border border-slate-200/90 flex items-center justify-center shadow-xs hover:shadow-sm hover:border-[#004AAD]/40 hover:scale-105 transition-all duration-200 group"
+                className="inline-flex items-center justify-center hover:opacity-80 hover:scale-110 transition-all duration-200"
               >
                 <img
                   src="/twitter.png"
                   alt="X"
-                  className="h-4.5 w-4.5 object-contain group-hover:opacity-90 transition-opacity"
-                  style={{ mixBlendMode: 'multiply' }}
+                  className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
                 />
               </a>
             </div>
@@ -239,28 +238,39 @@ export default function Footer() {
             <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4">
               Contact Sales
             </h2>
-            <div className="space-y-3.5 text-sm">
-              <div>
-                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">
-                  Phone:
-                </span>
-                <a
-                  href="tel:+919444369625"
-                  className="font-medium text-[#004AAD] hover:text-[#002D7A] transition-colors inline-block"
-                >
-                  +91 94443 69625
-                </a>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#004AAD] shadow-xs shrink-0">
+                  <Phone className="h-4 w-4" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-bold text-slate-900 block leading-tight">
+                    Phone:
+                  </span>
+                  <a
+                    href="tel:+919444369625"
+                    className="text-xs sm:text-sm font-semibold text-[#004AAD] hover:underline transition-colors block"
+                  >
+                    +91 94443 69625
+                  </a>
+                </div>
               </div>
-              <div>
-                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">
-                  Email:
-                </span>
-                <a
-                  href="mailto:betasoftnet2025@gmail.com"
-                  className="font-medium text-[#004AAD] hover:text-[#002D7A] transition-colors break-all inline-block"
-                >
-                  betasoftnet2025@gmail.com
-                </a>
+
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#004AAD] shadow-xs shrink-0">
+                  <Mail className="h-4 w-4" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-bold text-slate-900 block leading-tight">
+                    Email:
+                  </span>
+                  <a
+                    href="mailto:betasoftnet2025@gmail.com"
+                    className="text-xs sm:text-sm font-semibold text-[#004AAD] hover:underline transition-colors break-all block"
+                  >
+                    betasoftnet2025@gmail.com
+                  </a>
+                </div>
               </div>
             </div>
           </div>
