@@ -757,27 +757,26 @@ export default function Partners() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 space-y-36">
-
-        {/* SECTION 2: PARTNER ECOSYSTEM VISUALIZATION */}
-        <div className="space-y-16">
+      {/* SECTION 2: PARTNER ECOSYSTEM VISUALIZATION */}
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-[#EAF6FF]">
+        <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
-              <Layers className="h-3.5 w-3.5" />
-              <span>Interactive Hub</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white">Partner Ecosystem Visualization</h2>
-            <p className="text-[#CBD5E1] text-sm">Visualizing structural connections between our core suite and our global alliance layers.</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[#0B2545] tracking-tight">
+              Partner Ecosystem Visualization
+            </h2>
+            <p className="text-[#475569] text-sm md:text-base">
+              Visualizing structural connections between our core suite and our global alliance layers.
+            </p>
           </div>
 
-          {/* Central Interactive Orbit Node Map — Modern Sky-Blue Enterprise Ecosystem */}
+          {/* Central Interactive Orbit Node Map — Modern Sky-Blue Enterprise Ecosystem Card */}
           <div
             className="relative max-w-3xl w-full mx-auto rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden select-none flex items-center justify-center p-3 sm:p-6"
             style={{
-              background: 'linear-gradient(145deg, #88CBFE 0%, #9BD5FF 52%, #B4E2FF 100%)',
+              background: '#D5EEFE',
               aspectRatio: '6 / 5',
-              boxShadow: '0 25px 60px -15px rgba(0, 94, 184, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.7)',
-              border: '1px solid rgba(255, 255, 255, 0.65)'
+              boxShadow: '0 20px 50px rgba(0, 74, 173, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.8)'
             }}
           >
             <style>{`
@@ -1100,8 +1099,10 @@ export default function Partners() {
               </div>
             </div>
           </div>
-
         </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 space-y-36">
 
         {/* SECTION 3: PARTNER BENEFITS SECTION */}
         <div className="space-y-12 overflow-hidden">
