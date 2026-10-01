@@ -292,161 +292,62 @@ const getRoadmapColor = (index) => {
   return colorMap[index % colorMap.length];
 };
 
-// Premium Two-Stage Scroll-Driven Resource Card Component
-function PartnerResourceScrollCard({ res, index, progress, shouldReduceMotion }) {
-  const Icon = res.icon;
-
-  // STAGE 1 — BOTTOM TO TOP ENTRANCE
-  // Stagger intervals across scroll progress [0, 0.40]:
-  // Card 0: 0.08 -> 0.28
-  // Card 1: 0.11 -> 0.31
-  // Card 2: 0.14 -> 0.34
-  // Card 3: 0.17 -> 0.37
-  // Card 4: 0.20 -> 0.40
-  const startP = 0.08 + index * 0.03;
-  const endP = startP + 0.20;
-
-  // translateY: 150px (below) -> 0px (final position)
-  const y = useTransform(
-    progress,
-    [0, startP, endP, 1],
-    [150, 150, 0, 0]
-  );
-
-  // opacity: 0 -> 1
-  const opacity = useTransform(
-    progress,
-    [0, startP, startP + 0.14, 1],
-    [0, 0, 1, 1]
-  );
-
-  // scale: 0.94 -> 1.0
-  const scale = useTransform(
-    progress,
-    [0, startP, endP, 1],
-    [0.94, 0.94, 1.0, 1.0]
-  );
+// Section 8: Partner Resources with Continuous Auto-Scrolling Marquee (LEFT -> RIGHT)
+function PartnerResourcesMarqueeSection() {
+  // 4 sets of the 5 cards ensures a wide, seamless infinite loop across all viewports
+  const marqueeCards = [
+    ...resources,
+    ...resources,
+    ...resources,
+    ...resources
+  ];
 
   return (
-    <motion.div
-      style={{
-        y: shouldReduceMotion ? 0 : y,
-        opacity: shouldReduceMotion ? 1 : opacity,
-        scale: shouldReduceMotion ? 1 : scale
-      }}
-      className="bg-white rounded-[24px] border border-slate-200/80 p-6 sm:p-7 text-center flex flex-col justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgb(0,0,0,0.08)] transition-shadow duration-300 group cursor-pointer w-full sm:w-[260px] md:w-[230px] lg:w-[245px] xl:w-[260px] shrink-0 min-h-[250px]"
-    >
-      <div className="h-11 w-11 mx-auto rounded-xl bg-cyan-50/80 border border-cyan-100/60 flex items-center justify-center text-cyan-500 group-hover:scale-105 group-hover:bg-cyan-50 transition-all duration-300">
-        <Icon className="h-5 w-5" />
-      </div>
-
-      <div className="space-y-1.5 flex-1 flex flex-col justify-center my-4">
-        <h4 className="text-sm font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">
-          {res.title}
-        </h4>
-        <p className="text-xs text-slate-500 leading-relaxed font-normal line-clamp-3">
-          {res.desc}
+    <div className="space-y-10 sm:space-y-14 w-full py-4 select-none">
+      {/* Header */}
+      <div className="text-center max-w-2xl mx-auto space-y-3 px-4">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
+          <FileText className="h-3.5 w-3.5" />
+          <span>Developer Resources</span>
+        </div>
+        <h2 className="text-3xl md:text-5xl font-extrabold text-[#0A3161]">
+          Partner Resources
+        </h2>
+        <p className="text-slate-600 text-sm">
+          Access core developer documentation, APIs, and partner marketing kits.
         </p>
       </div>
 
-      <div className="flex items-center justify-center text-[10px] font-bold text-slate-400 group-hover:text-cyan-600 uppercase tracking-wider border-t border-slate-100 pt-3 transition-colors">
-        <span>Download</span>
-        <ArrowRight className="h-3 w-3 ml-1 transform group-hover:translate-x-0.5 transition-transform" />
-      </div>
-    </motion.div>
-  );
-}
+      {/* Continuous Horizontal Marquee Container with Subtle Edge Masks */}
+      <div className="w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] py-4">
+        <div className="resource-marquee-lr flex gap-6 w-max will-change-transform">
+          {marqueeCards.map((res, idx) => {
+            const Icon = res.icon;
+            return (
+              <div
+                key={`${res.title}-${idx}`}
+                className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-7 text-center flex flex-col justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_16px_40px_rgb(0,0,0,0.08)] transition-all duration-300 group cursor-pointer w-[235px] sm:w-[260px] md:w-[275px] shrink-0 min-h-[250px]"
+              >
+                <div className="h-11 w-11 mx-auto rounded-xl bg-cyan-50/80 border border-cyan-100/60 flex items-center justify-center text-cyan-500 group-hover:scale-105 group-hover:bg-cyan-50 transition-all duration-300">
+                  <Icon className="h-5 w-5" />
+                </div>
 
-// Section 8: Partner Resources with Two-Stage Scroll Animation (Vertical Entrance -> Horizontal Movement)
-function PartnerResourcesScrollSection() {
-  const outerRef = useRef(null);
-  const shouldReduceMotion = useReducedMotion();
-  const [targetDistance, setTargetDistance] = useState(360);
+                <div className="space-y-1.5 flex-1 flex flex-col justify-center my-4">
+                  <h4 className="text-sm font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">
+                    {res.title}
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-normal line-clamp-3">
+                    {res.desc}
+                  </p>
+                </div>
 
-  // Responsive horizontal movement distance
-  useEffect(() => {
-    const updateDist = () => {
-      const w = window.innerWidth;
-      if (w < 768) {
-        setTargetDistance(0); // Vertical stack on mobile, no horizontal translation
-      } else if (w < 1024) {
-        setTargetDistance(200);
-      } else if (w < 1280) {
-        setTargetDistance(280);
-      } else if (w < 1536) {
-        setTargetDistance(360);
-      } else {
-        setTargetDistance(440);
-      }
-    };
-    updateDist();
-    window.addEventListener('resize', updateDist);
-    return () => window.removeEventListener('resize', updateDist);
-  }, []);
-
-  // Track scroll progress through the tall pinned section
-  const { scrollYProgress } = useScroll({
-    target: outerRef,
-    offset: ['start end', 'end end']
-  });
-
-  // Smooth physical spring to eliminate scroll steps/notches
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 240,
-    damping: 28,
-    mass: 0.6,
-    restDelta: 0.001
-  });
-
-  // STAGE 2 — HORIZONTAL SCROLL (LEFT -> RIGHT)
-  // Stage 1 completes by progress = 0.40.
-  // Pause/settle buffer: 0.40 -> 0.46
-  // Stage 2 horizontal translateX: 0.46 -> 0.88
-  // Settle/release buffer: 0.88 -> 1.00
-  const horizontalX = useTransform(
-    smoothProgress,
-    [0, 0.46, 0.88, 1],
-    [0, 0, targetDistance, targetDistance]
-  );
-
-  return (
-    <div ref={outerRef} className="relative md:h-[220vh]">
-      {/* Sticky pinned container on desktop/tablet; normal flow on mobile */}
-      <div className="md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] flex flex-col justify-center overflow-hidden py-8">
-        <div className="space-y-10 sm:space-y-14 w-full">
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto space-y-3 px-4">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
-              <FileText className="h-3.5 w-3.5" />
-              <span>Developer Resources</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[#0A3161]">
-              Partner Resources
-            </h2>
-            <p className="text-slate-600 text-sm">
-              Access core developer documentation, APIs, and partner marketing kits.
-            </p>
-          </div>
-
-          {/* Cards Track: Stage 1 (vertical entrance) -> Stage 2 (horizontal translation translateX) */}
-          <div className="w-full overflow-hidden px-4 md:px-8">
-            <motion.div
-              style={{
-                x: shouldReduceMotion ? 0 : horizontalX
-              }}
-              className="flex flex-col sm:flex-row flex-wrap md:flex-nowrap gap-5 lg:gap-6 items-center md:items-stretch justify-center md:justify-start w-fit mx-auto md:mx-0 will-change-transform"
-            >
-              {resources.map((res, idx) => (
-                <PartnerResourceScrollCard
-                  key={res.title}
-                  res={res}
-                  index={idx}
-                  progress={smoothProgress}
-                  shouldReduceMotion={shouldReduceMotion}
-                />
-              ))}
-            </motion.div>
-          </div>
+                <div className="flex items-center justify-center text-[10px] font-bold text-slate-400 group-hover:text-cyan-600 uppercase tracking-wider border-t border-slate-100 pt-3 transition-colors">
+                  <span>Download</span>
+                  <ArrowRight className="h-3 w-3 ml-1 transform group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -786,6 +687,31 @@ export default function Partners() {
         @media (prefers-reduced-motion: reduce) {
           .partner-marquee-lr,
           .partner-marquee-rl {
+            animation: none !important;
+            transform: none !important;
+          }
+        }
+
+        /* Partner Resources Continuous Horizontal Marquee (LEFT -> RIGHT) */
+        @keyframes resourceMarqueeLR {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0%);
+          }
+        }
+        .resource-marquee-lr {
+          display: flex;
+          width: max-content;
+          animation: resourceMarqueeLR 32s linear infinite;
+          will-change: transform;
+        }
+        .resource-marquee-lr:hover {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .resource-marquee-lr {
             animation: none !important;
             transform: none !important;
           }
@@ -1498,8 +1424,8 @@ export default function Partners() {
           </div>
         </div>
 
-        {/* SECTION 8: RESOURCES SECTION (SCROLL-DRIVEN) */}
-        <PartnerResourcesScrollSection />
+        {/* SECTION 8: RESOURCES SECTION (CONTINUOUS AUTO-SCROLLING MARQUEE) */}
+        <PartnerResourcesMarqueeSection />
 
         {/* SECTION 9: MULTI-STEP PARTNER APPLICATION SECTION */}
         <div id="apply-wizard" className="max-w-2xl mx-auto space-y-8">
