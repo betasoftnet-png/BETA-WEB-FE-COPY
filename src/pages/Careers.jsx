@@ -239,6 +239,283 @@ const AppliedTime = ({ timestamp }) => {
   return <span>{timeAgo || 'Applied'}</span>;
 };
 
+// Data for What We Look For Stacked Carousel
+const whatWeLookForCards = [
+  {
+    id: 'problem-solver',
+    title: 'Problem Solver',
+    desc: 'Think critically and find smart solutions.',
+    icon: Lightbulb,
+    badgeBg: 'bg-amber-50',
+    badgeBorder: 'border-amber-200/70',
+    iconColor: 'text-amber-500',
+    activeBorder: 'border-amber-300',
+    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(245,158,11,0.22)]',
+    cornerGradient: 'from-amber-100/60 to-orange-50/10'
+  },
+  {
+    id: 'continuous-learner',
+    title: 'Continuous Learner',
+    desc: 'Curious to explore new technologies and improve daily.',
+    icon: BookOpen,
+    badgeBg: 'bg-sky-50',
+    badgeBorder: 'border-sky-200/70',
+    iconColor: 'text-sky-500',
+    activeBorder: 'border-sky-300',
+    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(14,165,233,0.22)]',
+    cornerGradient: 'from-sky-100/60 to-blue-50/10'
+  },
+  {
+    id: 'great-communicator',
+    title: 'Great Communicator',
+    desc: 'Share ideas and communicate clearly.',
+    icon: MessageSquare,
+    badgeBg: 'bg-teal-50',
+    badgeBorder: 'border-teal-200/70',
+    iconColor: 'text-teal-500',
+    activeBorder: 'border-teal-300',
+    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(20,184,166,0.22)]',
+    cornerGradient: 'from-teal-100/60 to-emerald-50/10'
+  },
+  {
+    id: 'team-player',
+    title: 'Team Player',
+    desc: 'Collaborate with others to build better products.',
+    icon: Handshake,
+    badgeBg: 'bg-rose-50',
+    badgeBorder: 'border-rose-200/70',
+    iconColor: 'text-rose-500',
+    activeBorder: 'border-rose-300',
+    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(244,63,94,0.22)]',
+    cornerGradient: 'from-rose-100/60 to-pink-50/10'
+  },
+  {
+    id: 'ownership',
+    title: 'Ownership',
+    desc: 'Take responsibility and deliver with confidence.',
+    icon: Target,
+    badgeBg: 'bg-orange-50',
+    badgeBorder: 'border-orange-200/70',
+    iconColor: 'text-orange-500',
+    activeBorder: 'border-orange-300',
+    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(249,115,22,0.22)]',
+    cornerGradient: 'from-orange-100/60 to-amber-50/10'
+  },
+  {
+    id: 'growth-mindset',
+    title: 'Growth Mindset',
+    desc: 'Always improving skills and knowledge.',
+    icon: TrendingUp,
+    badgeBg: 'bg-purple-50',
+    badgeBorder: 'border-purple-200/70',
+    iconColor: 'text-purple-500',
+    activeBorder: 'border-purple-300',
+    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(168,85,247,0.22)]',
+    cornerGradient: 'from-purple-100/60 to-indigo-50/10'
+  }
+];
+
+function WhatWeLookForStackedCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const touchStartY = useRef(null);
+  const isDragging = useRef(false);
+  const dragStartY = useRef(0);
+  const total = whatWeLookForCards.length;
+
+  const nextCard = React.useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % total);
+  }, [total]);
+
+  const prevCard = React.useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
+
+  // Automatic 3-second cycle (bottom -> center -> top)
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      nextCard();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isHovered, nextCard]);
+
+  // Mobile touch swipe handlers
+  const handleTouchStart = (e) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartY.current === null) return;
+    const endY = e.changedTouches[0].clientY;
+    const delta = touchStartY.current - endY;
+    if (delta > 35) {
+      nextCard(); // Swiped up -> next card
+    } else if (delta < -35) {
+      prevCard(); // Swiped down -> prev card
+    }
+    touchStartY.current = null;
+  };
+
+  // Desktop mouse drag handlers
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    dragStartY.current = e.clientY;
+  };
+
+  const handleMouseUp = (e) => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    const delta = dragStartY.current - e.clientY;
+    if (delta > 35) {
+      nextCard();
+    } else if (delta < -35) {
+      prevCard();
+    }
+  };
+
+  return (
+    <div
+      className="relative w-full py-8 select-none"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        isDragging.current = false;
+      }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+    >
+      {/* Background Soft Pastel Ambient Glows */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+        <div className="absolute -left-10 top-1/4 w-72 h-72 rounded-full bg-purple-200/20 blur-3xl" />
+        <div className="absolute -right-10 bottom-1/4 w-80 h-80 rounded-full bg-sky-200/25 blur-3xl" />
+        <div className="absolute w-[450px] h-[450px] rounded-full bg-blue-100/15 blur-[100px]" />
+      </div>
+
+      {/* Main Stack Container */}
+      <div className="relative w-full max-w-[340px] sm:max-w-[480px] md:max-w-[580px] lg:max-w-[620px] mx-auto h-[480px] sm:h-[500px] flex items-center justify-center">
+        {whatWeLookForCards.map((card, idx) => {
+          let offset = (idx - activeIndex) % total;
+          if (offset > 3) offset -= total;
+          if (offset < -2) offset += total;
+
+          const isActive = offset === 0;
+
+          // Compute smooth depth transforms based on relative offset
+          let translateY = 0;
+          let scale = 1;
+          let opacity = 1;
+          let blur = 0;
+          let zIndex = 10;
+          let pointerEvents = 'none';
+
+          if (offset === 0) {
+            translateY = 0;
+            scale = 1.02;
+            opacity = 1;
+            blur = 0;
+            zIndex = 30;
+            pointerEvents = 'auto';
+          } else if (offset === -1) {
+            translateY = -85;
+            scale = 0.91;
+            opacity = 0.7;
+            blur = 0.5;
+            zIndex = 20;
+            pointerEvents = 'auto';
+          } else if (offset === -2) {
+            translateY = -158;
+            scale = 0.81;
+            opacity = 0.28;
+            blur = 2.5;
+            zIndex = 10;
+          } else if (offset === 1) {
+            translateY = 85;
+            scale = 0.91;
+            opacity = 0.7;
+            blur = 0.5;
+            zIndex = 20;
+            pointerEvents = 'auto';
+          } else if (offset === 2) {
+            translateY = 158;
+            scale = 0.81;
+            opacity = 0.28;
+            blur = 2.5;
+            zIndex = 10;
+          } else {
+            translateY = 200;
+            scale = 0.72;
+            opacity = 0;
+            blur = 5;
+            zIndex = 0;
+          }
+
+          const IconComponent = card.icon;
+
+          return (
+            <motion.div
+              key={card.id}
+              onClick={() => {
+                if (offset === 1) nextCard();
+                if (offset === -1) prevCard();
+              }}
+              animate={{
+                y: translateY,
+                scale,
+                opacity,
+                filter: `blur(${blur}px)`,
+                zIndex
+              }}
+              transition={{
+                duration: 0.65,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+              style={{
+                pointerEvents
+              }}
+              className="absolute w-full px-3 sm:px-0 cursor-grab active:cursor-grabbing origin-center"
+            >
+              <div
+                className={`relative w-full bg-white/95 backdrop-blur-md rounded-[26px] sm:rounded-[30px] p-5 sm:p-7 md:p-8 flex items-center space-x-4 sm:space-x-6 text-left overflow-hidden transition-shadow duration-300 ${
+                  isActive
+                    ? `border-2 ${card.activeBorder} ${card.activeGlow}`
+                    : 'border border-slate-200/70 shadow-[0_10px_30px_-8px_rgba(0,0,0,0.06)]'
+                }`}
+              >
+                {/* Organic Corner Accent Blob */}
+                <div
+                  className={`absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-gradient-to-tl ${card.cornerGradient} pointer-events-none`}
+                />
+
+                {/* Left Icon Treatment */}
+                <div
+                  className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${card.badgeBg} border ${card.badgeBorder} flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 ${
+                    isActive ? 'scale-105' : ''
+                  }`}
+                >
+                  <IconComponent className={`w-7 h-7 sm:w-8 sm:h-8 ${card.iconColor}`} />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0 pr-2">
+                  <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-snug">
+                    {card.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm md:text-[15px] text-slate-600 font-medium leading-relaxed mt-1">
+                    {card.desc}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function Careers() {
   const navigate = useNavigate();
   const { user, redirectToSSO } = useContext(AuthContext);
@@ -1991,7 +2268,7 @@ export default function Careers() {
             </div>
 
             {/* SECTION 5: WHAT WE LOOK FOR */}
-            <div className="space-y-16 py-12">
+            <div className="space-y-12 py-12">
               <div className="text-center max-w-2xl mx-auto space-y-3">
                 <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[#EC4899] text-xs font-semibold uppercase tracking-wider">
                   <Award className="h-3.5 w-3.5" />
@@ -2001,122 +2278,8 @@ export default function Careers() {
                 <p className="text-slate-500 text-sm font-semibold">The qualities that make a great BNX team member.</p>
               </div>
 
-              {/* Grid of 6 Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
-                {/* Card 1: Problem Solver */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="glass-card p-6 rounded-3xl border border-slate-200 text-left flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group bg-white"
-                >
-                  <div className="h-12 w-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-500 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                    <Lightbulb className="h-6 w-6" />
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-base font-extrabold text-slate-900 group-hover:text-[#EC4899] transition-colors">💡 Problem Solver</h4>
-                    <p className="text-slate-505 text-xs md:text-sm leading-relaxed font-semibold">
-                      Think critically and find smart solutions.
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Card 2: Continuous Learner */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="glass-card p-6 rounded-3xl border border-slate-200 text-left flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group bg-white"
-                >
-                  <div className="h-12 w-12 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-500 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                    <BookOpen className="h-6 w-6" />
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-base font-extrabold text-slate-900 group-hover:text-[#EC4899] transition-colors">📚 Continuous Learner</h4>
-                    <p className="text-slate-505 text-xs md:text-sm leading-relaxed font-semibold">
-                      Curious to explore new technologies and improve daily.
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Card 3: Great Communicator */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="glass-card p-6 rounded-3xl border border-slate-200 text-left flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group bg-white"
-                >
-                  <div className="h-12 w-12 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-500 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                    <MessageSquare className="h-6 w-6" />
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-base font-extrabold text-slate-900 group-hover:text-[#EC4899] transition-colors">💬 Great Communicator</h4>
-                    <p className="text-slate-550 text-xs md:text-sm leading-relaxed font-semibold">
-                      Share ideas and communicate clearly.
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Card 4: Team Player */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  className="glass-card p-6 rounded-3xl border border-slate-200 text-left flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group bg-white"
-                >
-                  <div className="h-12 w-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-500 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                    <Handshake className="h-6 w-6" />
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-base font-extrabold text-slate-900 group-hover:text-[#EC4899] transition-colors">🤝 Team Player</h4>
-                    <p className="text-slate-505 text-xs md:text-sm leading-relaxed font-semibold">
-                      Collaborate with others to build better products.
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Card 5: Ownership */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                  className="glass-card p-6 rounded-3xl border border-slate-200 text-left flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group bg-white"
-                >
-                  <div className="h-12 w-12 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-500 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                    <Target className="h-6 w-6" />
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-base font-extrabold text-slate-900 group-hover:text-[#EC4899] transition-colors">🎯 Ownership</h4>
-                    <p className="text-slate-505 text-xs md:text-sm leading-relaxed font-semibold">
-                      Take responsibility and deliver with confidence.
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Card 6: Growth Mindset */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  className="glass-card p-6 rounded-3xl border border-slate-200 text-left flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group bg-white"
-                >
-                  <div className="h-12 w-12 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-500 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                    <TrendingUp className="h-6 w-6" />
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-base font-extrabold text-slate-900 group-hover:text-[#EC4899] transition-colors">📈 Growth Mindset</h4>
-                    <p className="text-slate-505 text-xs md:text-sm leading-relaxed font-semibold">
-                      Always improving skills and knowledge.
-                    </p>
-                  </div>
-                </motion.div>
-              </div>
+              {/* Premium Vertical Stacked-Card Carousel */}
+              <WhatWeLookForStackedCarousel />
             </div>
 
 
