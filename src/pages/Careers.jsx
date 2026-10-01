@@ -1765,88 +1765,225 @@ export default function Careers() {
             </div>
 
             {/* SECTION 4: TEAM CULTURE MASONRY */}
-            <div className="space-y-12">
+            <div className="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 rounded-[36px] bg-gradient-to-b from-[#F2F8FD]/80 via-[#F8FBFF] to-[#FFFFFF] border border-blue-100/50 shadow-[0_12px_40px_-15px_rgba(10,40,90,0.04)] space-y-12">
               <div className="text-center max-w-2xl mx-auto space-y-3">
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[#EC4899] text-xs font-semibold uppercase tracking-wider">
-                  <Users className="h-3.5 w-3.5" />
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[#004AAD] text-xs font-semibold uppercase tracking-wider">
+                  <Users className="h-3.5 w-3.5 text-[#004AAD]" />
                   <span>Team Culture</span>
                 </div>
-                <h2 className="text-3xl md:text-5xl font-extrabold">Our Team Culture</h2>
-                <p className="text-slate-500 text-sm">A look inside our technical sprints, hackathons, and global offsites.</p>
+                <h2 className="text-3xl md:text-5xl font-extrabold text-[#0B1E3B] tracking-tight">
+                  Our Team Culture
+                </h2>
+                <p className="text-slate-500 text-sm md:text-base">
+                  A look inside our technical sprints, hackathons, and global offsites.
+                </p>
               </div>
 
-              {/* Sequential Grid Layout */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {/* Box 1 (Text Quote) */}
-                <div className="glass-card-purple p-6 rounded-3xl border border-purple-500/20 flex flex-col justify-between shadow-md relative overflow-hidden group">
-                  <Quote className="h-8 w-8 text-[#EC4899] opacity-40 mb-4" />
-                  <p className="text-sm font-medium italic text-slate-600 leading-relaxed text-left">
-                    "We don't build software to hit corporate metrics. We design and deliver real-time systems that solve actual production bottlenecks for customers globally."
-                  </p>
-                  <div className="flex items-center space-x-3 mt-6 border-t border-purple-500/10 pt-4">
-                    <img src="/marcus_avatar.png" alt="Marcus" className="h-9 w-9 rounded-full object-cover border border-purple-500/30" />
-                    <div className="text-left">
-                      <h5 className="text-xs font-bold">Marcus Sterling</h5>
-                      <p className="text-[10px] text-[#EC4899] font-semibold">Chief Technology Officer</p>
-                    </div>
-                  </div>
-                </div>
+              {/* 5-Card Responsive Grid Layout (Desktop: 3 + 2, Tablet: 2 cols, Mobile: 1 col) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 max-w-6xl mx-auto text-left">
+                {/* ROW 1: CARD 1 — TEAM QUOTE (Subtle Pink Accent) */}
+                <div className="col-span-1 md:col-span-1 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-pink-100/80 shadow-[0_10px_30px_-5px_rgba(244,63,94,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(244,63,94,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+                  {/* Subtle Corner Accent */}
+                  <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-pink-100/70 to-pink-50/20 pointer-events-none" />
 
-                {/* Box 2 (Text Highlight Content) */}
-                <div className="glass-card-purple p-6 rounded-3xl border border-purple-500/20 flex flex-col justify-between shadow-md relative overflow-hidden group">
-                  <Code2 className="h-8 w-8 text-[#8B5CF6] opacity-40 mb-4" />
-                  <div className="space-y-3 flex-grow text-left">
-                    <h4 className="text-sm font-bold text-slate-800">Interactive Technology</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">
-                      We develop premium user interfaces using React, Tailwind CSS, and custom WebSocket pipelines (STOMP). Our engineers focus on low-latency state synchronization, smooth keyframe animations, and highly responsive layouts that delight users.
-                    </p>
-                  </div>
-                  <div className="border-t border-purple-500/10 pt-4 mt-6 text-left">
-                    <span className="text-[10px] uppercase font-bold text-[#8B5CF6] tracking-wider">
-                      Our Engineering Core
-                    </span>
-                  </div>
-                </div>
-
-                {/* Box 3 (Text Quote) */}
-                <div className="glass-card-purple p-6 rounded-3xl border border-purple-500/20 flex flex-col justify-between shadow-md relative overflow-hidden group">
-                  <Quote className="h-8 w-8 text-[#8B5CF6] opacity-40 mb-4" />
-                  <p className="text-sm font-medium italic text-slate-600 leading-relaxed text-left">
-                    "Our designs prioritize aesthetics and responsiveness. Using HSL palettes and custom-built tokens, we create interfaces that look absolutely premium."
-                  </p>
-                  <div className="flex items-center space-x-3 mt-6 border-t border-purple-500/10 pt-4">
-                    <img src="/ananya_avatar.png" alt="Ananya" className="h-9 w-9 rounded-full object-cover border border-purple-500/30" />
-                    <div className="text-left">
-                      <h5 className="text-xs font-bold">Ananya Nair</h5>
-                      <p className="text-[10px] text-[#8B5CF6] font-semibold">Head of Design</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Box 4 (Small Card) */}
-                <div className="glass-card-purple p-6 rounded-3xl border border-purple-500/20 shadow-md relative overflow-hidden text-left flex flex-col justify-between group">
                   <div>
-                    <h4 className="text-base font-bold mb-2">No-Meeting Wednesdays</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">
-                      We protect developers' deep focus. Mid-week days are dedicated purely to code, research, and flow.
+                    {/* Quotation Icon */}
+                    <div className="w-11 h-11 rounded-2xl bg-pink-50 border border-pink-100/90 flex items-center justify-center text-pink-500 shadow-sm mb-5">
+                      <Quote className="w-5 h-5 fill-pink-500/20 text-pink-500" />
+                    </div>
+
+                    {/* Quote text */}
+                    <p className="text-[14.5px] sm:text-[15px] italic text-slate-700 leading-relaxed font-normal">
+                      "We don’t just write code to meet requirements. We build solutions that create real value for users around the world."
                     </p>
                   </div>
-                  <div className="border-t border-purple-500/10 pt-4 mt-6">
-                    <span className="text-[10px] font-extrabold text-[#F59E0B] uppercase tracking-wider">Async Focus block</span>
+
+                  <div>
+                    {/* Thin divider */}
+                    <div className="h-px w-full bg-pink-100/80 my-5" />
+
+                    {/* Team Member Info */}
+                    <div className="flex items-center space-x-3.5">
+                      <img
+                        src="/marcus_avatar.png"
+                        alt="Arjun Kumar"
+                        className="h-11 w-11 rounded-full object-cover ring-2 ring-pink-100 shrink-0"
+                      />
+                      <div>
+                        <h4 className="text-sm font-bold text-[#0B1E3B] leading-tight">Arjun Kumar</h4>
+                        <p className="text-xs text-pink-600 font-medium mt-0.5">Chief Technology Officer</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Box 5 (Quote) */}
-                <div className="glass-card-purple p-6 rounded-3xl border border-purple-500/20 flex flex-col justify-between shadow-md relative overflow-hidden group">
-                  <Quote className="h-8 w-8 text-[#EC4899] opacity-40 mb-4" />
-                  <p className="text-sm font-medium italic text-slate-600 leading-relaxed text-left">
-                    "Working asynchronously is our superpower. We pair program over codebases and communicate through design RFCs instead of sitting in long daily standups."
-                  </p>
-                  <div className="flex items-center space-x-3 mt-6 border-t border-purple-500/10 pt-4">
-                    <img src="/rohan_avatar.png" alt="Rohan" className="h-9 w-9 rounded-full object-cover border border-purple-500/30" />
-                    <div className="text-left">
-                      <h5 className="text-xs font-bold">Rohan Sen</h5>
-                      <p className="text-[10px] text-[#EC4899] font-semibold">Frontend Architect</p>
+                {/* ROW 1: CARD 2 — INNOVATIVE TECHNOLOGY (Subtle Blue Accent) */}
+                <div className="col-span-1 md:col-span-1 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-blue-100/80 shadow-[0_10px_30px_-5px_rgba(59,130,246,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(59,130,246,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+                  {/* Subtle Corner Accent */}
+                  <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-sky-100/70 to-blue-50/20 pointer-events-none" />
+
+                  <div>
+                    {/* Technology / Code Icon */}
+                    <div className="w-11 h-11 rounded-2xl bg-blue-50 border border-blue-100/90 flex items-center justify-center text-blue-600 shadow-sm mb-5">
+                      <Code2 className="w-5 h-5 text-blue-600" />
+                    </div>
+
+                    {/* Heading */}
+                    <h3 className="text-lg font-bold text-[#0B1E3B] tracking-tight mb-2.5">
+                      Innovative Technology
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed">
+                      We build modern, scalable solutions using React, Spring Boot, cloud infrastructure, and AI-driven tools.
+                    </p>
+                  </div>
+
+                  <div>
+                    {/* Thin divider */}
+                    <div className="h-px w-full bg-blue-100/80 my-5" />
+
+                    {/* Bottom Section with Label & Circular Action Button */}
+                    <div className="flex items-center justify-between">
+                      <span className="px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/60 text-[10px] font-bold uppercase tracking-wider">
+                        OUR TECHNOLOGY STACK
+                      </span>
+                      <div className="w-8 h-8 rounded-full bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white border border-blue-100 flex items-center justify-center transition-all duration-200 cursor-pointer">
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ROW 1: CARD 3 — DESIGN / CULTURE (Subtle Soft Orange/Peach Accent) */}
+                <div className="col-span-1 md:col-span-2 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-amber-100/80 shadow-[0_10px_30px_-5px_rgba(245,158,11,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(245,158,11,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+                  {/* Subtle Corner Accent */}
+                  <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-amber-100/70 to-orange-50/20 pointer-events-none" />
+
+                  <div>
+                    {/* Quotation Icon */}
+                    <div className="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-100/90 flex items-center justify-center text-amber-500 shadow-sm mb-5">
+                      <Quote className="w-5 h-5 fill-amber-500/20 text-amber-500" />
+                    </div>
+
+                    {/* Quote text */}
+                    <p className="text-[14.5px] sm:text-[15px] italic text-slate-700 leading-relaxed font-normal">
+                      "Our designs prioritize aesthetics and responsiveness. We create interfaces that look absolutely premium."
+                    </p>
+                  </div>
+
+                  <div>
+                    {/* Thin divider */}
+                    <div className="h-px w-full bg-amber-100/80 my-5" />
+
+                    {/* Team Member Info */}
+                    <div className="flex items-center space-x-3.5">
+                      <img
+                        src="/ananya_avatar.png"
+                        alt="Priya Menon"
+                        className="h-11 w-11 rounded-full object-cover ring-2 ring-amber-100 shrink-0"
+                      />
+                      <div>
+                        <h4 className="text-sm font-bold text-[#0B1E3B] leading-tight">Priya Menon</h4>
+                        <p className="text-xs text-amber-600 font-medium mt-0.5">Head of Design</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ROW 2: CARD 4 — FOCUS / PRODUCTIVITY (Soft Purple Accent — Wider 7 cols) */}
+                <div className="col-span-1 md:col-span-2 lg:col-span-7 bg-white rounded-[26px] p-7 sm:p-8 border border-purple-100/80 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(139,92,246,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group">
+                  {/* Subtle Corner Accent */}
+                  <div className="absolute -bottom-10 -left-10 w-44 h-44 rounded-full bg-gradient-to-tr from-purple-100/60 to-indigo-50/10 pointer-events-none" />
+
+                  <div className="space-y-4 max-w-md relative z-10">
+                    {/* Team / Focus Icon */}
+                    <div className="w-11 h-11 rounded-2xl bg-purple-50 border border-purple-100/90 flex items-center justify-center text-purple-600 shadow-sm">
+                      <Users className="w-5 h-5 text-purple-600" />
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-bold text-[#0B1E3B] tracking-tight mb-2">
+                        No-Meeting Wednesdays
+                      </h3>
+                      <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed">
+                        We protect developers' deep focus. Mid-week days are dedicated purely to code, research, learning, and building without unnecessary meetings.
+                      </p>
+                    </div>
+
+                    <div className="pt-1">
+                      <span className="px-3 py-1.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200/60 text-[10px] font-bold uppercase tracking-wider inline-block">
+                        FOCUS & PRODUCTIVITY
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Minimal Calendar & Productivity Illustration */}
+                  <div className="relative w-36 h-32 sm:w-44 sm:h-36 shrink-0 flex items-center justify-center self-center sm:self-auto z-10">
+                    <div className="w-full h-full bg-gradient-to-br from-purple-50 via-indigo-50/50 to-purple-100/30 rounded-2xl border border-purple-200/60 p-3.5 shadow-inner flex flex-col justify-between relative overflow-hidden">
+                      {/* Calendar Header with Rings */}
+                      <div className="flex items-center justify-between border-b border-purple-200/60 pb-2">
+                        <div className="flex space-x-1.5">
+                          <span className="w-1.5 h-3 rounded-full bg-purple-300" />
+                          <span className="w-1.5 h-3 rounded-full bg-purple-300" />
+                        </div>
+                        <span className="text-[10px] font-bold text-purple-700 tracking-wider">WEDNESDAY</span>
+                        <span className="w-2 h-2 rounded-full bg-purple-400" />
+                      </div>
+
+                      {/* Calendar Grid Representation */}
+                      <div className="grid grid-cols-4 gap-1.5 py-1">
+                        <span className="h-2 rounded bg-purple-200/40" />
+                        <span className="h-2 rounded bg-purple-200/40" />
+                        <span className="h-2 rounded bg-purple-200/40" />
+                        <span className="h-2 rounded bg-purple-200/40" />
+                        <span className="h-2 rounded bg-purple-200/40" />
+                        <span className="h-2 rounded bg-purple-400/80 font-bold" />
+                        <span className="h-2 rounded bg-purple-200/40" />
+                        <span className="h-2 rounded bg-purple-200/40" />
+                      </div>
+
+                      {/* Focus Status Indicator */}
+                      <div className="self-end px-2.5 py-1 rounded-full bg-white text-purple-700 border border-purple-200 shadow-sm flex items-center space-x-1.5 text-[9px] font-bold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+                        <span>Deep Flow</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ROW 2: CARD 5 — COLLABORATION QUOTE (Soft Mint Green Accent — 5 cols) */}
+                <div className="col-span-1 md:col-span-2 lg:col-span-5 bg-white rounded-[26px] p-7 sm:p-8 border border-emerald-100/80 shadow-[0_10px_30px_-5px_rgba(16,185,129,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(16,185,129,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+                  {/* Subtle Corner Accent */}
+                  <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-emerald-100/70 to-teal-50/20 pointer-events-none" />
+
+                  <div>
+                    {/* Quotation Icon */}
+                    <div className="w-11 h-11 rounded-2xl bg-emerald-50 border border-emerald-100/90 flex items-center justify-center text-emerald-600 shadow-sm mb-5">
+                      <Quote className="w-5 h-5 fill-emerald-500/20 text-emerald-600" />
+                    </div>
+
+                    {/* Quote text */}
+                    <p className="text-[14.5px] sm:text-[15px] italic text-slate-700 leading-relaxed font-normal">
+                      "Working asynchronously is our superpower. We pair program over codebases and communicate through design RFCs instead of sitting in long daily standups."
+                    </p>
+                  </div>
+
+                  <div>
+                    {/* Thin divider */}
+                    <div className="h-px w-full bg-emerald-100/80 my-5" />
+
+                    {/* Team Member Info */}
+                    <div className="flex items-center space-x-3.5">
+                      <img
+                        src="/rohan_avatar.png"
+                        alt="Rohan Verma"
+                        className="h-11 w-11 rounded-full object-cover ring-2 ring-emerald-100 shrink-0"
+                      />
+                      <div>
+                        <h4 className="text-sm font-bold text-[#0B1E3B] leading-tight">Rohan Verma</h4>
+                        <p className="text-xs text-emerald-600 font-medium mt-0.5">Frontend Architect</p>
+                      </div>
                     </div>
                   </div>
                 </div>
