@@ -355,6 +355,43 @@ function PartnerResourcesMarqueeSection() {
 }
 
 export default function Partners() {
+  const shouldReduceMotion = useReducedMotion();
+
+  // Scroll-reveal animation variants for Section 9 (Partner Application Portal)
+  const portalContainerVariants = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : {
+      opacity: 0,
+      y: 120,
+      scale: 0.97,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: shouldReduceMotion ? { duration: 0 } : {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.08,
+        delayChildren: 0.04,
+      },
+    },
+  };
+
+  const portalItemVariants = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : {
+      opacity: 0,
+      y: 16,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: shouldReduceMotion ? { duration: 0 } : {
+        duration: 0.75,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   // Multi-step Application Wizard State
   const [currentStep, setCurrentStep] = useState(1);
   const [companyName, setCompanyName] = useState('');
@@ -1428,14 +1465,28 @@ export default function Partners() {
         <PartnerResourcesMarqueeSection />
 
         {/* SECTION 9: MULTI-STEP PARTNER APPLICATION SECTION */}
-        <div id="apply-wizard" className="max-w-2xl mx-auto space-y-8">
+        <motion.div
+          id="apply-wizard"
+          variants={portalContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          className="max-w-2xl mx-auto space-y-8 will-change-transform"
+        >
           <div className="text-center space-y-3">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white">Partner Application Portal</h2>
-            <p className="text-[#CBD5E1] text-sm">Submit strategic details. Step through our forms to register your organization.</p>
+            <motion.h2 variants={portalItemVariants} className="text-3xl md:text-4xl font-extrabold text-white">
+              Partner Application Portal
+            </motion.h2>
+            <motion.p variants={portalItemVariants} className="text-[#CBD5E1] text-sm">
+              Submit strategic details. Step through our forms to register your organization.
+            </motion.p>
           </div>
 
           {/* Step Progress indicators */}
-          <div className="flex items-center justify-between max-w-md mx-auto select-none">
+          <motion.div
+            variants={portalItemVariants}
+            className="flex items-center justify-between max-w-md mx-auto select-none"
+          >
             {[1, 2, 3, 4].map((stepNum) => (
               <div key={stepNum} className="flex items-center flex-1 last:flex-none">
                 <div
@@ -1453,10 +1504,13 @@ export default function Partners() {
                 )}
               </div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Form container */}
-          <div className="glass-card-neon p-8 rounded-3xl border border-white/10 shadow-2xl relative">
+          <motion.div
+            variants={portalItemVariants}
+            className="glass-card-neon p-8 rounded-3xl border border-white/10 shadow-2xl relative"
+          >
             <form onSubmit={handleSubmit} className="space-y-6 text-left">
               <AnimatePresence mode="wait">
                 {currentStep === 1 && (
@@ -1686,8 +1740,8 @@ export default function Partners() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* SECTION 10: FINAL CTA SECTION */}
         <div className="relative overflow-hidden rounded-3xl p-10 md:p-16 border border-[#0A3161]/15 text-center shadow-2xl" style={{ background: 'linear-gradient(135deg, #F2FAF5 0%, #E7EFFB 33%, #EAEBFA 66%, #FFEAE2 100%)' }}>
