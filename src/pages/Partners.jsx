@@ -20,41 +20,174 @@ import {
 } from 'lucide-react';
 import api from '../api';
 
-// Custom Count Up animation component
-function CountUpNumber({ value }) {
-  const numericValue = parseFloat(value);
-  const suffix = value.replace(/^[0-9.]+/, '');
-  const [displayValue, setDisplayValue] = useState(() => isNaN(numericValue) ? value : '0');
+// Statistics Section with live count-up animation and IntersectionObserver
+function StatisticsSection() {
+  const [ecosystemPartners, setEcosystemPartners] = useState(1);
+  const [integrationsBuilt, setIntegrationsBuilt] = useState(1);
+  const [countriesServed, setCountriesServed] = useState(1);
+  const [platformSla, setPlatformSla] = useState(1);
+  const [isComplete, setIsComplete] = useState(false);
+
+  const sectionRef = useRef(null);
+  const hasAnimated = useRef(false);
+  const animFrameRef = useRef(null);
 
   useEffect(() => {
-    if (isNaN(numericValue)) {
-      const timer = setTimeout(() => setDisplayValue(value), 0);
-      return () => clearTimeout(timer);
-    }
-    let startTimestamp = null;
-    const duration = 1800; // 1.8 seconds transition
-    const startValue = 0;
+    const node = sectionRef.current;
+    if (!node) return;
 
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const currentVal = progress * (numericValue - startValue) + startValue;
+    const startAnimation = () => {
+      if (hasAnimated.current) return;
+      hasAnimated.current = true;
 
-      if (numericValue % 1 !== 0) {
-        setDisplayValue(currentVal.toFixed(1) + suffix);
-      } else {
-        setDisplayValue(Math.floor(currentVal) + suffix);
-      }
+      const duration = 2000; // 2 seconds
+      const startTime = performance.now();
 
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
+      // Ease-out cubic calculation: starts fast and gradually slows near final value
+      const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+
+      const animate = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const linearProgress = Math.min(elapsed / duration, 1);
+        const progress = easeOut(linearProgress);
+
+        // Update animated values every frame
+        setEcosystemPartners(1 + progress * (100 - 1));
+        setIntegrationsBuilt(1 + progress * (50 - 1));
+        setCountriesServed(1 + progress * (20 - 1));
+        setPlatformSla(1 + progress * (99.9 - 1));
+
+        if (linearProgress < 1) {
+          animFrameRef.current = requestAnimationFrame(animate);
+        } else {
+          // Reached target: exact values and complete flag
+          setEcosystemPartners(100);
+          setIntegrationsBuilt(50);
+          setCountriesServed(20);
+          setPlatformSla(99.9);
+          setIsComplete(true);
+        }
+      };
+
+      animFrameRef.current = requestAnimationFrame(animate);
     };
 
-    window.requestAnimationFrame(step);
-  }, [value, numericValue, suffix]);
+    // Trigger animation when the section enters the viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0] && entries[0].isIntersecting) {
+          startAnimation();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    );
 
-  return <span>{displayValue}</span>;
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={sectionRef}
+      className="relative py-14 sm:py-20 my-6 border-t border-b border-[#D6E6F8] overflow-hidden -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8"
+    >
+      {/* Subtle Decorative Background Elements */}
+      {/* Left Large Translucent Blur & Circular Accents */}
+      <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-blue-300/25 blur-3xl pointer-events-none" />
+      <div className="absolute -left-10 bottom-0 w-52 h-52 rounded-full bg-cyan-200/20 blur-2xl pointer-events-none" />
+      <div className="absolute left-6 top-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-blue-200/50 pointer-events-none hidden sm:block" />
+
+      {/* Left Low-opacity Dotted Grid */}
+      <div className="absolute left-10 top-8 pointer-events-none opacity-20 hidden md:block">
+        <div className="grid grid-cols-4 gap-2">
+          {[...Array(16)].map((_, i) => (
+            <div key={`dot-l-${i}`} className="w-1.5 h-1.5 rounded-full bg-[#004AAD]" />
+          ))}
+        </div>
+      </div>
+
+      {/* Right Large Translucent Blur & Circular Accents */}
+      <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-blue-300/25 blur-3xl pointer-events-none" />
+      <div className="absolute -right-10 top-0 w-52 h-52 rounded-full bg-indigo-200/20 blur-2xl pointer-events-none" />
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-blue-200/50 pointer-events-none hidden sm:block" />
+
+      {/* Right Low-opacity Dotted Grid */}
+      <div className="absolute right-10 bottom-8 pointer-events-none opacity-20 hidden md:block">
+        <div className="grid grid-cols-4 gap-2">
+          {[...Array(16)].map((_, i) => (
+            <div key={`dot-r-${i}`} className="w-1.5 h-1.5 rounded-full bg-[#004AAD]" />
+          ))}
+        </div>
+      </div>
+
+      {/* Statistics Grid */}
+      <div className="relative z-10 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 text-center items-center">
+          {/* Stat 1: Ecosystem Partners (100+) */}
+          <div className="relative px-4 py-2">
+            <div className="relative inline-block">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF2B44] to-[#FF4E6B] tracking-tight leading-none">
+                {Math.floor(ecosystemPartners)}+
+              </div>
+              <div className="w-16 sm:w-20 h-3 bg-rose-400/25 blur-md rounded-full mx-auto -mt-1 pointer-events-none" />
+            </div>
+            <p className="text-[11px] sm:text-xs text-[#475569] font-bold uppercase tracking-widest mt-3 leading-snug">
+              Ecosystem Partners
+            </p>
+            <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-14 w-[1px] bg-slate-200" />
+          </div>
+
+          {/* Stat 2: Integrations Built (50+) */}
+          <div className="relative px-4 py-2">
+            <div className="relative inline-block">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#0E6237] to-[#10B981] tracking-tight leading-none">
+                {Math.floor(integrationsBuilt)}+
+              </div>
+              <div className="w-14 sm:w-16 h-3 bg-emerald-400/25 blur-md rounded-full mx-auto -mt-1 pointer-events-none" />
+            </div>
+            <p className="text-[11px] sm:text-xs text-[#475569] font-bold uppercase tracking-widest mt-3 leading-snug">
+              Integrations Built
+            </p>
+            <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-14 w-[1px] bg-slate-200" />
+          </div>
+
+          {/* Stat 3: Countries Served (20+) */}
+          <div className="relative px-4 py-2">
+            <div className="relative inline-block">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#581C87] to-[#7C3AED] tracking-tight leading-none">
+                {Math.floor(countriesServed)}+
+              </div>
+              <div className="w-12 sm:w-14 h-3 bg-purple-400/25 blur-md rounded-full mx-auto -mt-1 pointer-events-none" />
+            </div>
+            <p className="text-[11px] sm:text-xs text-[#475569] font-bold uppercase tracking-widest mt-3 leading-snug">
+              Countries Served
+            </p>
+            <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-14 w-[1px] bg-slate-200" />
+          </div>
+
+          {/* Stat 4: Platform SLA (99.9%) */}
+          <div className="relative px-4 py-2">
+            <div className="relative inline-block">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#0A3161] to-[#0D9488] tracking-tight leading-none">
+                {platformSla.toFixed(1)}%
+              </div>
+              <div className="w-16 sm:w-20 h-3 bg-cyan-400/25 blur-md rounded-full mx-auto -mt-1 pointer-events-none" />
+            </div>
+            <p className="text-[11px] sm:text-xs text-[#475569] font-bold uppercase tracking-widest mt-3 leading-snug">
+              Platform SLA
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const benefits = [
@@ -67,11 +200,61 @@ const benefits = [
 ];
 
 const categories = [
-  { title: 'Technology Partner', desc: 'Build plugins, widgets, and connected integrations on top of the BNX Mail and Cliks platforms.', icon: Code2, color: 'text-[#FF6325]', hoverColor: 'group-hover:text-[#FF6325]', border: 'border-[#FF6325]/20 hover:border-[#FF6325]/50' },
-  { title: 'Integration Partner', desc: 'Provide migrations, security auditing, and systems deployment syncs for enterprise clients.', icon: Cpu, color: 'text-[#3B82F6]', hoverColor: 'group-hover:text-[#3B82F6]', border: 'border-[#0E0F89]/20 hover:border-[#0E0F89]/50' },
-  { title: 'Reseller Partner', desc: 'Distribute licenses, support local regional accounts, and coordinate market sales packages.', icon: Users, color: 'text-[#10B981]', hoverColor: 'group-hover:text-[#10B981]', border: 'border-[#135029]/20 hover:border-[#135029]/50' },
-  { title: 'Consulting Partner', desc: 'Deliver strategic advisory, business process re-engineering, and product adoption modules.', icon: Compass, color: 'text-[#FF6325]', hoverColor: 'group-hover:text-[#FF6325]', border: 'border-[#FF6325]/20 hover:border-[#FF6325]/50' },
-  { title: 'Strategic Alliance Partner', desc: 'Co-engineer core infrastructure services, network protocols, and auth gateways.', icon: Handshake, color: 'text-[#3B82F6]', hoverColor: 'group-hover:text-[#3B82F6]', border: 'border-[#0E0F89]/20 hover:border-[#0E0F89]/50' }
+  { 
+    title: 'Technology Partner', 
+    desc: 'Build plugins, widgets, and connected integrations on top of the BNX Mail and Cliks platforms.', 
+    icon: Code2, 
+    color: 'text-[#FF6325]', 
+    iconBg: 'bg-[#FF6325]/10', 
+    iconHoverBg: 'group-hover:bg-[#FF6325]/20', 
+    iconBorder: 'border-[#FF6325]/20 group-hover:border-[#FF6325]/40',
+    accentBg: 'bg-[#FF6325]',
+    arrowColor: 'text-[#FF6325]'
+  },
+  { 
+    title: 'Integration Partner', 
+    desc: 'Provide migrations, security auditing, and systems deployment syncs for enterprise clients.', 
+    icon: Cpu, 
+    color: 'text-[#3B82F6]', 
+    iconBg: 'bg-[#3B82F6]/10', 
+    iconHoverBg: 'group-hover:bg-[#3B82F6]/20', 
+    iconBorder: 'border-[#3B82F6]/20 group-hover:border-[#3B82F6]/40',
+    accentBg: 'bg-[#3B82F6]',
+    arrowColor: 'text-[#3B82F6]'
+  },
+  { 
+    title: 'Reseller Partner', 
+    desc: 'Distribute licenses, support local regional accounts, and coordinate market sales packages.', 
+    icon: Users, 
+    color: 'text-[#10B981]', 
+    iconBg: 'bg-[#10B981]/10', 
+    iconHoverBg: 'group-hover:bg-[#10B981]/20', 
+    iconBorder: 'border-[#10B981]/20 group-hover:border-[#10B981]/40',
+    accentBg: 'bg-[#10B981]',
+    arrowColor: 'text-[#10B981]'
+  },
+  { 
+    title: 'Consulting Partner', 
+    desc: 'Deliver strategic advisory, business process re-engineering, and product adoption modules.', 
+    icon: Compass, 
+    color: 'text-[#FF6325]', 
+    iconBg: 'bg-[#FF6325]/10', 
+    iconHoverBg: 'group-hover:bg-[#FF6325]/20', 
+    iconBorder: 'border-[#FF6325]/20 group-hover:border-[#FF6325]/40',
+    accentBg: 'bg-[#FF6325]',
+    arrowColor: 'text-[#FF6325]'
+  },
+  { 
+    title: 'Strategic Alliance Partner', 
+    desc: 'Co-engineer core infrastructure services, network protocols, and auth gateways.', 
+    icon: Handshake, 
+    color: 'text-[#8B5CF6]', 
+    iconBg: 'bg-[#8B5CF6]/10', 
+    iconHoverBg: 'group-hover:bg-[#8B5CF6]/20', 
+    iconBorder: 'border-[#8B5CF6]/20 group-hover:border-[#8B5CF6]/40',
+    accentBg: 'bg-[#8B5CF6]',
+    arrowColor: 'text-[#8B5CF6]'
+  }
 ];
 
 const successStories = [
@@ -405,6 +588,83 @@ export default function Partners() {
           background: linear-gradient(90deg, #FF6325, #0E0F89);
           box-shadow: 0 0 10px rgba(255, 99, 37, 0.3);
         }
+
+        /* Partner Benefits Marquee Animations */
+        @keyframes partnerMarqueeLR {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0%);
+          }
+        }
+        @keyframes partnerMarqueeRL {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .partner-marquee-lr {
+          display: flex;
+          width: max-content;
+          animation: partnerMarqueeLR 35s linear infinite;
+          will-change: transform;
+        }
+        .partner-marquee-rl {
+          display: flex;
+          width: max-content;
+          animation: partnerMarqueeRL 35s linear infinite;
+          will-change: transform;
+        }
+        .partner-marquee-lr:hover,
+        .partner-marquee-rl:hover {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .partner-marquee-lr,
+          .partner-marquee-rl {
+            animation: none !important;
+            transform: none !important;
+          }
+        }
+
+        /* Partner Categories Modern SaaS Cards */
+        .partner-category-card {
+          width: 100%;
+          background: #FFFFFF !important;
+          border: 1px solid #DCE5F0 !important;
+          border-radius: 20px !important;
+          box-shadow: 0 4px 20px -2px rgba(10, 49, 97, 0.05);
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          position: relative;
+          overflow: hidden;
+        }
+        .partner-category-card:hover {
+          transform: translateY(-4px);
+          border-color: #0A3161 !important;
+          box-shadow: 0 12px 28px -4px rgba(10, 49, 97, 0.12) !important;
+        }
+        @media (min-width: 768px) {
+          .partner-category-card {
+            width: calc(50% - 16px);
+          }
+        }
+        @media (min-width: 1024px) {
+          .partner-category-card {
+            width: calc(33.3333% - 21.34px);
+            max-width: calc(33.3333% - 21.34px);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .partner-category-card:hover {
+            transform: none !important;
+          }
+        }
       `}</style>
 
       {/* SECTION 1: Futurisic Hero with Floating Network */}
@@ -624,7 +884,7 @@ export default function Partners() {
         </div>
 
         {/* SECTION 3: PARTNER BENEFITS SECTION */}
-        <div className="space-y-16">
+        <div className="space-y-12 overflow-hidden">
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
               <Award className="h-3.5 w-3.5" />
@@ -634,107 +894,117 @@ export default function Partners() {
             <p className="text-[#CBD5E1] text-sm">We provide technical support, joint marketing, and early access code resources.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((ben, idx) => {
-              const Icon = ben.icon;
-              const isEven = idx % 2 === 0;
-              return (
-                <motion.div
-                  key={ben.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.08 }}
-                  className={`glass-card-neon p-8 rounded-3xl border text-left space-y-4 shadow-sm ${isEven ? 'float-perk-even' : 'float-perk-odd'
-                    }`}
-                >
-                  <div className={`h-11 w-11 rounded-xl flex items-center justify-center border ${ben.bg}`}>
-                    <Icon className={`h-5.5 w-5.5 ${ben.color}`} />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">{ben.title}</h3>
-                  <p className="text-[#CBD5E1] text-xs leading-relaxed font-medium">{ben.desc}</p>
-                </motion.div>
-              );
-            })}
+          {/* DUAL-DIRECTION CONTINUOUS HORIZONTAL MARQUEE */}
+          <div className="space-y-6 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] py-2">
+            {/* TOP ROW: LEFT -> RIGHT */}
+            <div className="w-full overflow-hidden">
+              <div className="partner-marquee-lr flex gap-6">
+                {[...benefits.slice(0, 3), ...benefits.slice(0, 3), ...benefits.slice(0, 3), ...benefits.slice(0, 3)].map((ben, idx) => {
+                  const Icon = ben.icon;
+                  return (
+                    <div
+                      key={`top-${ben.id}-${idx}`}
+                      className="glass-card-neon p-8 rounded-3xl border text-left space-y-4 shadow-sm w-[340px] sm:w-[380px] md:w-[410px] flex-shrink-0"
+                    >
+                      <div className={`h-11 w-11 rounded-xl flex items-center justify-center border ${ben.bg}`}>
+                        <Icon className={`h-5.5 w-5.5 ${ben.color}`} />
+                      </div>
+                      <h3 className="text-lg font-bold text-white">{ben.title}</h3>
+                      <p className="text-[#CBD5E1] text-xs leading-relaxed font-medium">{ben.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* BOTTOM ROW: RIGHT -> LEFT */}
+            <div className="w-full overflow-hidden">
+              <div className="partner-marquee-rl flex gap-6">
+                {[...benefits.slice(3, 6), ...benefits.slice(3, 6), ...benefits.slice(3, 6), ...benefits.slice(3, 6)].map((ben, idx) => {
+                  const Icon = ben.icon;
+                  return (
+                    <div
+                      key={`bottom-${ben.id}-${idx}`}
+                      className="glass-card-neon p-8 rounded-3xl border text-left space-y-4 shadow-sm w-[340px] sm:w-[380px] md:w-[410px] flex-shrink-0"
+                    >
+                      <div className={`h-11 w-11 rounded-xl flex items-center justify-center border ${ben.bg}`}>
+                        <Icon className={`h-5.5 w-5.5 ${ben.color}`} />
+                      </div>
+                      <h3 className="text-lg font-bold text-white">{ben.title}</h3>
+                      <p className="text-[#CBD5E1] text-xs leading-relaxed font-medium">{ben.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* SECTION 4: PARTNER CATEGORIES */}
-        <div id="partner-categories" className="space-y-16">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
+        <div id="partner-categories" className="relative space-y-12 sm:space-y-14">
+          {/* Subtle decorative background shapes and small dotted pattern */}
+          <div className="absolute inset-0 bg-[radial-gradient(rgba(10,49,97,0.035)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none -mx-4 sm:-mx-6 lg:-mx-8 rounded-3xl" />
+          <div className="absolute -top-16 -left-16 w-80 h-80 rounded-full bg-blue-300/10 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-indigo-300/10 blur-3xl pointer-events-none" />
+
+          {/* Hero Header */}
+          <div className="relative z-10 text-center max-w-2xl mx-auto space-y-3.5">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
               <Users className="h-3.5 w-3.5" />
               <span>Alliance Tiers</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white">Partner Categories</h2>
-            <p className="text-[#CBD5E1] text-sm">Discover where your business fits inside the Beta Strategic network.</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[#0A3161] tracking-tight">Partner Categories</h2>
+            <p className="text-[#475569] text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
+              Discover where your business fits inside the Beta Strategic network.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((cat, idx) => {
+          {/* 5 CARDS: DESKTOP (3 IN FIRST ROW, 2 CENTERED IN SECOND ROW), TABLET (2 PER ROW), MOBILE (1 PER ROW) */}
+          <div className="relative z-10 flex flex-wrap justify-center gap-8">
+            {categories.map((cat) => {
               const Icon = cat.icon;
               return (
-                <motion.div
+                <div
                   key={cat.title}
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  whileHover={{ y: -5 }}
-                  className={`glass-card-neon p-8 rounded-3xl border ${cat.border} text-left flex flex-col justify-between space-y-6 group`}
+                  className="partner-category-card p-7 sm:p-8 group cursor-pointer"
                 >
-                  <div className="space-y-4">
+                  {/* Subtle translucent circular accent shape in bottom-right corner */}
+                  <div className={`absolute -bottom-8 -right-8 w-24 h-24 rounded-full pointer-events-none opacity-[0.08] ${cat.accentBg} blur-xl`} />
+                  <div className={`absolute -bottom-5 -right-5 w-16 h-16 rounded-full pointer-events-none opacity-[0.05] ${cat.accentBg}`} />
+
+                  <div className="relative z-10 space-y-5">
+                    {/* Card Header: Icon top-left, Arrow button top-right */}
                     <div className="flex items-center justify-between">
-                      <div className={`p-3 bg-white/5 rounded-xl border border-white/10 ${cat.color} group-hover:scale-105 transition duration-300`}>
-                        <Icon className="h-6 w-6" />
+                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center border ${cat.iconBorder} ${cat.iconBg} ${cat.iconHoverBg} transition-all duration-300`}>
+                        <Icon className={`h-5 w-5 ${cat.color}`} />
                       </div>
-                      <ArrowRight className="h-5 w-5 text-slate-500 group-hover:translate-x-1 group-hover:text-[#00E5FF] transition-all" />
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 group-hover:text-slate-600 group-hover:bg-slate-50 transition-all duration-300">
+                        <ArrowRight className="h-4.5 w-4.5 transform group-hover:translate-x-1.5 transition-transform duration-300 ease-out" />
+                      </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <h3 className="text-xl font-bold text-white group-hover:text-[#00E5FF] transition-colors">{cat.title}</h3>
-                      <p className="text-xs text-[#CBD5E1] leading-relaxed font-medium">{cat.desc}</p>
+                    {/* Title & Description */}
+                    <div className="space-y-2 text-left">
+                      <h3 className="text-xl font-bold text-[#0A3161] tracking-tight">{cat.title}</h3>
+                      <p className="text-sm text-[#475569] leading-relaxed font-normal">{cat.desc}</p>
                     </div>
                   </div>
 
-                  <div className="border-t border-white/5 pt-4">
-                    <span className="text-[10px] font-extrabold text-[#00FFB2] uppercase tracking-wider">Explore Program specs</span>
+                  {/* Thin horizontal divider & Action with small colored arrow */}
+                  <div className="relative z-10 border-t border-[#DCE5F0] pt-4 mt-6 text-left">
+                    <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#64748B] group-hover:text-[#0A3161] transition-colors duration-300">
+                      <span>EXPLORE PROGRAM SPECS</span>
+                      <ArrowRight className={`h-3.5 w-3.5 ${cat.arrowColor || cat.color} transform group-hover:translate-x-1 transition-transform duration-300`} />
+                    </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
         </div>
 
         {/* SECTION 5: SUCCESS METRICS SECTION */}
-        <div className="py-12 border-t border-b border-white/5">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF6325] to-[#0E0F89] tracking-tight">
-                <CountUpNumber value="100+" />
-              </div>
-              <p className="text-[10px] text-[#CBD5E1] font-bold uppercase tracking-widest mt-1">Ecosystem Partners</p>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#135029] to-[#0A3161] tracking-tight">
-                <CountUpNumber value="50+" />
-              </div>
-              <p className="text-[10px] text-[#CBD5E1] font-bold uppercase tracking-widest mt-1">Integrations Built</p>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#0E0F89] to-[#FF6325] tracking-tight">
-                <CountUpNumber value="20+" />
-              </div>
-              <p className="text-[10px] text-[#CBD5E1] font-bold uppercase tracking-widest mt-1">Countries Served</p>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#0A3161] to-[#135029] tracking-tight">
-                <CountUpNumber value="99.9%" />
-              </div>
-              <p className="text-[10px] text-[#CBD5E1] font-bold uppercase tracking-widest mt-1">Platform SLA</p>
-            </div>
-          </div>
-        </div>
+        <StatisticsSection />
 
         {/* SECTION 6: PARTNER SUCCESS STORIES */}
         <div className="space-y-12">

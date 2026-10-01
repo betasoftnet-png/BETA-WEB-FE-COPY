@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -29,6 +29,380 @@ import {
   TrendingUp,
   Puzzle
 } from 'lucide-react';
+
+// ==========================================
+// 3D FLOATING PHILOSOPHY SHOWCASE COMPONENT
+// ==========================================
+function Philosophy3DShowcase() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  const cards = [
+    {
+      id: 'build',
+      title: 'What We Build',
+      desc: 'At Beta Softnet, we develop intelligent software products that help businesses improve efficiency, automate workflows, and accelerate digital transformation. Our products are designed with scalability, security, and user experience at their core, enabling organizations to adapt and grow in an ever-changing digital world.',
+      icon: Cpu,
+      iconBg: 'bg-blue-50 text-blue-600 border-blue-100',
+      titleHover: 'group-hover:text-blue-600',
+      glow: 'from-blue-500/10 to-cyan-500/10',
+      actionText: 'View our products suite',
+      actionColor: 'text-blue-600',
+      badge: 'Product Suite',
+      badgeBg: 'bg-blue-50 text-blue-700 border-blue-200/70',
+      accentBorder: 'hover:border-blue-300',
+      accentBg: 'bg-blue-500',
+      link: '#products'
+    },
+    {
+      id: 'engineering',
+      title: 'Engineering Excellence',
+      desc: 'We believe that great products are built with strong engineering practices. Our teams focus on clean architecture, modern technologies, continuous improvement, and high-quality code to deliver reliable and innovative software solutions.',
+      icon: Terminal,
+      iconBg: 'bg-amber-50 text-amber-600 border-amber-100',
+      titleHover: 'group-hover:text-amber-600',
+      glow: 'from-amber-500/10 to-orange-500/10',
+      actionText: 'Explore our codebase standards',
+      actionColor: 'text-amber-600',
+      badge: 'Engineering Standards',
+      badgeBg: 'bg-amber-50 text-amber-700 border-amber-200/70',
+      accentBorder: 'hover:border-amber-300',
+      accentBg: 'bg-amber-500',
+      link: '#careers'
+    },
+    {
+      id: 'innovation',
+      title: 'Technology & Innovation',
+      desc: 'Innovation drives everything we do. We continuously explore emerging technologies, modern development practices, and creative ideas to build products that solve real-world business challenges and create lasting value.',
+      icon: Workflow,
+      iconBg: 'bg-purple-50 text-purple-600 border-purple-100',
+      titleHover: 'group-hover:text-purple-600',
+      glow: 'from-purple-500/10 to-pink-500/10',
+      actionText: 'See our roadmap',
+      actionColor: 'text-purple-600',
+      badge: 'Innovation & R&D',
+      badgeBg: 'bg-purple-50 text-purple-700 border-purple-200/70',
+      accentBorder: 'hover:border-purple-300',
+      accentBg: 'bg-purple-500',
+      link: '#about'
+    },
+    {
+      id: 'grow',
+      title: 'Grow With Us',
+      desc: "We provide an environment where learning never stops. Through real-world projects, mentorship, and collaborative teamwork, you'll gain valuable experience, expand your technical expertise, and build a successful career in product development.",
+      icon: Users,
+      iconBg: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+      titleHover: 'group-hover:text-emerald-600',
+      glow: 'from-emerald-500/10 to-teal-500/10',
+      actionText: 'Explore active career roles',
+      actionColor: 'text-emerald-600',
+      badge: 'Culture & Careers',
+      badgeBg: 'bg-emerald-50 text-emerald-700 border-emerald-200/70',
+      accentBorder: 'hover:border-emerald-300',
+      accentBg: 'bg-emerald-500',
+      link: '/careers'
+    }
+  ];
+
+  const totalCards = cards.length;
+
+  // Check prefers-reduced-motion
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mediaQuery.matches);
+    const handler = (e) => setReducedMotion(e.matches);
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handler);
+      return () => mediaQuery.removeEventListener('change', handler);
+    }
+  }, []);
+
+  const DISPLAY_TIME = 3000; // 3 seconds display time
+  const TRANSITION_TIME = 800; // 800ms animation transition
+  const isInitialMount = useRef(true);
+  const wasHoveredRef = useRef(false);
+
+  // Exact 3-second display time autoplay lifecycle
+  useEffect(() => {
+    if (isHovered) {
+      wasHoveredRef.current = true;
+      return;
+    }
+
+    // On initial load or after un-hovering, card is already in center, so wait DISPLAY_TIME (3000ms).
+    // During automatic transition or manual navigation, wait TRANSITION_TIME (800ms) + DISPLAY_TIME (3000ms) = 3800ms.
+    const isStationary = isInitialMount.current || wasHoveredRef.current;
+    const delay = isStationary ? DISPLAY_TIME : (DISPLAY_TIME + TRANSITION_TIME);
+
+    isInitialMount.current = false;
+    wasHoveredRef.current = false;
+
+    const timer = setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % totalCards);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [currentIndex, isHovered, totalCards]);
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % totalCards);
+  };
+
+  const goToPrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + totalCards) % totalCards);
+  };
+
+  const goToCard = (idx) => {
+    setCurrentIndex(idx);
+  };
+
+  // Touch swipe gestures for mobile
+  const touchStartX = useRef(0);
+  const touchDeltaX = useRef(0);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+  };
+
+  const handleTouchMove = (e) => {
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchDeltaX.current > 45) {
+      goToPrev();
+    } else if (touchDeltaX.current < -45) {
+      goToNext();
+    }
+    touchDeltaX.current = 0;
+  };
+
+  // Calculate 3D styling per card relative to currentIndex
+  const getCardStyle = (index) => {
+    let offset = (index - currentIndex) % totalCards;
+    if (offset > totalCards / 2) offset -= totalCards;
+    if (offset < -totalCards / 2) offset += totalCards;
+
+    // Reduced motion fallback
+    if (reducedMotion) {
+      if (offset === 0) {
+        return {
+          transform: 'translateX(0) scale(1)',
+          opacity: 1,
+          zIndex: 30,
+          pointerEvents: 'auto',
+          visibility: 'visible',
+          transition: 'opacity 300ms ease, transform 300ms ease'
+        };
+      }
+      return {
+        transform: `translateX(${offset * 80}%) scale(0.9)`,
+        opacity: 0,
+        zIndex: 10,
+        pointerEvents: 'none',
+        visibility: 'hidden',
+        transition: 'opacity 300ms ease, transform 300ms ease'
+      };
+    }
+
+    // Modern 3D Carousel Positioning
+    if (offset === 0) {
+      // Main Center Card
+      return {
+        transform: 'translateX(0%) translateZ(0px) rotateY(0deg) scale(1)',
+        opacity: 1,
+        zIndex: 30,
+        pointerEvents: 'auto',
+        visibility: 'visible',
+        boxShadow: '0 25px 50px -12px rgba(0, 74, 173, 0.16), 0 0 0 1px rgba(0, 74, 173, 0.08)',
+        transition: 'transform 800ms cubic-bezier(0.25, 1, 0.4, 1), opacity 800ms cubic-bezier(0.25, 1, 0.4, 1), box-shadow 800ms ease'
+      };
+    } else if (offset === -1) {
+      // Left Card (partially visible, scaled down, angled outward)
+      return {
+        transform: 'translateX(-70%) translateZ(-80px) rotateY(16deg) scale(0.86)',
+        opacity: 0.65,
+        zIndex: 20,
+        pointerEvents: 'auto',
+        visibility: 'visible',
+        boxShadow: '0 15px 30px -10px rgba(15, 23, 42, 0.08)',
+        transition: 'transform 800ms cubic-bezier(0.25, 1, 0.4, 1), opacity 800ms cubic-bezier(0.25, 1, 0.4, 1), box-shadow 800ms ease'
+      };
+    } else if (offset === 1) {
+      // Right Card (partially visible, scaled down, angled outward)
+      return {
+        transform: 'translateX(70%) translateZ(-80px) rotateY(-16deg) scale(0.86)',
+        opacity: 0.65,
+        zIndex: 20,
+        pointerEvents: 'auto',
+        visibility: 'visible',
+        boxShadow: '0 15px 30px -10px rgba(15, 23, 42, 0.08)',
+        transition: 'transform 800ms cubic-bezier(0.25, 1, 0.4, 1), opacity 800ms cubic-bezier(0.25, 1, 0.4, 1), box-shadow 800ms ease'
+      };
+    } else {
+      // Back / Far Card (Smooth depth exit)
+      const exitDir = offset > 0 ? 1 : -1;
+      return {
+        transform: `translateX(${exitDir * 110}%) translateZ(-180px) rotateY(${exitDir * -24}deg) scale(0.72)`,
+        opacity: 0,
+        zIndex: 10,
+        pointerEvents: 'none',
+        visibility: 'hidden',
+        transition: 'transform 800ms cubic-bezier(0.25, 1, 0.4, 1), opacity 800ms cubic-bezier(0.25, 1, 0.4, 1)'
+      };
+    }
+  };
+
+  return (
+    <div
+      className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 overflow-hidden py-6 bg-transparent"
+      style={{ background: 'transparent' }}
+    >
+
+      {/* Section Header */}
+      <div className="relative z-10 text-center max-w-3xl mx-auto mb-10 sm:mb-14 space-y-4">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#004AAD] text-xs font-semibold uppercase tracking-wider">
+          <Sparkles className="h-3.5 w-3.5" />
+          <span>Our Core Philosophy</span>
+        </div>
+        <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">
+          How We Shape the Future
+        </h2>
+        <p className="text-slate-500 text-base sm:text-lg leading-relaxed font-medium">
+          Driven by innovation, engineering excellence, clean code, and continuous growth.
+        </p>
+      </div>
+
+      {/* 3D Floating Cards Carousel Stage */}
+      <div
+        className="relative z-10 w-full py-4 sm:py-8 select-none"
+        style={{ perspective: '1200px' }}
+        onPointerEnter={(e) => {
+          if (e.pointerType !== 'touch') setIsHovered(true);
+        }}
+        onPointerLeave={() => setIsHovered(false)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div
+          className="relative h-[440px] sm:h-[400px] md:h-[390px] w-full flex items-center justify-center"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {cards.map((card, idx) => {
+            const Icon = card.icon;
+            const style = getCardStyle(idx);
+            let offset = (idx - currentIndex) % totalCards;
+            if (offset > totalCards / 2) offset -= totalCards;
+            if (offset < -totalCards / 2) offset += totalCards;
+            const isCenter = offset === 0;
+
+            return (
+              <div
+                key={card.id}
+                style={style}
+                onClick={() => {
+                  if (!isCenter) {
+                    if (offset === -1) goToPrev();
+                    if (offset === 1) goToNext();
+                  }
+                }}
+                className={`absolute top-0 bottom-0 left-0 right-0 m-auto w-[90vw] max-w-[340px] sm:max-w-[440px] md:max-w-[480px] lg:max-w-[520px] h-[430px] sm:h-[390px] md:h-[380px] rounded-3xl p-7 sm:p-9 bg-white border border-slate-200/90 flex flex-col justify-between transition-colors duration-300 ${
+                  isCenter ? 'cursor-default ring-1 ring-blue-500/10' : 'cursor-pointer hover:border-blue-300'
+                }`}
+              >
+                {/* Ambient Glow Pill on Card Top Right */}
+                <div className={`absolute -right-16 -top-16 w-40 h-40 rounded-full bg-gradient-to-br ${card.glow} blur-3xl opacity-80 pointer-events-none`} />
+
+                {/* Top Section: Icon & Category Tag */}
+                <div className="space-y-5 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <div className={`h-12 w-12 rounded-2xl flex items-center justify-center border shadow-sm ${card.iconBg} transition-transform duration-300 ${isCenter ? 'scale-105' : ''}`}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${card.badgeBg}`}>
+                      {card.badge}
+                    </span>
+                  </div>
+
+                  {/* Title & Description */}
+                  <div className="space-y-2.5">
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 tracking-tight">
+                      {card.title}
+                    </h3>
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
+                      {card.desc}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Action Link */}
+                <div className="relative z-10 pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <Link
+                    to={card.link}
+                    className={`inline-flex items-center text-xs sm:text-sm font-bold ${card.actionColor} hover:underline group`}
+                    onClick={(e) => {
+                      if (!isCenter) e.preventDefault();
+                    }}
+                  >
+                    <span>{card.actionText}</span>
+                    <ArrowRight className="ml-1.5 h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" />
+                  </Link>
+
+                  {!isCenter && (
+                    <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider hidden sm:inline">
+                      Click to focus
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 4-Item Pill Navigation Bar (Matches Reference Design) */}
+        <div className="flex items-center justify-center mt-10 relative z-20">
+          <div className="inline-flex items-center p-1.5 rounded-full bg-slate-200/70 backdrop-blur-md border border-slate-300/40 shadow-sm max-w-full">
+            {[
+              { label: 'PRODUCT', cardIndex: 0, title: 'What We Build' },
+              { label: 'ENGINEERING', cardIndex: 1, title: 'Engineering Excellence' },
+              { label: 'R&D', cardIndex: 2, title: 'Technology & Innovation' },
+              { label: 'CAREER', cardIndex: 3, title: 'Grow With Us' }
+            ].map((item) => {
+              const isActive = currentIndex === item.cardIndex;
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => goToCard(item.cardIndex)}
+                  aria-label={`Show ${item.title}`}
+                  className={`relative px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold tracking-wider transition-colors duration-300 cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-slate-900 ${
+                    isActive ? 'text-white' : 'text-slate-700 hover:text-slate-950'
+                  }`}
+                >
+                  {/* Sliding Dark Navy / Black Capsule behind Active Item */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activePhilosophyPill"
+                      className="absolute inset-0 bg-slate-950 rounded-full shadow-md pointer-events-none"
+                      transition={{
+                        type: 'spring',
+                        stiffness: 420,
+                        damping: 34
+                      }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const containerVariants = {
@@ -567,10 +941,11 @@ export default function Home() {
       </div>
 
       {/* SECTION 4: STATISTICS COUNTER */}
-      <div className="relative z-0 w-full bg-[#FFCB05] -mt-[220px] pt-[175px] pb-14 mb-24 shadow-inner">
+      <div className="relative z-0 w-full bg-[#EAF6FF] -mt-[220px] pt-[175px] pb-16 sm:pb-20 mb-24 shadow-inner">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="p-8 md:p-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* SINGLE LARGE WHITE ROUNDED CONTAINER */}
+          <div className="bg-white rounded-[28px] sm:rounded-[36px] shadow-sm py-10 px-6 sm:py-12 sm:px-10 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 items-center">
               {stats.map((stat, idx) => {
                 const Icon = stat.icon;
                 return (
@@ -580,7 +955,7 @@ export default function Home() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: idx * 0.1 }}
-                    className="text-center space-y-2 flex flex-col items-center justify-center p-4 rounded-2xl hover:bg-amber-400/20 transition-colors"
+                    className="text-center space-y-2 flex flex-col items-center justify-center py-2"
                   >
                     <div className="inline-flex p-3 bg-blue-50 rounded-2xl mb-2 border border-blue-100">
                       <Icon className={`h-6 w-6 ${stat.color}`} />
@@ -597,143 +972,8 @@ export default function Home() {
 
 
 
-      {/* SECTION: INNOVATION & PHILOSOPHY */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#004AAD] text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Our Core Philosophy</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">
-            How We Shape the Future
-          </h2>
-          <p className="text-slate-500 text-lg leading-relaxed font-medium">
-            Driven by innovation, engineering excellence, clean code, and continuous growth.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-          {/* Card 1: What We Build */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="group relative rounded-3xl p-8 bg-white border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between"
-          >
-            {/* Ambient Background Glow on Hover */}
-            <div className="absolute -right-20 -top-20 w-48 h-48 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="space-y-6">
-              <div className="h-12 w-12 rounded-2xl flex items-center justify-center bg-blue-50 text-blue-600 border border-blue-100 shadow-sm group-hover:scale-105 transition-transform duration-300">
-                <Cpu className="h-6 w-6" />
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-2xl font-extrabold text-slate-950 tracking-tight group-hover:text-blue-650 transition-colors">
-                  What We Build
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed font-medium">
-                  At Beta Softnet, we develop intelligent software products that help businesses improve efficiency, automate workflows, and accelerate digital transformation. Our products are designed with scalability, security, and user experience at their core, enabling organizations to adapt and grow in an ever-changing digital world.
-                </p>
-              </div>
-            </div>
-            <div className="mt-8 border-t border-slate-100 pt-4 flex items-center text-xs font-bold text-blue-600 select-none group-hover:translate-x-1 transition-transform">
-              <span>View our products suite</span>
-              <ArrowRight className="ml-1 h-3.5 w-3.5" />
-            </div>
-          </motion.div>
-
-          {/* Card 2: Engineering Excellence */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="group relative rounded-3xl p-8 bg-white border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between"
-          >
-            {/* Ambient Background Glow on Hover */}
-            <div className="absolute -right-20 -top-20 w-48 h-48 rounded-full bg-gradient-to-br from-amber-500/10 to-orange-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="space-y-6">
-              <div className="h-12 w-12 rounded-2xl flex items-center justify-center bg-amber-50 text-amber-600 border border-amber-100 shadow-sm group-hover:scale-105 transition-transform duration-300">
-                <Terminal className="h-6 w-6" />
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-2xl font-extrabold text-slate-950 tracking-tight group-hover:text-amber-650 transition-colors">
-                  Engineering Excellence
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed font-medium">
-                  We believe that great products are built with strong engineering practices. Our teams focus on clean architecture, modern technologies, continuous improvement, and high-quality code to deliver reliable and innovative software solutions.
-                </p>
-              </div>
-            </div>
-            <div className="mt-8 border-t border-slate-100 pt-4 flex items-center text-xs font-bold text-amber-600 select-none group-hover:translate-x-1 transition-transform">
-              <span>Explore our codebase standards</span>
-              <ArrowRight className="ml-1 h-3.5 w-3.5" />
-            </div>
-          </motion.div>
-
-          {/* Card 3: Technology & Innovation */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="group relative rounded-3xl p-8 bg-white border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between"
-          >
-            {/* Ambient Background Glow on Hover */}
-            <div className="absolute -right-20 -top-20 w-48 h-48 rounded-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="space-y-6">
-              <div className="h-12 w-12 rounded-2xl flex items-center justify-center bg-purple-50 text-purple-600 border border-purple-100 shadow-sm group-hover:scale-105 transition-transform duration-300">
-                <Workflow className="h-6 w-6" />
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-2xl font-extrabold text-slate-950 tracking-tight group-hover:text-purple-650 transition-colors">
-                  Technology & Innovation
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed font-medium">
-                  Innovation drives everything we do. We continuously explore emerging technologies, modern development practices, and creative ideas to build products that solve real-world business challenges and create lasting value.
-                </p>
-              </div>
-            </div>
-            <div className="mt-8 border-t border-slate-100 pt-4 flex items-center text-xs font-bold text-purple-600 select-none group-hover:translate-x-1 transition-transform">
-              <span>See our roadmap</span>
-              <ArrowRight className="ml-1 h-3.5 w-3.5" />
-            </div>
-          </motion.div>
-
-          {/* Card 4: Grow With Us */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="group relative rounded-3xl p-8 bg-white border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between"
-          >
-            {/* Ambient Background Glow on Hover */}
-            <div className="absolute -right-20 -top-20 w-48 h-48 rounded-full bg-gradient-to-br from-emerald-500/10 to-teal-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="space-y-6">
-              <div className="h-12 w-12 rounded-2xl flex items-center justify-center bg-emerald-50 text-emerald-600 border border-emerald-100 shadow-sm group-hover:scale-105 transition-transform duration-300">
-                <Users className="h-6 w-6" />
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-2xl font-extrabold text-slate-950 tracking-tight group-hover:text-emerald-650 transition-colors">
-                  Grow With Us
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed font-medium">
-                  We provide an environment where learning never stops. Through real-world projects, mentorship, and collaborative teamwork, you'll gain valuable experience, expand your technical expertise, and build a successful career in product development.
-                </p>
-              </div>
-            </div>
-            <div className="mt-8 border-t border-slate-100 pt-4 flex items-center text-xs font-bold text-emerald-600 select-none group-hover:translate-x-1 transition-transform">
-              <span>Explore active career roles</span>
-              <ArrowRight className="ml-1 h-3.5 w-3.5" />
-            </div>
-          </motion.div>
-        </div>
-      </div>
+      {/* SECTION: INNOVATION & PHILOSOPHY (PREMIUM 3D FLOATING SHOWCASE) */}
+      <Philosophy3DShowcase />
 
       {/* SECTION: WHY CHOOSE OUR PRODUCTS */}
       <div className="w-full bg-[#EAF6FF] py-20 mb-24">
