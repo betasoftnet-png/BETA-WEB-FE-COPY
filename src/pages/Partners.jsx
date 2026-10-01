@@ -357,6 +357,66 @@ function PartnerResourcesMarqueeSection() {
 export default function Partners() {
   const shouldReduceMotion = useReducedMotion();
 
+  // Scroll-reveal animation variants for Section 7 (Partnership Journey Roadmap)
+  const journeyContainerVariants = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : {
+      opacity: 0,
+      y: 120,
+      scale: 0.97,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: shouldReduceMotion ? { duration: 0 } : {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.08,
+        delayChildren: 0.04,
+      },
+    },
+  };
+
+  const journeyItemVariants = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : {
+      opacity: 0,
+      y: 16,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: shouldReduceMotion ? { duration: 0 } : {
+        duration: 0.75,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const journeyStepsContainerVariants = {
+    hidden: {},
+    visible: {
+      transition: shouldReduceMotion ? { duration: 0 } : {
+        staggerChildren: 0.06,
+        delayChildren: 0.04,
+      },
+    },
+  };
+
+  const journeyStepVariants = {
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : {
+      opacity: 0,
+      y: 12,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: shouldReduceMotion ? { duration: 0 } : {
+        duration: 0.65,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   // Scroll-reveal animation variants for Section 9 (Partner Application Portal)
   const portalContainerVariants = {
     hidden: shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : {
@@ -1422,23 +1482,58 @@ export default function Partners() {
         </div>
 
         {/* SECTION 7: PARTNERSHIP JOURNEY ROADMAP */}
-        <div className="space-y-16">
+        <motion.div
+          variants={journeyContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          className="space-y-16 will-change-transform"
+        >
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
+            {/* 1. PROGRESSION ROADMAP badge */}
+            <motion.div
+              variants={journeyItemVariants}
+              className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider"
+            >
               <Zap className="h-3.5 w-3.5" />
               <span>Progression Roadmap</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white">Partnership Journey</h2>
-            <p className="text-[#CBD5E1] text-sm">Visualizing the integration milestones from application submission to launching growth programs.</p>
+            </motion.div>
+
+            {/* 2. Partnership Journey heading */}
+            <motion.h2
+              variants={journeyItemVariants}
+              className="text-3xl md:text-5xl font-extrabold text-white"
+            >
+              Partnership Journey
+            </motion.h2>
+
+            {/* 3. Subtitle */}
+            <motion.p
+              variants={journeyItemVariants}
+              className="text-[#CBD5E1] text-sm"
+            >
+              Visualizing the integration milestones from application submission to launching growth programs.
+            </motion.p>
           </div>
 
-          <div className="glass-card-neon p-8 rounded-3xl border border-white/10 shadow-xl text-left relative overflow-hidden">
+          {/* 4. Main roadmap container */}
+          <motion.div
+            variants={journeyItemVariants}
+            className="glass-card-neon p-8 rounded-3xl border border-white/10 shadow-xl text-left relative overflow-hidden"
+          >
             {/* Horizontal Timeline flow */}
-            <div className="relative flex flex-col md:flex-row items-start md:items-stretch justify-between gap-8 md:gap-4 overflow-x-auto pb-4 scrollbar-none">
+            <motion.div
+              variants={journeyStepsContainerVariants}
+              className="relative flex flex-col md:flex-row items-start md:items-stretch justify-between gap-8 md:gap-4 overflow-x-auto pb-4 scrollbar-none"
+            >
               {journeyRoadmap.map((node, idx) => {
                 const colorSet = getRoadmapColor(idx);
                 return (
-                  <div key={node.step} className="flex-1 min-w-[140px] space-y-4 relative group">
+                  <motion.div
+                    key={node.step}
+                    variants={journeyStepVariants}
+                    className="flex-1 min-w-[140px] space-y-4 relative group"
+                  >
                     {/* glowing step number node circle */}
                     <div className="flex items-center space-x-3">
                       <div className={`h-9 w-9 rounded-full bg-slate-900 border ${colorSet.border} flex items-center justify-center font-black text-xs ${colorSet.text} shadow-md ${colorSet.shadow} ${colorSet.hoverBg} ${colorSet.hoverText} transition duration-300`}>
@@ -1454,12 +1549,12 @@ export default function Partners() {
                       <h4 className={`text-sm font-black text-white ${colorSet.focusText} transition-colors`}>{node.title}</h4>
                       <p className="text-[10px] text-[#CBD5E1] leading-relaxed font-medium">{node.desc}</p>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
         {/* SECTION 8: RESOURCES SECTION (CONTINUOUS AUTO-SCROLLING MARQUEE) */}
         <PartnerResourcesMarqueeSection />
