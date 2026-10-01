@@ -678,6 +678,12 @@ export default function Home() {
         .cta-colored-section p {
           color: rgba(241, 245, 249, 0.95) !important;
         }
+        .features-stats-blue-section h2 {
+          color: #ffffff !important;
+        }
+        .features-stats-blue-section p.section-desc {
+          color: rgba(239, 246, 255, 0.95) !important;
+        }
         .showcase-white-text h3, 
         .showcase-white-text p, 
         .showcase-white-text span {
@@ -903,69 +909,70 @@ export default function Home() {
         </div>
       </div>
 
-      {/* SECTION 3: KEY FEATURES */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 text-center">
-        <div className="max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#E9F4FF] border border-[#004AAD]/20 text-[#004AAD] text-xs font-semibold uppercase tracking-wider">
-            <UserCheck className="h-3.5 w-3.5" />
-            <span>Key Advantages</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900">
-            Engineered for High Performance
-          </h2>
-          <p className="text-slate-500 text-lg">
-            A secure foundation optimized for modern companies that require high availability and compliance.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {features.map((feat, idx) => {
-            const Icon = feat.icon;
-            return (
-              <motion.div
-                key={feat.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass-card glass-card-hover p-8 rounded-3xl border border-slate-200 text-left flex flex-col items-start"
-              >
-                <div className={`p-3 rounded-2xl border mb-6 flex-shrink-0 ${feat.bg}`}>
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">{feat.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{feat.description}</p>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* SECTION 4: STATISTICS COUNTER */}
-      <div className="relative z-0 w-full bg-[#EAF6FF] -mt-[220px] pt-[175px] pb-16 sm:pb-20 mb-24 shadow-inner">
+      {/* SECTION 3 & 4: KEY FEATURES & STATISTICS COUNTER (#004AAD BACKGROUND) */}
+      <div className="features-stats-blue-section relative w-full bg-[#004AAD] py-20 mb-24 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* SINGLE LARGE WHITE ROUNDED CONTAINER */}
-          <div className="bg-white rounded-[28px] sm:rounded-[36px] shadow-sm py-10 px-6 sm:py-12 sm:px-10 max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 items-center">
-              {stats.map((stat, idx) => {
-                const Icon = stat.icon;
-                return (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: idx * 0.1 }}
-                    className="text-center space-y-2 flex flex-col items-center justify-center py-2"
-                  >
-                    <div className="inline-flex p-3 bg-blue-50 rounded-2xl mb-2 border border-blue-100">
-                      <Icon className={`h-6 w-6 ${stat.color}`} />
-                    </div>
-                    <div className="text-3xl md:text-4xl font-extrabold text-[#004AAD]">{stat.value}</div>
-                    <div className="text-xs font-extrabold text-slate-500 uppercase tracking-wider">{stat.label}</div>
-                  </motion.div>
-                );
-              })}
+          {/* Section Header */}
+          <div className="max-w-3xl mx-auto mb-16 space-y-4">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/15 border border-white/30 text-white text-xs font-semibold uppercase tracking-wider">
+              <UserCheck className="h-3.5 w-3.5" />
+              <span>Key Advantages</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white">
+              Engineered for High Performance
+            </h2>
+            <p className="section-desc text-blue-100 text-lg">
+              A secure foundation optimized for modern companies that require high availability and compliance.
+            </p>
+          </div>
+
+          {/* Three Feature Cards (Remain Pure White for Clear Contrast) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14 sm:mb-16">
+            {features.map((feat, idx) => {
+              const Icon = feat.icon;
+              return (
+                <motion.div
+                  key={feat.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="glass-card glass-card-hover p-8 rounded-3xl border border-slate-200 text-left flex flex-col items-start bg-white shadow-md"
+                >
+                  <div className={`p-3 rounded-2xl border mb-6 flex-shrink-0 ${feat.bg}`}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{feat.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{feat.description}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Statistics Counter (Large White Rounded Container) */}
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-white rounded-[28px] sm:rounded-[36px] shadow-md py-10 px-6 sm:py-12 sm:px-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 items-center">
+                {stats.map((stat, idx) => {
+                  const Icon = stat.icon;
+                  return (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: idx * 0.1 }}
+                      className="text-center space-y-2 flex flex-col items-center justify-center py-2"
+                    >
+                      <div className="inline-flex p-3 bg-blue-50 rounded-2xl mb-2 border border-blue-100">
+                        <Icon className={`h-6 w-6 ${stat.color}`} />
+                      </div>
+                      <div className="text-3xl md:text-4xl font-extrabold text-[#004AAD]">{stat.value}</div>
+                      <div className="text-xs font-extrabold text-slate-500 uppercase tracking-wider">{stat.label}</div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
