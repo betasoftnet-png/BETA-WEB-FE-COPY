@@ -383,6 +383,119 @@ function PartnerResourcesMarqueeSection() {
   );
 }
 
+// Minimal circular-dot motion animation component based on reference video
+function CircularDotArrow({ color = '#1746FF' }) {
+  return (
+    <span className="w-6 h-6 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm ml-2">
+      <style>{`
+        @keyframes circDotOrbit {
+          0%, 8% {
+            transform: rotate(0deg);
+          }
+          58%, 100% {
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes circDotFade {
+          0% {
+            opacity: 0;
+            transform: scale(0);
+          }
+          8% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          52% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          62%, 100% {
+            opacity: 0;
+            transform: scale(0.2);
+          }
+        }
+        @keyframes circArrowAppear {
+          0%, 60% {
+            opacity: 0;
+            transform: scale(0.4) translateX(-1.5px);
+          }
+          68% {
+            opacity: 1;
+            transform: scale(1) translateX(0);
+          }
+          88% {
+            opacity: 1;
+            transform: scale(1) translateX(0);
+          }
+          96%, 100% {
+            opacity: 0;
+            transform: scale(0.7) translateX(1px);
+          }
+        }
+        .circ-dot-orbit {
+          animation: circDotOrbit 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          transform-origin: 11px 11px;
+        }
+        .circ-dot-fade {
+          animation: circDotFade 3s ease-in-out infinite;
+          transform-origin: 11px 2.5px;
+        }
+        .circ-arrow-appear {
+          animation: circArrowAppear 3s cubic-bezier(0.34, 1.4, 0.64, 1) infinite;
+          transform-origin: 11px 11px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .circ-dot-orbit,
+          .circ-dot-fade {
+            display: none;
+          }
+          .circ-arrow-appear {
+            opacity: 1 !important;
+            transform: none !important;
+            animation: none !important;
+          }
+        }
+      `}</style>
+      <svg
+        className="w-4.5 h-4.5 overflow-visible"
+        viewBox="0 0 22 22"
+        fill="none"
+      >
+        {/* Stationary thin blue outlined circle */}
+        <circle
+          cx="11"
+          cy="11"
+          r="8.5"
+          stroke={color}
+          strokeWidth="1.4"
+          fill="none"
+        />
+
+        {/* Orbiting solid blue dot */}
+        <g className="circ-dot-orbit">
+          <circle
+            cx="11"
+            cy="2.5"
+            r="1.6"
+            fill={color}
+            className="circ-dot-fade"
+          />
+        </g>
+
+        {/* Transitioning right-pointing arrow inside the circle */}
+        <path
+          d="M 9.5 8 L 13 11 L 9.5 14"
+          stroke={color}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="circ-arrow-appear"
+        />
+      </svg>
+    </span>
+  );
+}
+
 export default function Partners() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -1503,8 +1616,9 @@ export default function Partners() {
                 Real-world metrics and smart partnerships from organizations across industries worldwide.
               </p>
               <div className="pt-2">
-                <button className="px-7 py-3 rounded-full text-sm font-bold text-white bg-[#0066FF] hover:bg-[#0052CC] shadow-md shadow-blue-700/20 transition-all duration-200 cursor-pointer inline-flex items-center justify-center">
-                  See all stories
+                <button className="px-6 py-2.5 rounded-full text-sm font-bold text-white bg-[#0066FF] hover:bg-[#0052CC] shadow-md shadow-blue-700/20 transition-all duration-200 cursor-pointer inline-flex items-center justify-center">
+                  <span>See all stories</span>
+                  <CircularDotArrow color="#1746FF" />
                 </button>
               </div>
             </div>
