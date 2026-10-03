@@ -352,17 +352,17 @@ function WhatWeLookForCardsGrid() {
               </div>
 
               {/* Bottom Section: Title, Description, and Circular Arrow Action */}
-              <div className="relative z-10 space-y-4">
+              <div className="relative z-10 space-y-4 text-[#FFFFFF]">
                 <div className="space-y-2">
-                  <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight font-['Plus_Jakarta_Sans',sans-serif] flex flex-wrap items-baseline gap-2">
-                    <span>{card.titlePrimary}</span>
+                  <h3 className="text-2xl md:text-3xl font-black text-[#FFFFFF] tracking-tight font-['Plus_Jakarta_Sans',sans-serif] flex flex-wrap items-baseline gap-2">
+                    <span className="text-[#FFFFFF] !text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">{card.titlePrimary}</span>
                     {card.titleAccent && (
-                      <span className={`font-['Caveat',cursive] text-3xl md:text-4xl font-bold ${card.accentColor} -rotate-1 tracking-normal inline-block`}>
+                      <span className={`font-['Caveat',cursive] text-3xl md:text-4xl font-bold ${card.accentColor} -rotate-1 tracking-normal inline-block drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]`}>
                         {card.titleAccent}
                       </span>
                     )}
                   </h3>
-                  <p className="text-white/85 text-sm md:text-[15px] font-medium leading-relaxed max-w-[280px]">
+                  <p className="text-[#FFFFFF] !text-white text-sm md:text-[15px] font-medium leading-relaxed max-w-[280px] drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)]">
                     {card.desc}
                   </p>
                 </div>
