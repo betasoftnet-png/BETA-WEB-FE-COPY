@@ -325,12 +325,13 @@ function WhatWeLookForCardsGrid() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-        {whatWeLookForCards.map((card) => {
+        {whatWeLookForCards.map((card, idx) => {
           const IconComponent = card.icon;
           return (
             <div
               key={card.id}
-              className="relative overflow-hidden rounded-[28px] md:rounded-[32px] min-h-[360px] md:min-h-[400px] p-7 md:p-8 flex flex-col justify-between group transition-all duration-500 hover:scale-[1.015] hover:shadow-[0_24px_50px_rgba(0,0,0,0.35)] border border-white/10 shadow-lg text-left"
+              className="relative overflow-hidden rounded-[28px] md:rounded-[32px] min-h-[360px] md:min-h-[400px] p-7 md:p-8 flex flex-col justify-between group transition-all duration-500 hover:scale-[1.015] hover:shadow-[0_24px_50px_rgba(0,0,0,0.35)] border border-white/10 shadow-lg text-left careers-reveal-card"
+              style={{ '--card-delay': `${idx * 80 + 60}ms` }}
             >
               {/* Background Photographic Visual */}
               <img
@@ -760,6 +761,41 @@ export default function Careers() {
     };
     fetchSavedJobs();
   }, [user]);
+
+  // Viewport-based bottom-to-top scroll reveal with IntersectionObserver
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) {
+      document
+        .querySelectorAll('.careers-reveal, .careers-reveal-card')
+        .forEach((el) => {
+          el.classList.add('is-visible');
+        });
+      return;
+    }
+
+    const observerCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          // Once animated, unobserve so it only animates once when first appearing
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.18, // Triggers when ~18% (15–25%) of the section enters the viewport
+      rootMargin: '0px 0px -40px 0px',
+    });
+
+    const revealElements = document.querySelectorAll('.careers-reveal');
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [showMyJobs]);
 
   const [activeReportJobId, setActiveReportJobId] = useState(null);
 
@@ -1567,6 +1603,46 @@ export default function Careers() {
           border: 1px solid rgba(255, 255, 255, 0.85) !important;
           box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06) !important;
         }
+
+        /* Smooth Viewport-Based Scroll Reveal Animations */
+        .careers-reveal {
+          opacity: 0;
+          transform: translateY(80px);
+          transition: opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+                      transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+          will-change: opacity, transform;
+        }
+
+        .careers-reveal.is-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .careers-reveal-card {
+          opacity: 0;
+          transform: translateY(50px);
+          transition: opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+                      transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+          transition-delay: 0ms;
+          will-change: opacity, transform;
+        }
+
+        .is-visible .careers-reveal-card,
+        .is-visible.careers-reveal-card {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: var(--card-delay, 0ms);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .careers-reveal,
+          .careers-reveal-card {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+            transition-delay: 0ms !important;
+          }
+        }
       `}</style>
 
 
@@ -1578,7 +1654,7 @@ export default function Careers() {
             {/* COMBINED HERO & OPEN ROLES GROUP */}
             <div className="space-y-6">
               {/* HERO SECTION */}
-              <div className="text-center max-w-3xl mx-auto pt-2 pb-4 space-y-6">
+              <div className="text-center max-w-3xl mx-auto pt-2 pb-4 space-y-6 careers-reveal">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -1610,7 +1686,7 @@ export default function Careers() {
                 </motion.p>
               </div>
 
-              <div id="search-roles" className="space-y-4">
+              <div id="search-roles" className="space-y-4 careers-reveal">
                 <div className="w-full max-w-5xl mx-auto hacker-layout-box unified-openings-box p-6 sm:p-8 rounded-2xl shadow-xl shadow-purple-500/5 text-left space-y-6">
                   {/* Header inside Box with Centered Title, and Search Bar + Filter Button */}
                   <div className="flex flex-col items-center justify-center gap-4 border-b border-purple-500/10 pb-6 w-full">
@@ -2058,7 +2134,7 @@ export default function Careers() {
             </div>
 
             {/* SECTION 6: HIRING PROCESS */}
-            <div className="space-y-10 -mt-6 md:-mt-8">
+            <div className="space-y-10 -mt-6 md:-mt-8 careers-reveal">
               <div className="text-center max-w-2xl mx-auto space-y-2.5">
                 <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[#EC4899] text-xs font-semibold uppercase tracking-wider">
                   <CheckSquare className="h-3.5 w-3.5" />
@@ -2076,6 +2152,8 @@ export default function Careers() {
                     <React.Fragment key={step.id}>
                       {/* Glowing Node Circle */}
                       <motion.div
+                        className="careers-reveal-card"
+                        style={{ '--card-delay': `${idx * 120 + 80}ms` }}
                         initial="initial"
                         whileInView="visible"
                         whileHover="hover"
@@ -2162,7 +2240,7 @@ export default function Careers() {
             </div>
 
             {/* SECTION 4: TEAM CULTURE MASONRY */}
-            <div className="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 rounded-[36px] bg-gradient-to-b from-[#F2F8FD]/80 via-[#F8FBFF] to-[#FFFFFF] border border-blue-100/50 shadow-[0_12px_40px_-15px_rgba(10,40,90,0.04)] space-y-12">
+            <div className="careers-reveal relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 rounded-[36px] bg-gradient-to-b from-[#F2F8FD]/80 via-[#F8FBFF] to-[#FFFFFF] border border-blue-100/50 shadow-[0_12px_40px_-15px_rgba(10,40,90,0.04)] space-y-12">
               <div className="text-center max-w-2xl mx-auto space-y-3">
                 <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[#004AAD] text-xs font-semibold uppercase tracking-wider">
                   <Users className="h-3.5 w-3.5 text-[#004AAD]" />
@@ -2179,7 +2257,7 @@ export default function Careers() {
               {/* 5-Card Responsive Grid Layout (Desktop: 3 + 2, Tablet: 2 cols, Mobile: 1 col) */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 max-w-6xl mx-auto text-left">
                 {/* ROW 1: CARD 1 — TEAM QUOTE (Subtle Pink Accent) */}
-                <div className="col-span-1 md:col-span-1 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-pink-100/80 shadow-[0_10px_30px_-5px_rgba(244,63,94,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(244,63,94,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+                <div style={{ '--card-delay': '60ms' }} className="careers-reveal-card col-span-1 md:col-span-1 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-pink-100/80 shadow-[0_10px_30px_-5px_rgba(244,63,94,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(244,63,94,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
                   {/* Subtle Corner Accent */}
                   <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-pink-100/70 to-pink-50/20 pointer-events-none" />
 
@@ -2215,7 +2293,7 @@ export default function Careers() {
                 </div>
 
                 {/* ROW 1: CARD 2 — INNOVATIVE TECHNOLOGY (Subtle Blue Accent) */}
-                <div className="col-span-1 md:col-span-1 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-blue-100/80 shadow-[0_10px_30px_-5px_rgba(59,130,246,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(59,130,246,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+                <div style={{ '--card-delay': '140ms' }} className="careers-reveal-card col-span-1 md:col-span-1 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-blue-100/80 shadow-[0_10px_30px_-5px_rgba(59,130,246,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(59,130,246,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
                   {/* Subtle Corner Accent */}
                   <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-sky-100/70 to-blue-50/20 pointer-events-none" />
 
@@ -2253,7 +2331,7 @@ export default function Careers() {
                 </div>
 
                 {/* ROW 1: CARD 3 — DESIGN / CULTURE (Subtle Soft Orange/Peach Accent) */}
-                <div className="col-span-1 md:col-span-2 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-amber-100/80 shadow-[0_10px_30px_-5px_rgba(245,158,11,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(245,158,11,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+                <div style={{ '--card-delay': '220ms' }} className="careers-reveal-card col-span-1 md:col-span-2 lg:col-span-4 bg-white rounded-[26px] p-7 sm:p-8 border border-amber-100/80 shadow-[0_10px_30px_-5px_rgba(245,158,11,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(245,158,11,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
                   {/* Subtle Corner Accent */}
                   <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-amber-100/70 to-orange-50/20 pointer-events-none" />
 
@@ -2289,7 +2367,7 @@ export default function Careers() {
                 </div>
 
                 {/* ROW 2: CARD 4 — FOCUS / PRODUCTIVITY (Soft Purple Accent — Wider 7 cols) */}
-                <div className="col-span-1 md:col-span-2 lg:col-span-7 bg-white rounded-[26px] p-7 sm:p-8 border border-purple-100/80 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(139,92,246,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group">
+                <div style={{ '--card-delay': '300ms' }} className="careers-reveal-card col-span-1 md:col-span-2 lg:col-span-7 bg-white rounded-[26px] p-7 sm:p-8 border border-purple-100/80 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(139,92,246,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group">
                   {/* Subtle Corner Accent */}
                   <div className="absolute -bottom-10 -left-10 w-44 h-44 rounded-full bg-gradient-to-tr from-purple-100/60 to-indigo-50/10 pointer-events-none" />
 
@@ -2350,7 +2428,7 @@ export default function Careers() {
                 </div>
 
                 {/* ROW 2: CARD 5 — COLLABORATION QUOTE (Soft Mint Green Accent — 5 cols) */}
-                <div className="col-span-1 md:col-span-2 lg:col-span-5 bg-white rounded-[26px] p-7 sm:p-8 border border-emerald-100/80 shadow-[0_10px_30px_-5px_rgba(16,185,129,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(16,185,129,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
+                <div style={{ '--card-delay': '380ms' }} className="careers-reveal-card col-span-1 md:col-span-2 lg:col-span-5 bg-white rounded-[26px] p-7 sm:p-8 border border-emerald-100/80 shadow-[0_10px_30px_-5px_rgba(16,185,129,0.05)] hover:shadow-[0_16px_36px_-6px_rgba(16,185,129,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
                   {/* Subtle Corner Accent */}
                   <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-br from-emerald-100/70 to-teal-50/20 pointer-events-none" />
 
@@ -2388,7 +2466,7 @@ export default function Careers() {
             </div>
 
             {/* SECTION 5: WHAT WE LOOK FOR */}
-            <div className="space-y-12 py-12">
+            <div className="careers-reveal space-y-12 py-12">
               <div className="text-center max-w-2xl mx-auto space-y-3">
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-[#EC4899] text-xs font-bold uppercase tracking-wider">
                   <Award className="h-3.5 w-3.5" />
@@ -2407,7 +2485,7 @@ export default function Careers() {
 
 
             {/* SECTION 8: CALL TO ACTION SECTION */}
-            <div className="cta-block relative overflow-hidden rounded-[32px] md:rounded-[40px] border border-slate-200/80 bg-white p-8 sm:p-12 md:p-16 min-h-[380px] md:min-h-[420px] flex items-center shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] text-left">
+            <div className="careers-reveal cta-block relative overflow-hidden rounded-[32px] md:rounded-[40px] border border-slate-200/80 bg-white p-8 sm:p-12 md:p-16 min-h-[380px] md:min-h-[420px] flex items-center shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] text-left">
               {/* Premium Realistic Workspace Visual Integrated into the Right Side */}
               <img
                 src="/careers_cta_workspace.jpg"
@@ -2453,7 +2531,7 @@ export default function Careers() {
             </div>
 
             {/* SECTION 9: OUR VALUES SECTION */}
-            <div className="space-y-16 py-16 mt-12 md:mt-16 border-t border-slate-100">
+            <div className="careers-reveal space-y-16 py-16 mt-12 md:mt-16 border-t border-slate-100">
               <div className="text-center max-w-3xl mx-auto space-y-4 px-4">
                 <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#8B5CF6]/10 to-[#EC4899]/10 border border-[#8B5CF6]/20 text-[#8B5CF6] text-xs font-extrabold uppercase tracking-widest">
                   <Sparkles className="h-3.5 w-3.5 text-[#EC4899] animate-pulse" />
@@ -2472,7 +2550,7 @@ export default function Careers() {
             </div>
 
             {/* SECTION 10: PREMIUM CALL TO ACTION SECTION */}
-            <div className="relative overflow-hidden rounded-[32px] md:rounded-[36px] p-8 sm:p-12 md:p-16 border border-[#D4E5F7] shadow-[0_20px_50px_rgba(59,130,246,0.07)] mt-12 md:mt-16 mx-4 md:mx-6 group min-h-[380px] md:min-h-[420px] flex items-center">
+            <div className="careers-reveal relative overflow-hidden rounded-[32px] md:rounded-[36px] p-8 sm:p-12 md:p-16 border border-[#D4E5F7] shadow-[0_20px_50px_rgba(59,130,246,0.07)] mt-12 md:mt-16 mx-4 md:mx-6 group min-h-[380px] md:min-h-[420px] flex items-center">
               {/* Pure CSS/SVG Abstract Architectural Background (Light sky-blue & white, translucent curves, glass panel, podium) */}
               <svg
                 viewBox="0 0 1000 380"
