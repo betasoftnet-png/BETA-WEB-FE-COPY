@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Search, ChevronDown, Check, Copy, Clock, Send, Shield, Activity, Download, MessageSquare, ExternalLink, HelpCircle, Code, Briefcase, FileText, CheckCircle2, AlertCircle, BookOpen, Settings, Key, Wrench, Sparkles, Award } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,6 +21,46 @@ export default function Support() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState('idle'); // idle, loading, success, error
   const [newsletterFeedbackMsg, setNewsletterFeedbackMsg] = useState('');
+
+  // Bottom-to-top scroll reveal with IntersectionObserver
+  useEffect(() => {
+    // Respect prefers-reduced-motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) {
+      document
+        .querySelectorAll('.support-reveal, .support-reveal-hero, .support-reveal-highlights, .support-reveal-card')
+        .forEach((el) => {
+          el.classList.add('is-visible');
+        });
+      return;
+    }
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        } else {
+          // Reset animation state when element leaves the viewport
+          // so it replays smoothly when scrolled into view again
+          entry.target.classList.remove('is-visible');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.18, // Triggers when ~18% of the section enters the viewport
+      rootMargin: '0px 0px -30px 0px',
+    });
+
+    const revealElements = document.querySelectorAll(
+      '.support-reveal, .support-reveal-hero, .support-reveal-highlights'
+    );
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const supportContactInfo = {
     phone: '+91 9444369625',
@@ -102,6 +142,76 @@ export default function Support() {
 
   return (
     <div className="min-h-screen bg-transparent pb-16 relative z-10">
+      {/* Scroll Reveal Animation Styles for Support Page */}
+      <style>{`
+        .support-reveal {
+          opacity: 0;
+          transform: translateY(90px) scale(0.985);
+          transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+                      opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform, opacity;
+        }
+
+        .support-reveal.is-visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        .support-reveal-hero {
+          opacity: 0;
+          transform: translateY(80px) scale(0.98);
+          transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+                      opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform, opacity;
+        }
+
+        .support-reveal-hero.is-visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        .support-reveal-highlights {
+          opacity: 0;
+          transform: translateY(100px) scale(0.98);
+          transition: transform 850ms cubic-bezier(0.16, 1, 0.3, 1),
+                      opacity 850ms cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform, opacity;
+        }
+
+        .support-reveal-highlights.is-visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        .support-reveal-card {
+          opacity: 0;
+          transform: translateY(80px) scale(0.98);
+          transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+                      opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+          transition-delay: 0ms;
+          will-change: transform, opacity;
+        }
+
+        .is-visible .support-reveal-card,
+        .is-visible.support-reveal-card {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          transition-delay: var(--reveal-delay, 0ms);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .support-reveal,
+          .support-reveal-hero,
+          .support-reveal-highlights,
+          .support-reveal-card {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+            transition-delay: 0ms !important;
+          }
+        }
+      `}</style>
+
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-tr from-[#EFF6FF] via-[#DBEAFE] to-[#BFDBFE] pt-8 pb-16 text-gray-900 text-center hero-blue-banner">
         {/* Glow grid mesh overlay */}
@@ -109,7 +219,7 @@ export default function Support() {
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[60%] rounded-full bg-emerald-400/20 blur-[130px] pointer-events-none" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[60%] rounded-full bg-teal-400/20 blur-[130px] pointer-events-none" />
 
-        <div className="max-w-4xl mx-auto px-4 relative z-10 space-y-6">
+        <div className="max-w-4xl mx-auto px-4 relative z-10 space-y-6 support-reveal-hero">
           <span className="inline-block px-3 py-1 rounded-full bg-slate-100 border border-slate-300 text-xs font-bold uppercase tracking-widest text-black select-none">
             Help & Customer Desk
           </span>
@@ -136,9 +246,12 @@ export default function Support() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-16">
         {/* Help Center Resources Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 support-reveal">
           {/* Operational status */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4">
+          <div
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4 support-reveal-card"
+            style={{ '--reveal-delay': '0ms' }}
+          >
             <div className="h-10 w-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 flex-shrink-0">
               <Activity className="h-5 w-5" />
             </div>
@@ -156,7 +269,10 @@ export default function Support() {
           </div>
 
           {/* Response SLA */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4">
+          <div
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4 support-reveal-card"
+            style={{ '--reveal-delay': '100ms' }}
+          >
             <div className="h-10 w-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#004AAD] flex-shrink-0">
               <Clock className="h-5 w-5" />
             </div>
@@ -168,7 +284,10 @@ export default function Support() {
           </div>
 
           {/* Documentation */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4">
+          <div
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4 support-reveal-card"
+            style={{ '--reveal-delay': '200ms' }}
+          >
             <div className="h-10 w-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-650 flex-shrink-0">
               <FileText className="h-5 w-5" />
             </div>
@@ -183,7 +302,10 @@ export default function Support() {
           </div>
 
           {/* Downloads */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4">
+          <div
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-4 support-reveal-card"
+            style={{ '--reveal-delay': '300ms' }}
+          >
             <div className="h-10 w-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 flex-shrink-0">
               <Download className="h-5 w-5" />
             </div>
@@ -199,7 +321,7 @@ export default function Support() {
         </div>
 
         {/* Support Highlights */}
-        <div className="space-y-6 bg-slate-50/60 border border-slate-200/60 p-8 rounded-3xl text-left">
+        <div className="space-y-6 bg-slate-50/60 border border-slate-200/60 p-8 rounded-3xl text-left support-reveal-highlights">
           <div className="space-y-1">
             <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">Support Highlights</h2>
             <p className="text-xs text-slate-500 font-semibold">Discover what makes our customer support reliable, responsive, and customer-focused.</p>
@@ -207,7 +329,10 @@ export default function Support() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
             {/* Fast Response */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300">
+            <div
+              className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300 support-reveal-card"
+              style={{ '--reveal-delay': '0ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-9 w-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#004AAD]">
                   <Clock className="h-4.5 w-4.5" />
@@ -220,7 +345,10 @@ export default function Support() {
             </div>
 
             {/* Expert Assistance */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300">
+            <div
+              className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300 support-reveal-card"
+              style={{ '--reveal-delay': '80ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-9 w-9 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">
                   <Award className="h-4.5 w-4.5" />
@@ -233,7 +361,10 @@ export default function Support() {
             </div>
 
             {/* Personalized Support */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300">
+            <div
+              className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300 support-reveal-card"
+              style={{ '--reveal-delay': '160ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-9 w-9 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-650">
                   <Sparkles className="h-4.5 w-4.5" />
@@ -246,7 +377,10 @@ export default function Support() {
             </div>
 
             {/* Reliable Service */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300">
+            <div
+              className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300 support-reveal-card"
+              style={{ '--reveal-delay': '240ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-9 w-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
                   <Shield className="h-4.5 w-4.5" />
@@ -259,7 +393,10 @@ export default function Support() {
             </div>
 
             {/* Customer First */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300">
+            <div
+              className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:shadow-md transition duration-300 support-reveal-card"
+              style={{ '--reveal-delay': '320ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-9 w-9 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
                   <MessageSquare className="h-4.5 w-4.5" />
@@ -274,15 +411,18 @@ export default function Support() {
         </div>
 
         {/* Customer Care Center */}
-        <div className="space-y-6">
-          <div className="text-left space-y-1.5">
+        <div className="space-y-6 support-reveal">
+          <div className="text-left space-y-1.5 support-reveal-card" style={{ '--reveal-delay': '0ms' }}>
             <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Customer Care Center</h2>
             <p className="text-sm text-slate-500">Your central hub for guidance, assistance, and resources to help you get the best experience with every Beta Softnet product.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
             {/* Product Assistance */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div
+              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between support-reveal-card"
+              style={{ '--reveal-delay': '60ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#004AAD]">
                   <BookOpen className="h-5 w-5" />
@@ -295,7 +435,10 @@ export default function Support() {
             </div>
 
             {/* Account Help */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div
+              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between support-reveal-card"
+              style={{ '--reveal-delay': '120ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-650">
                   <FileText className="h-5 w-5" />
@@ -308,7 +451,10 @@ export default function Support() {
             </div>
 
             {/* Security Center */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div
+              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between support-reveal-card"
+              style={{ '--reveal-delay': '180ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">
                   <Settings className="h-5 w-5" />
@@ -321,7 +467,10 @@ export default function Support() {
             </div>
 
             {/* Feature Discovery */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div
+              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between support-reveal-card"
+              style={{ '--reveal-delay': '240ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
                   <Shield className="h-5 w-5" />
@@ -334,7 +483,10 @@ export default function Support() {
             </div>
 
             {/* Product Updates */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div
+              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between support-reveal-card"
+              style={{ '--reveal-delay': '300ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
                   <HelpCircle className="h-5 w-5" />
@@ -347,7 +499,10 @@ export default function Support() {
             </div>
 
             {/* Technical Guidance */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between">
+            <div
+              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between support-reveal-card"
+              style={{ '--reveal-delay': '360ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-650">
                   <Sparkles className="h-5 w-5" />
@@ -361,20 +516,19 @@ export default function Support() {
           </div>
         </div>
 
-
-
-
-
         {/* Product Support Section */}
-        <div className="space-y-6 bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100 border border-blue-200/40 p-8 rounded-3xl shadow-sm">
-          <div className="text-left space-y-1.5">
+        <div className="space-y-6 bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100 border border-blue-200/40 p-8 rounded-3xl shadow-sm support-reveal">
+          <div className="text-left space-y-1.5 support-reveal-card" style={{ '--reveal-delay': '0ms' }}>
             <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Ecosystem Product Support</h2>
             <p className="text-sm text-slate-955 font-semibold">Guides, diagnostic links, and configuration standards for our primary suites.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* BNX Mail Card */}
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300">
+            <div
+              className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300 support-reveal-card"
+              style={{ '--reveal-delay': '100ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center">
                   <img src="/bnx_mail_logo.png" alt="BNX Mail" className="h-full w-full object-contain" />
@@ -399,7 +553,10 @@ export default function Support() {
             </div>
 
             {/* B2Auth Security Card */}
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300">
+            <div
+              className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300 support-reveal-card"
+              style={{ '--reveal-delay': '200ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center">
                   <img src="/b2auth_logo.png" alt="B2Auth Security" className="h-full w-full object-contain" />
@@ -424,7 +581,10 @@ export default function Support() {
             </div>
 
             {/* Cliks Business Card */}
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300">
+            <div
+              className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300 support-reveal-card"
+              style={{ '--reveal-delay': '300ms' }}
+            >
               <div className="space-y-3">
                 <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center">
                   <img src="/cliks_business_logo.png" alt="Cliks Business" className="h-full w-full object-contain" />
@@ -453,15 +613,18 @@ export default function Support() {
         {/* Two-Column Grid: Contacts (Left) vs Support Request Form (Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Side: Contact Channels & Address */}
-          <div className="lg:col-span-5 space-y-6 text-left">
-            <div className="space-y-1.5">
+          <div className="lg:col-span-5 space-y-6 text-left support-reveal">
+            <div className="space-y-1.5 support-reveal-card" style={{ '--reveal-delay': '0ms' }}>
               <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Get in Touch Directly</h2>
               <p className="text-sm text-slate-500">Reach out through standard channels for immediate billing or operational assistance.</p>
             </div>
 
             <div className="space-y-4">
               {/* Phone Channel */}
-              <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-[#004AAD]/20 transition duration-300">
+              <div
+                className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-[#004AAD]/20 transition duration-300 support-reveal-card"
+                style={{ '--reveal-delay': '60ms' }}
+              >
                 <div className="flex items-center space-x-2 mb-2">
                   <Phone className="h-4.5 w-4.5 text-slate-500" />
                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Phone Hotline</span>
@@ -487,7 +650,10 @@ export default function Support() {
               </div>
 
               {/* Email Channel */}
-              <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-[#004AAD]/20 transition duration-300">
+              <div
+                className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-[#004AAD]/20 transition duration-300 support-reveal-card"
+                style={{ '--reveal-delay': '120ms' }}
+              >
                 <div className="flex items-center space-x-2 mb-2">
                   <Mail className="h-4.5 w-4.5 text-slate-500" />
                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Email Address</span>
@@ -515,7 +681,10 @@ export default function Support() {
               </div>
 
               {/* Address HQ Channel */}
-              <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#004AAD]/10 transition duration-300 flex items-start space-x-3">
+              <div
+                className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#004AAD]/10 transition duration-300 flex items-start space-x-3 support-reveal-card"
+                style={{ '--reveal-delay': '180ms' }}
+              >
                 <MapPin className="h-5 w-5 text-slate-400 mt-0.5 flex-shrink-0" />
                 <div className="space-y-1">
                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Corporate HQ</span>
@@ -524,7 +693,10 @@ export default function Support() {
               </div>
 
               {/* Operation Hours Card */}
-              <div className="bg-slate-105 p-4 border border-slate-200 rounded-2xl flex items-center space-x-3 select-none">
+              <div
+                className="bg-slate-105 p-4 border border-slate-200 rounded-2xl flex items-center space-x-3 select-none support-reveal-card"
+                style={{ '--reveal-delay': '240ms' }}
+              >
                 <Clock className="h-5 w-5 text-slate-500 flex-shrink-0" />
                 <div className="min-w-0">
                   <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Support Business Hours</p>
@@ -533,7 +705,10 @@ export default function Support() {
               </div>
 
               {/* Feature Request Card */}
-              <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-[#004AAD]/20 transition duration-300 space-y-4">
+              <div
+                className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-[#004AAD]/20 transition duration-300 space-y-4 support-reveal-card"
+                style={{ '--reveal-delay': '300ms' }}
+              >
                 <div className="flex items-center space-x-2">
                   <Sparkles className="h-4.5 w-4.5 text-amber-500" />
                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Feature Request</span>
@@ -562,7 +737,10 @@ export default function Support() {
               </div>
 
               {/* Follow Us Card */}
-              <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#004AAD]/10 transition duration-300 space-y-3">
+              <div
+                className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#004AAD]/10 transition duration-300 space-y-3 support-reveal-card"
+                style={{ '--reveal-delay': '360ms' }}
+              >
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Follow Us</span>
                 <div className="flex space-x-4 pt-1 justify-start">
                   <a
@@ -595,8 +773,8 @@ export default function Support() {
           </div>
 
           {/* Right Side: Request Submission Form */}
-          <div className="lg:col-span-7 text-left" id="support-form-card">
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-lg p-6 sm:p-8 relative">
+          <div className="lg:col-span-7 text-left support-reveal" id="support-form-card" style={{ '--reveal-delay': '120ms' }}>
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-lg p-6 sm:p-8 relative support-reveal-card" style={{ '--reveal-delay': '100ms' }}>
               <div className="mb-6 space-y-1">
                 <h3 className="text-xl font-extrabold text-slate-900 tracking-tight">Submit a Support Request</h3>
                 <p className="text-xs text-slate-500">Fill in critical details and our engineers will coordinate resolving diagnostics.</p>
@@ -709,7 +887,7 @@ export default function Support() {
         </div>
 
         {/* Business Enquiries Callout Banner */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-6 shadow-sm">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-6 shadow-sm support-reveal">
           <div className="flex items-start space-x-4 min-w-0">
             <div className="h-12 w-12 rounded-2xl bg-white border border-blue-200 flex items-center justify-center text-blue-600 shrink-0 shadow-sm">
               <Briefcase className="h-6 w-6" />
@@ -730,13 +908,16 @@ export default function Support() {
         </div>
 
         {/* Technical Support SDK Code Console */}
-        <div id="sdk-console" className="space-y-6">
-          <div className="text-left space-y-1.5">
+        <div id="sdk-console" className="space-y-6 support-reveal">
+          <div className="text-left space-y-1.5 support-reveal-card" style={{ '--reveal-delay': '0ms' }}>
             <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Developer Technical Support</h2>
             <p className="text-sm text-slate-500">Initialize our corporate authentication and group mail modules directly inside your terminal.</p>
           </div>
 
-          <div className="bg-slate-950 rounded-3xl border border-slate-900 overflow-hidden shadow-xl text-left font-mono text-xs">
+          <div
+            className="bg-slate-950 rounded-3xl border border-slate-900 overflow-hidden shadow-xl text-left font-mono text-xs support-reveal-card"
+            style={{ '--reveal-delay': '120ms' }}
+          >
             <div className="bg-slate-900 border-b border-slate-800 px-4 py-3.5 flex flex-wrap items-center justify-between gap-2 select-none">
               <div className="flex items-center space-x-2">
                 <Code className="h-4 w-4 text-[#004AAD]" />
@@ -748,6 +929,7 @@ export default function Support() {
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
               </div>
             </div>
+
             <div className="p-6 overflow-x-auto text-slate-355 space-y-3 leading-relaxed">
               <div className="flex items-start">
                 <span className="text-slate-500 w-6 select-none shrink-0">1</span>
@@ -786,15 +968,19 @@ export default function Support() {
         </div>
 
         {/* Frequently Asked Questions */}
-        <div className="space-y-6">
-          <div className="text-left space-y-1.5">
+        <div className="space-y-6 support-reveal">
+          <div className="text-left space-y-1.5 support-reveal-card" style={{ '--reveal-delay': '0ms' }}>
             <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Frequently Asked Questions</h2>
             <p className="text-sm text-slate-500">Standard operational guidelines, account recoveries, and system encryption FAQs.</p>
           </div>
 
           <div className="max-w-4xl mx-auto space-y-3.5 text-left">
             {supportFaqs.map((faq, idx) => (
-              <div key={idx} className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm transition hover:border-slate-300">
+              <div
+                key={idx}
+                className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm transition hover:border-slate-300 support-reveal-card"
+                style={{ '--reveal-delay': `${idx * 80 + 60}ms` }}
+              >
                 <button
                   type="button"
                   onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
@@ -813,8 +999,7 @@ export default function Support() {
           </div>
         </div>
       </div>
-
-
     </div>
   );
 }
+
