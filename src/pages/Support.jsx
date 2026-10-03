@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Search, ChevronDown, Check, Copy, Clock, Send, Shield, Activity, Download, MessageSquare, ExternalLink, HelpCircle, Code, Briefcase, FileText, CheckCircle2, AlertCircle, BookOpen, Settings, Key, Wrench, Sparkles, Award } from 'lucide-react';
+import { Mail, Phone, MapPin, Search, ChevronDown, Check, Copy, Clock, Send, Shield, Activity, Download, MessageSquare, ExternalLink, HelpCircle, Code, Briefcase, FileText, CheckCircle2, AlertCircle, BookOpen, Settings, Key, Wrench, Sparkles, Award, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../api';
 
@@ -524,12 +524,80 @@ export default function Support() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* BNX Mail Card */}
+            {/* 1. BNX Mail Card */}
             <div
-              className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300 support-reveal-card"
+              className="relative overflow-hidden group bg-white rounded-3xl border border-slate-200 hover:border-blue-400/80 shadow-sm hover:shadow-[0_16px_36px_rgba(56,189,248,0.18)] p-6 space-y-4 flex flex-col justify-between transition-all duration-400 ease-out support-reveal-card"
               style={{ '--reveal-delay': '100ms' }}
             >
-              <div className="space-y-3">
+              {/* Soft text protection overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-[1] opacity-0 group-hover:opacity-75 transition-opacity duration-300" />
+
+              {/* Hover Background Illustration: Mail/Email Theme */}
+              <div className="absolute -top-3 -right-3 w-56 h-48 pointer-events-none z-0 opacity-0 group-hover:opacity-100 translate-x-3 group-hover:translate-x-0 scale-95 group-hover:scale-100 transition-all duration-400 ease-out select-none">
+                <svg viewBox="0 0 240 200" fill="none" className="w-full h-full">
+                  <defs>
+                    <linearGradient id="mailEnvGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                      <stop offset="60%" stopColor="#E0F2FE" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#BAE6FD" stopOpacity="0.85" />
+                    </linearGradient>
+                    <linearGradient id="mailFlapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#F0F9FF" stopOpacity="0.98" />
+                      <stop offset="100%" stopColor="#7DD3FC" stopOpacity="0.75" />
+                    </linearGradient>
+                    <linearGradient id="mailShadowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#0284C7" stopOpacity="0.25" />
+                      <stop offset="100%" stopColor="#0284C7" stopOpacity="0.05" />
+                    </linearGradient>
+                    <filter id="mailBloom" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="8" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Ambient radial glow */}
+                  <circle cx="160" cy="85" r="75" fill="rgba(56, 189, 248, 0.22)" filter="url(#mailBloom)" />
+                  <circle cx="170" cy="75" r="45" fill="rgba(255, 255, 255, 0.6)" filter="url(#mailBloom)" />
+
+                  {/* Small floating envelope (Top left) */}
+                  <g transform="translate(65, 30) rotate(-14) scale(0.42)" opacity="0.85">
+                    <rect x="0" y="0" width="80" height="54" rx="8" fill="url(#mailEnvGrad)" stroke="#7DD3FC" strokeWidth="1.5" />
+                    <path d="M 0 0 L 40 32 L 80 0" fill="none" stroke="#38BDF8" strokeWidth="2" strokeLinejoin="round" />
+                    <path d="M 0 54 L 32 26" stroke="#93C5FD" strokeWidth="1.2" />
+                    <path d="M 80 54 L 48 26" stroke="#93C5FD" strokeWidth="1.2" />
+                  </g>
+
+                  {/* Small floating envelope (Bottom right) */}
+                  <g transform="translate(180, 115) rotate(16) scale(0.38)" opacity="0.75">
+                    <rect x="0" y="0" width="80" height="54" rx="8" fill="url(#mailEnvGrad)" stroke="#7DD3FC" strokeWidth="1.5" />
+                    <path d="M 0 0 L 40 32 L 80 0" fill="none" stroke="#38BDF8" strokeWidth="2" strokeLinejoin="round" />
+                  </g>
+
+                  {/* Main Large 3D Envelope */}
+                  <g transform="translate(115, 35) rotate(-8) scale(1.15)">
+                    {/* Soft drop shadow */}
+                    <rect x="4" y="6" width="96" height="66" rx="10" fill="url(#mailShadowGrad)" />
+                    {/* Envelope Base Body */}
+                    <rect x="0" y="0" width="96" height="66" rx="10" fill="url(#mailEnvGrad)" stroke="#BAE6FD" strokeWidth="1.5" />
+                    {/* Side folding lines */}
+                    <path d="M 0 66 L 38 34" stroke="#7DD3FC" strokeWidth="1.2" strokeOpacity="0.7" />
+                    <path d="M 96 66 L 58 34" stroke="#7DD3FC" strokeWidth="1.2" strokeOpacity="0.7" />
+                    {/* Envelope Top V-Flap */}
+                    <polygon points="0,0 48,40 96,0" fill="url(#mailFlapGrad)" stroke="#60A5FA" strokeWidth="1.6" strokeLinejoin="round" strokeOpacity="0.8" />
+                  </g>
+
+                  {/* Sparkle star dots */}
+                  <circle cx="195" cy="30" r="2" fill="#38BDF8" opacity="0.9" />
+                  <circle cx="105" cy="22" r="1.5" fill="#60A5FA" opacity="0.8" />
+                  <circle cx="110" cy="85" r="1.5" fill="#38BDF8" opacity="0.7" />
+                </svg>
+              </div>
+
+              {/* Card Content (relative z-10) */}
+              <div className="relative z-10 space-y-3">
                 <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center">
                   <img src="/bnx_mail_logo.png" alt="BNX Mail" className="h-full w-full object-contain" />
                 </div>
@@ -544,20 +612,99 @@ export default function Support() {
                   Integrate shared SMTP configurations or handle multi-agent mail delegation safely. Requires client certificate auth credentials.
                 </p>
               </div>
-              <div className="border-t border-slate-100 pt-4">
-                <div className="text-xs font-bold text-[#004AAD] flex items-center space-x-1.5 select-none">
-                  <span>View SMTP/IMAP Setup Guide</span>
-                  <ExternalLink className="h-3.5 w-3.5" />
+
+              {/* Bottom Link with styled round arrow */}
+              <div className="relative z-10 border-t border-slate-100 pt-4 flex items-center justify-between">
+                <span className="text-xs font-bold text-[#004AAD] group-hover:text-[#1746FF] transition-colors select-none">
+                  View SMTP/IMAP Setup Guide
+                </span>
+                <div className="w-8 h-8 rounded-full border-[1.5px] border-[#1746FF] flex items-center justify-center text-[#1746FF] bg-white group-hover:scale-105 transition-transform duration-300 shadow-xs relative flex-shrink-0">
+                  <div className="absolute top-0.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#1746FF]" />
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-300" />
                 </div>
               </div>
             </div>
 
-            {/* B2Auth Security Card */}
+            {/* 2. B2Auth Security Card */}
             <div
-              className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300 support-reveal-card"
+              className="relative overflow-hidden group bg-white rounded-3xl border border-slate-200 hover:border-blue-400/80 shadow-sm hover:shadow-[0_16px_36px_rgba(56,189,248,0.18)] p-6 space-y-4 flex flex-col justify-between transition-all duration-400 ease-out support-reveal-card"
               style={{ '--reveal-delay': '200ms' }}
             >
-              <div className="space-y-3">
+              {/* Soft text protection overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-[1] opacity-0 group-hover:opacity-75 transition-opacity duration-300" />
+
+              {/* Hover Background Illustration: Cybersecurity Theme */}
+              <div className="absolute -top-3 -right-3 w-56 h-48 pointer-events-none z-0 opacity-0 group-hover:opacity-100 translate-x-3 group-hover:translate-x-0 scale-95 group-hover:scale-100 transition-all duration-400 ease-out select-none">
+                <svg viewBox="0 0 240 200" fill="none" className="w-full h-full">
+                  <defs>
+                    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                      <stop offset="50%" stopColor="#BAE6FD" stopOpacity="0.85" />
+                      <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.75" />
+                    </linearGradient>
+                    <linearGradient id="shieldInnerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#E0F2FE" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#0284C7" stopOpacity="0.7" />
+                    </linearGradient>
+                    <linearGradient id="lockBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.98" />
+                      <stop offset="100%" stopColor="#F0F9FF" stopOpacity="0.9" />
+                    </linearGradient>
+                    <filter id="shieldBloom" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="9" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Ambient radial glow */}
+                  <circle cx="165" cy="85" r="75" fill="rgba(56, 189, 248, 0.22)" filter="url(#shieldBloom)" />
+                  <circle cx="165" cy="85" r="45" fill="rgba(255, 255, 255, 0.6)" filter="url(#shieldBloom)" />
+
+                  {/* Security Circuit Ring Arc */}
+                  <circle cx="165" cy="85" r="62" stroke="#7DD3FC" strokeWidth="1" strokeDasharray="4 6" strokeOpacity="0.6" />
+                  <circle cx="165" cy="85" r="78" stroke="#38BDF8" strokeWidth="0.8" strokeDasharray="3 8" strokeOpacity="0.4" />
+
+                  {/* Main Glowing Shield Container */}
+                  <g transform="translate(130, 28) scale(1.15)">
+                    {/* Outer Shield Plate */}
+                    <path
+                      d="M 30 0 C 46 8, 56 12, 60 16 C 60 44, 48 70, 30 84 C 12 70, 0 44, 0 16 C 4 12, 14 8, 30 0 Z"
+                      fill="url(#shieldGrad)"
+                      stroke="#7DD3FC"
+                      strokeWidth="1.5"
+                    />
+                    {/* Inner Shield Plate */}
+                    <path
+                      d="M 30 6 C 43 13, 50 16, 54 20 C 54 42, 43 64, 30 76 C 17 64, 6 42, 6 20 C 10 16, 17 13, 30 6 Z"
+                      fill="url(#shieldInnerGrad)"
+                      opacity="0.8"
+                    />
+
+                    {/* Centered White Padlock */}
+                    <path
+                      d="M 23 38 L 23 30 C 23 26, 37 26, 37 30 L 37 38"
+                      stroke="#FFFFFF"
+                      strokeWidth="3.2"
+                      strokeLinecap="round"
+                      fill="none"
+                    />
+                    <rect x="18" y="36" width="24" height="20" rx="4" fill="url(#lockBodyGrad)" stroke="#BAE6FD" strokeWidth="1.2" />
+                    <circle cx="30" cy="44" r="2.2" fill="#0284C7" />
+                    <path d="M 30 44 L 30 50" stroke="#0284C7" strokeWidth="1.5" strokeLinecap="round" />
+                  </g>
+
+                  {/* Sparkle dots */}
+                  <circle cx="115" cy="40" r="1.8" fill="#38BDF8" opacity="0.8" />
+                  <circle cx="210" cy="65" r="1.5" fill="#60A5FA" opacity="0.8" />
+                  <circle cx="125" cy="115" r="1.5" fill="#7DD3FC" opacity="0.7" />
+                </svg>
+              </div>
+
+              {/* Card Content (relative z-10) */}
+              <div className="relative z-10 space-y-3">
                 <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center">
                   <img src="/b2auth_logo.png" alt="B2Auth Security" className="h-full w-full object-contain" />
                 </div>
@@ -572,20 +719,110 @@ export default function Support() {
                   Configure active directory synchronization, OAuth 2.1 authentication servers, and multi-factor token credentials for corporate teams.
                 </p>
               </div>
-              <div className="border-t border-slate-100 pt-4">
-                <div className="text-xs font-bold text-[#004AAD] flex items-center space-x-1.5 select-none">
-                  <span>Open Gateway OAuth Specs</span>
-                  <ExternalLink className="h-3.5 w-3.5" />
+
+              {/* Bottom Link with styled round arrow */}
+              <div className="relative z-10 border-t border-slate-100 pt-4 flex items-center justify-between">
+                <span className="text-xs font-bold text-[#004AAD] group-hover:text-[#1746FF] transition-colors select-none">
+                  Open Gateway OAuth Specs
+                </span>
+                <div className="w-8 h-8 rounded-full border-[1.5px] border-[#1746FF] flex items-center justify-center text-[#1746FF] bg-white group-hover:scale-105 transition-transform duration-300 shadow-xs relative flex-shrink-0">
+                  <div className="absolute top-0.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#1746FF]" />
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-300" />
                 </div>
               </div>
             </div>
 
-            {/* Cliks Business Card */}
+            {/* 3. Cliks Business Card */}
             <div
-              className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4 flex flex-col justify-between transition hover:bg-slate-100 hover:border-slate-350 duration-300 support-reveal-card"
+              className="relative overflow-hidden group bg-white rounded-3xl border border-slate-200 hover:border-emerald-400/80 shadow-sm hover:shadow-[0_16px_36px_rgba(16,185,129,0.18)] p-6 space-y-4 flex flex-col justify-between transition-all duration-400 ease-out support-reveal-card"
               style={{ '--reveal-delay': '300ms' }}
             >
-              <div className="space-y-3">
+              {/* Soft text protection overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-[1] opacity-0 group-hover:opacity-75 transition-opacity duration-300" />
+
+              {/* Hover Background Illustration: Business/Accounting Theme */}
+              <div className="absolute -top-3 -right-3 w-56 h-48 pointer-events-none z-0 opacity-0 group-hover:opacity-100 translate-x-3 group-hover:translate-x-0 scale-95 group-hover:scale-100 transition-all duration-400 ease-out select-none">
+                <svg viewBox="0 0 240 200" fill="none" className="w-full h-full">
+                  <defs>
+                    <linearGradient id="barGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#A7F3D0" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#6EE7B7" stopOpacity="0.75" />
+                    </linearGradient>
+                    <linearGradient id="barGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#6EE7B7" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#34D399" stopOpacity="0.8" />
+                    </linearGradient>
+                    <linearGradient id="barGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#34D399" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#10B981" stopOpacity="0.85" />
+                    </linearGradient>
+                    <linearGradient id="barGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#10B981" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#059669" stopOpacity="0.9" />
+                    </linearGradient>
+                    <linearGradient id="coinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                      <stop offset="60%" stopColor="#D1FAE5" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#A7F3D0" stopOpacity="0.8" />
+                    </linearGradient>
+                    <filter id="businessBloom" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="8" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Ambient radial glow */}
+                  <circle cx="165" cy="85" r="75" fill="rgba(52, 211, 153, 0.2)" filter="url(#businessBloom)" />
+                  <circle cx="165" cy="85" r="45" fill="rgba(255, 255, 255, 0.6)" filter="url(#businessBloom)" />
+
+                  <g transform="translate(100, 30) scale(1.15)">
+                    {/* Floating Invoice / Document (behind bars) */}
+                    <g transform="translate(42, 6) rotate(6)" opacity="0.6">
+                      <rect x="0" y="0" width="36" height="48" rx="4" fill="#FFFFFF" stroke="#A7F3D0" strokeWidth="1" />
+                      <line x1="6" y1="10" x2="24" y2="10" stroke="#6EE7B7" strokeWidth="1.5" strokeLinecap="round" />
+                      <line x1="6" y1="16" x2="30" y2="16" stroke="#A7F3D0" strokeWidth="1.2" strokeLinecap="round" />
+                      <line x1="6" y1="22" x2="20" y2="22" stroke="#A7F3D0" strokeWidth="1.2" strokeLinecap="round" />
+                    </g>
+
+                    {/* Rising Bar Chart (4 Steps) */}
+                    <rect x="10" y="52" width="10" height="24" rx="2" fill="url(#barGrad1)" stroke="#A7F3D0" strokeWidth="0.8" />
+                    <rect x="24" y="38" width="10" height="38" rx="2" fill="url(#barGrad2)" stroke="#6EE7B7" strokeWidth="0.8" />
+                    <rect x="38" y="24" width="10" height="52" rx="2" fill="url(#barGrad3)" stroke="#34D399" strokeWidth="0.8" />
+                    <rect x="52" y="10" width="10" height="66" rx="2" fill="url(#barGrad4)" stroke="#10B981" strokeWidth="0.8" />
+
+                    {/* Upward Growth Trend Arrow */}
+                    <path
+                      d="M 6 62 Q 30 36 68 8"
+                      stroke="#10B981"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      fill="none"
+                    />
+                    {/* Arrowhead */}
+                    <polygon points="68,4 72,14 62,10" fill="#10B981" />
+
+                    {/* Stacked Coins at base (bottom right) */}
+                    <g transform="translate(56, 56) scale(0.9)">
+                      <ellipse cx="14" cy="20" rx="12" ry="5.5" fill="url(#coinGrad)" stroke="#34D399" strokeWidth="0.8" />
+                      <ellipse cx="14" cy="18" rx="12" ry="5.5" fill="#A7F3D0" opacity="0.4" />
+                      <ellipse cx="14" cy="14" rx="12" ry="5.5" fill="url(#coinGrad)" stroke="#34D399" strokeWidth="0.8" />
+                      <ellipse cx="14" cy="12" rx="12" ry="5.5" fill="#A7F3D0" opacity="0.4" />
+                      <ellipse cx="14" cy="8" rx="12" ry="5.5" fill="url(#coinGrad)" stroke="#34D399" strokeWidth="0.8" />
+                    </g>
+                  </g>
+
+                  {/* Sparkle dots */}
+                  <circle cx="100" cy="50" r="1.5" fill="#34D399" opacity="0.8" />
+                  <circle cx="210" cy="35" r="2" fill="#10B981" opacity="0.85" />
+                  <circle cx="195" cy="100" r="1.5" fill="#6EE7B7" opacity="0.7" />
+                </svg>
+              </div>
+
+              {/* Card Content (relative z-10) */}
+              <div className="relative z-10 space-y-3">
                 <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center">
                   <img src="/cliks_business_logo.png" alt="Cliks Business" className="h-full w-full object-contain" />
                 </div>
@@ -600,10 +837,15 @@ export default function Support() {
                   Track transactions, invoice templates, and tax audit logs. Contact support if GST calculators require localized rate adjustments.
                 </p>
               </div>
-              <div className="border-t border-slate-100 pt-4">
-                <div className="text-xs font-bold text-[#004AAD] flex items-center space-x-1.5 select-none">
-                  <span>Launch Invoicing Manuals</span>
-                  <ExternalLink className="h-3.5 w-3.5" />
+
+              {/* Bottom Link with styled round arrow */}
+              <div className="relative z-10 border-t border-slate-100 pt-4 flex items-center justify-between">
+                <span className="text-xs font-bold text-[#004AAD] group-hover:text-[#1746FF] transition-colors select-none">
+                  Launch Invoicing Manuals
+                </span>
+                <div className="w-8 h-8 rounded-full border-[1.5px] border-[#1746FF] flex items-center justify-center text-[#1746FF] bg-white group-hover:scale-105 transition-transform duration-300 shadow-xs relative flex-shrink-0">
+                  <div className="absolute bottom-0.5 left-1.5 w-1.5 h-1.5 rounded-full bg-[#1746FF]" />
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-300" />
                 </div>
               </div>
             </div>
