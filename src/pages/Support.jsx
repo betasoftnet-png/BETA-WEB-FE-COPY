@@ -1157,53 +1157,148 @@ export default function Support() {
           </div>
 
           <div
-            className="bg-slate-950 rounded-3xl border border-slate-900 overflow-hidden shadow-xl text-left font-mono text-xs support-reveal-card"
+            className="relative bg-white rounded-3xl border border-[#D6E4F6] overflow-hidden shadow-[0_12px_40px_rgba(37,99,235,0.08)] text-left font-mono text-xs support-reveal-card"
             style={{ '--reveal-delay': '120ms' }}
           >
-            <div className="bg-slate-900 border-b border-slate-800 px-4 py-3.5 flex flex-wrap items-center justify-between gap-2 select-none">
-              <div className="flex items-center space-x-2">
-                <Code className="h-4 w-4 text-[#004AAD]" />
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Beta Javascript Node-SDK</span>
+            {/* Top Editor Bar */}
+            <div className="bg-white border-b border-slate-100 px-6 py-4 flex flex-wrap items-center justify-between gap-2 select-none relative z-10">
+              <div className="flex items-center space-x-2.5">
+                <Code className="h-4 w-4 text-[#1746FF]" />
+                <span className="text-[11px] text-slate-500 font-bold uppercase tracking-wider font-mono">Beta Javascript Node-SDK</span>
               </div>
-              <div className="flex items-center space-x-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+              <div className="flex items-center space-x-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#F59E0B]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#10B981]" />
               </div>
             </div>
 
-            <div className="p-6 overflow-x-auto text-slate-355 space-y-3 leading-relaxed">
-              <div className="flex items-start">
-                <span className="text-slate-500 w-6 select-none shrink-0">1</span>
-                <span><span className="text-[#38bdf8]">npm</span> install <span className="text-[#38bdf8]">@betasoftnet/core-sdk</span></span>
+            {/* Code Body & Right Decorative Illustration */}
+            <div className="relative p-6 md:p-8 overflow-hidden">
+              {/* Minimal Developer-Themed Design (Right side background only, strictly behind code) */}
+              <div className="absolute right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 pointer-events-none z-0 hidden sm:block select-none overflow-visible w-[340px] md:w-[380px] h-[260px]">
+                <svg viewBox="0 0 380 260" fill="none" className="w-full h-full">
+                  <defs>
+                    <linearGradient id="devWindowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FFFFFF" />
+                      <stop offset="100%" stopColor="#F0F7FF" />
+                    </linearGradient>
+                    <linearGradient id="devHeaderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#93C5FD" />
+                      <stop offset="100%" stopColor="#BFDBFE" />
+                    </linearGradient>
+                    <linearGradient id="devShadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#1E40AF" stopOpacity="0.10" />
+                      <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.02" />
+                    </linearGradient>
+                    <filter id="devGlow" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="20" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Ambient soft glow */}
+                  <circle cx="260" cy="130" r="100" fill="rgba(219, 234, 254, 0.75)" filter="url(#devGlow)" />
+                  <circle cx="170" cy="110" r="60" fill="rgba(238, 242, 255, 0.85)" filter="url(#devGlow)" />
+
+                  {/* Soft floating dots */}
+                  <circle cx="95" cy="175" r="4.5" fill="#93C5FD" opacity="0.65" />
+                  <circle cx="118" cy="190" r="2.5" fill="#60A5FA" opacity="0.75" />
+                  <circle cx="345" cy="85" r="3" fill="#93C5FD" opacity="0.5" />
+                  <circle cx="285" cy="35" r="2.5" fill="#60A5FA" opacity="0.6" />
+
+                  {/* 1. Floating Isometric Code Card (Left </> card) */}
+                  <g transform="translate(85, 100) rotate(-14)">
+                    <rect x="2" y="4" width="56" height="56" rx="14" fill="url(#devShadowGrad)" />
+                    <rect x="0" y="0" width="56" height="56" rx="14" fill="#FFFFFF" stroke="#DBEAFE" strokeWidth="1.5" />
+                    <rect x="2" y="2" width="52" height="24" rx="11" fill="white" opacity="0.75" />
+                    <path d="M 21 21 L 14 28 L 21 35" stroke="#2563EB" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M 35 21 L 42 28 L 35 35" stroke="#2563EB" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M 30 18 L 26 38" stroke="#3B82F6" strokeWidth="2.4" strokeLinecap="round" />
+                  </g>
+
+                  {/* 2. Main 3D Tilted Code Window */}
+                  <g transform="translate(170, 40) rotate(7)">
+                    <rect x="6" y="10" width="165" height="150" rx="16" fill="url(#devShadowGrad)" />
+                    <rect x="0" y="0" width="165" height="150" rx="16" fill="url(#devWindowGrad)" stroke="#BFDBFE" strokeWidth="1.5" />
+                    
+                    {/* Header bar */}
+                    <path d="M 0 16 C 0 7.16 7.16 0 16 0 L 149 0 C 157.84 0 165 7.16 165 16 L 165 28 L 0 28 Z" fill="url(#devHeaderGrad)" />
+                    <circle cx="16" cy="14" r="3" fill="#FFFFFF" opacity="0.95" />
+                    <circle cx="26" cy="14" r="3" fill="#FFFFFF" opacity="0.95" />
+                    <circle cx="36" cy="14" r="3" fill="#FFFFFF" opacity="0.95" />
+
+                    {/* Syntax Bars */}
+                    <rect x="18" y="42" width="40" height="6" rx="3" fill="#60A5FA" opacity="0.85" />
+                    <rect x="64" y="42" width="55" height="6" rx="3" fill="#93C5FD" opacity="0.7" />
+
+                    <rect x="18" y="58" width="65" height="6" rx="3" fill="#A855F7" opacity="0.8" />
+                    <rect x="88" y="58" width="45" height="6" rx="3" fill="#60A5FA" opacity="0.75" />
+
+                    <rect x="18" y="74" width="80" height="6" rx="3" fill="#93C5FD" opacity="0.75" />
+
+                    <rect x="18" y="90" width="30" height="6" rx="3" fill="#C084FC" opacity="0.85" />
+                    <rect x="54" y="90" width="60" height="6" rx="3" fill="#60A5FA" opacity="0.8" />
+
+                    <rect x="26" y="106" width="70" height="6" rx="3" fill="#93C5FD" opacity="0.7" />
+
+                    <rect x="18" y="122" width="24" height="6" rx="3" fill="#60A5FA" opacity="0.85" />
+                  </g>
+
+                  {/* 3. Floating Settings / Gear Badge (Bottom Right) */}
+                  <g transform="translate(295, 165) rotate(-6)">
+                    <rect x="2" y="4" width="48" height="48" rx="12" fill="url(#devShadowGrad)" />
+                    <rect x="0" y="0" width="48" height="48" rx="12" fill="#FFFFFF" stroke="#DBEAFE" strokeWidth="1.5" />
+                    <svg x="12" y="12" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                        fill="#3B82F6"
+                        stroke="#2563EB"
+                        strokeWidth="1.2"
+                      />
+                      <circle cx="12" cy="12" r="3.2" fill="#FFFFFF" stroke="#2563EB" strokeWidth="1.2" />
+                    </svg>
+                  </g>
+                </svg>
               </div>
-              <div className="flex items-start">
-                <span className="text-slate-500 w-6 select-none shrink-0">2</span>
-                <span><span className="text-slate-500">// Initialize authenticators gateway client</span></span>
-              </div>
-              <div className="flex items-start">
-                <span className="text-slate-500 w-6 select-none shrink-0">3</span>
-                <span><span className="text-[#f472b6]">import</span> BetaClient <span className="text-[#f472b6]">from</span> <span className="text-emerald-400">'@betasoftnet/core-sdk'</span>;</span>
-              </div>
-              <div className="flex items-start">
-                <span className="text-slate-500 w-6 select-none shrink-0">4</span>
-                <span></span>
-              </div>
-              <div className="flex items-start">
-                <span className="text-slate-500 w-6 select-none shrink-0">5</span>
-                <span><span className="text-[#f472b6]">const</span> client = <span className="text-[#f472b6]">new</span> <span className="text-[#fbbf24]">BetaClient</span>(&#123;</span>
-              </div>
-              <div className="flex items-start">
-                <span className="text-slate-500 w-6 select-none shrink-0">6</span>
-                <span>  apiKey: <span className="text-emerald-400">'beta_pub_7294x_security_key'</span>,</span>
-              </div>
-              <div className="flex items-start">
-                <span className="text-slate-500 w-6 select-none shrink-0">7</span>
-                <span>  region: <span className="text-emerald-400">'ap-south-1'</span></span>
-              </div>
-              <div className="flex items-start">
-                <span className="text-slate-500 w-6 select-none shrink-0">8</span>
-                <span>&#125;);</span>
+
+              {/* Code lines (Left side, relative z-10, clean dark syntax highlighting) */}
+              <div className="relative z-10 overflow-x-auto text-slate-800 space-y-3 leading-relaxed max-w-xl font-mono text-[13px]">
+                <div className="flex items-start">
+                  <span className="text-slate-400 w-8 select-none shrink-0">1</span>
+                  <span><span className="text-[#1D4ED8] font-bold">npm</span> <span className="text-slate-800 font-semibold">install @betasoftnet/core-sdk</span></span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-slate-400 w-8 select-none shrink-0">2</span>
+                  <span className="text-slate-400 italic font-mono">// Initialize authenticators gateway client</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-slate-400 w-8 select-none shrink-0">3</span>
+                  <span><span className="text-[#9333EA] font-semibold">import</span> <span className="text-slate-800 font-semibold">BetaClient</span> <span className="text-[#9333EA] font-semibold">from</span> <span className="text-[#2563EB] font-semibold">'@betasoftnet/core-sdk'</span><span className="text-slate-700">;</span></span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-slate-400 w-8 select-none shrink-0">4</span>
+                  <span>&nbsp;</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-slate-400 w-8 select-none shrink-0">5</span>
+                  <span><span className="text-[#9333EA] font-semibold">const</span> <span className="text-slate-800 font-medium">client =</span> <span className="text-[#9333EA] font-semibold">new</span> <span className="text-slate-900 font-semibold">BetaClient</span><span className="text-slate-800">&#40;&#123;</span></span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-slate-400 w-8 select-none shrink-0">6</span>
+                  <span>&nbsp;&nbsp;<span className="text-slate-700 font-medium">apiKey:</span> <span className="text-[#2563EB] font-semibold">'beta_pub_7294x_security_key'</span><span className="text-slate-700">,</span></span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-slate-400 w-8 select-none shrink-0">7</span>
+                  <span>&nbsp;&nbsp;<span className="text-slate-700 font-medium">region:</span> <span className="text-[#2563EB] font-semibold">'ap-south-1'</span></span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-slate-400 w-8 select-none shrink-0">8</span>
+                  <span className="text-slate-800 font-semibold">&#125;&#41;;</span>
+                </div>
               </div>
             </div>
           </div>
