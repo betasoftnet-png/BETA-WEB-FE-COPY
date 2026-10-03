@@ -239,276 +239,143 @@ const AppliedTime = ({ timestamp }) => {
   return <span>{timeAgo || 'Applied'}</span>;
 };
 
-// Data for What We Look For Stacked Carousel
+// Data for What We Look For / Our Culture 3x2 Grid
 const whatWeLookForCards = [
   {
     id: 'problem-solver',
-    title: 'Problem Solver',
+    titlePrimary: 'Problem',
+    titleAccent: 'Solver',
     desc: 'Think critically and find smart solutions.',
     icon: Lightbulb,
-    badgeBg: 'bg-amber-50',
-    badgeBorder: 'border-amber-200/70',
-    iconColor: 'text-amber-500',
-    activeBorder: 'border-amber-300',
-    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(245,158,11,0.22)]',
-    cornerGradient: 'from-amber-100/60 to-orange-50/10'
+    bgImage: '/culture/problem_solver.jpg',
+    overlay: 'bg-gradient-to-r from-black/92 via-black/65 to-black/30',
+    iconColor: 'text-amber-400',
+    iconBadgeBg: 'bg-amber-400/15 border-amber-400/30',
+    accentColor: 'text-amber-300',
+    btnBorder: 'border-amber-400/60 text-amber-300 group-hover:bg-amber-500/20'
   },
   {
     id: 'continuous-learner',
-    title: 'Continuous Learner',
+    titlePrimary: 'Continuous',
+    titleAccent: 'Learner',
     desc: 'Curious to explore new technologies and improve daily.',
     icon: BookOpen,
-    badgeBg: 'bg-sky-50',
-    badgeBorder: 'border-sky-200/70',
-    iconColor: 'text-sky-500',
-    activeBorder: 'border-sky-300',
-    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(14,165,233,0.22)]',
-    cornerGradient: 'from-sky-100/60 to-blue-50/10'
+    bgImage: '/culture/continuous_learner.jpg',
+    overlay: 'bg-gradient-to-r from-[#03152E]/94 via-[#06244C]/70 to-[#06244C]/30',
+    iconColor: 'text-sky-400',
+    iconBadgeBg: 'bg-sky-400/15 border-sky-400/30',
+    accentColor: 'text-sky-300',
+    btnBorder: 'border-sky-400/60 text-sky-300 group-hover:bg-sky-500/20'
   },
   {
     id: 'great-communicator',
-    title: 'Great Communicator',
+    titlePrimary: 'Great',
+    titleAccent: 'Communicator',
     desc: 'Share ideas and communicate clearly.',
     icon: MessageSquare,
-    badgeBg: 'bg-teal-50',
-    badgeBorder: 'border-teal-200/70',
-    iconColor: 'text-teal-500',
-    activeBorder: 'border-teal-300',
-    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(20,184,166,0.22)]',
-    cornerGradient: 'from-teal-100/60 to-emerald-50/10'
+    bgImage: '/culture/great_communicator.jpg',
+    overlay: 'bg-gradient-to-r from-[#03201B]/94 via-[#06382E]/70 to-[#06382E]/30',
+    iconColor: 'text-emerald-400',
+    iconBadgeBg: 'bg-emerald-400/15 border-emerald-400/30',
+    accentColor: 'text-emerald-300',
+    btnBorder: 'border-emerald-400/60 text-emerald-300 group-hover:bg-emerald-500/20'
   },
   {
     id: 'team-player',
-    title: 'Team Player',
+    titlePrimary: 'Team',
+    titleAccent: 'Player',
     desc: 'Collaborate with others to build better products.',
     icon: Handshake,
-    badgeBg: 'bg-rose-50',
-    badgeBorder: 'border-rose-200/70',
-    iconColor: 'text-rose-500',
-    activeBorder: 'border-rose-300',
-    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(244,63,94,0.22)]',
-    cornerGradient: 'from-rose-100/60 to-pink-50/10'
+    bgImage: '/culture/team_player.jpg',
+    overlay: 'bg-gradient-to-r from-[#290715]/94 via-[#3D0A20]/70 to-[#3D0A20]/30',
+    iconColor: 'text-rose-400',
+    iconBadgeBg: 'bg-rose-400/15 border-rose-400/30',
+    accentColor: 'text-rose-300',
+    btnBorder: 'border-rose-400/60 text-rose-300 group-hover:bg-rose-500/20'
   },
   {
     id: 'ownership',
-    title: 'Ownership',
+    titlePrimary: 'Ownership',
+    titleAccent: '',
     desc: 'Take responsibility and deliver with confidence.',
     icon: Target,
-    badgeBg: 'bg-orange-50',
-    badgeBorder: 'border-orange-200/70',
-    iconColor: 'text-orange-500',
-    activeBorder: 'border-orange-300',
-    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(249,115,22,0.22)]',
-    cornerGradient: 'from-orange-100/60 to-amber-50/10'
+    bgImage: '/culture/ownership.jpg',
+    overlay: 'bg-gradient-to-r from-[#2B1003]/94 via-[#421905]/70 to-[#421905]/30',
+    iconColor: 'text-orange-400',
+    iconBadgeBg: 'bg-orange-400/15 border-orange-400/30',
+    accentColor: 'text-orange-300',
+    btnBorder: 'border-orange-400/60 text-orange-300 group-hover:bg-orange-500/20'
   },
   {
     id: 'growth-mindset',
-    title: 'Growth Mindset',
+    titlePrimary: 'Growth',
+    titleAccent: 'Mindset',
     desc: 'Always improving skills and knowledge.',
     icon: TrendingUp,
-    badgeBg: 'bg-purple-50',
-    badgeBorder: 'border-purple-200/70',
-    iconColor: 'text-purple-500',
-    activeBorder: 'border-purple-300',
-    activeGlow: 'shadow-[0_24px_55px_-12px_rgba(168,85,247,0.22)]',
-    cornerGradient: 'from-purple-100/60 to-indigo-50/10'
+    bgImage: '/culture/growth_mindset.jpg',
+    overlay: 'bg-gradient-to-r from-[#170529]/94 via-[#250942]/70 to-[#250942]/30',
+    iconColor: 'text-purple-400',
+    iconBadgeBg: 'bg-purple-400/15 border-purple-400/30',
+    accentColor: 'text-purple-300',
+    btnBorder: 'border-purple-400/60 text-purple-300 group-hover:bg-purple-500/20'
   }
 ];
 
-function WhatWeLookForStackedCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const touchStartY = useRef(null);
-  const isDragging = useRef(false);
-  const dragStartY = useRef(0);
-  const total = whatWeLookForCards.length;
-
-  const nextCard = React.useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % total);
-  }, [total]);
-
-  const prevCard = React.useCallback(() => {
-    setActiveIndex((prev) => (prev - 1 + total) % total);
-  }, [total]);
-
-  // Automatic 3-second cycle (bottom -> center -> top)
-  useEffect(() => {
-    if (isHovered) return;
-    const interval = setInterval(() => {
-      nextCard();
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [isHovered, nextCard]);
-
-  // Mobile touch swipe handlers
-  const handleTouchStart = (e) => {
-    touchStartY.current = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = (e) => {
-    if (touchStartY.current === null) return;
-    const endY = e.changedTouches[0].clientY;
-    const delta = touchStartY.current - endY;
-    if (delta > 35) {
-      nextCard(); // Swiped up -> next card
-    } else if (delta < -35) {
-      prevCard(); // Swiped down -> prev card
-    }
-    touchStartY.current = null;
-  };
-
-  // Desktop mouse drag handlers
-  const handleMouseDown = (e) => {
-    isDragging.current = true;
-    dragStartY.current = e.clientY;
-  };
-
-  const handleMouseUp = (e) => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
-    const delta = dragStartY.current - e.clientY;
-    if (delta > 35) {
-      nextCard();
-    } else if (delta < -35) {
-      prevCard();
-    }
-  };
-
+function WhatWeLookForCardsGrid() {
   return (
-    <div
-      className="relative w-full py-8 select-none"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        isDragging.current = false;
-      }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-    >
-      {/* Background Soft Pastel Ambient Glows */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-        <div className="absolute -left-10 top-1/4 w-72 h-72 rounded-full bg-purple-200/20 blur-3xl" />
-        <div className="absolute -right-10 bottom-1/4 w-80 h-80 rounded-full bg-sky-200/25 blur-3xl" />
-        <div className="absolute w-[450px] h-[450px] rounded-full bg-blue-100/15 blur-[100px]" />
-      </div>
-
-      {/* Main Stack Container */}
-      <div className="relative w-full max-w-[340px] sm:max-w-[480px] md:max-w-[580px] lg:max-w-[620px] mx-auto h-[480px] sm:h-[500px] flex items-center justify-center">
-        {whatWeLookForCards.map((card, idx) => {
-          let offset = (idx - activeIndex) % total;
-          if (offset > 3) offset -= total;
-          if (offset < -2) offset += total;
-
-          const isActive = offset === 0;
-
-          // Compute smooth depth transforms based on relative offset
-          let translateY = 0;
-          let scale = 1;
-          let opacity = 1;
-          let blur = 0;
-          let zIndex = 10;
-          let pointerEvents = 'none';
-
-          if (offset === 0) {
-            translateY = 0;
-            scale = 1.02;
-            opacity = 1;
-            blur = 0;
-            zIndex = 30;
-            pointerEvents = 'auto';
-          } else if (offset === -1) {
-            translateY = -85;
-            scale = 0.91;
-            opacity = 0.7;
-            blur = 0.5;
-            zIndex = 20;
-            pointerEvents = 'auto';
-          } else if (offset === -2) {
-            translateY = -158;
-            scale = 0.81;
-            opacity = 0.28;
-            blur = 2.5;
-            zIndex = 10;
-          } else if (offset === 1) {
-            translateY = 85;
-            scale = 0.91;
-            opacity = 0.7;
-            blur = 0.5;
-            zIndex = 20;
-            pointerEvents = 'auto';
-          } else if (offset === 2) {
-            translateY = 158;
-            scale = 0.81;
-            opacity = 0.28;
-            blur = 2.5;
-            zIndex = 10;
-          } else {
-            translateY = 200;
-            scale = 0.72;
-            opacity = 0;
-            blur = 5;
-            zIndex = 0;
-          }
-
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {whatWeLookForCards.map((card) => {
           const IconComponent = card.icon;
-
           return (
-            <motion.div
+            <div
               key={card.id}
-              onClick={() => {
-                if (offset === 1) nextCard();
-                if (offset === -1) prevCard();
-              }}
-              animate={{
-                y: translateY,
-                scale,
-                opacity,
-                filter: `blur(${blur}px)`,
-                zIndex
-              }}
-              transition={{
-                duration: 0.65,
-                ease: [0.22, 1, 0.36, 1]
-              }}
-              style={{
-                pointerEvents
-              }}
-              className="absolute w-full px-3 sm:px-0 cursor-grab active:cursor-grabbing origin-center"
+              className="relative overflow-hidden rounded-[28px] md:rounded-[32px] min-h-[360px] md:min-h-[400px] p-7 md:p-8 flex flex-col justify-between group transition-all duration-500 hover:scale-[1.015] hover:shadow-[0_24px_50px_rgba(0,0,0,0.35)] border border-white/10 shadow-lg text-left"
             >
-              <div
-                className={`relative w-full bg-white/95 backdrop-blur-md rounded-[26px] sm:rounded-[30px] p-5 sm:p-7 md:p-8 flex items-center space-x-4 sm:space-x-6 text-left overflow-hidden transition-shadow duration-300 ${
-                  isActive
-                    ? `border-2 ${card.activeBorder} ${card.activeGlow}`
-                    : 'border border-slate-200/70 shadow-[0_10px_30px_-8px_rgba(0,0,0,0.06)]'
-                }`}
-              >
-                {/* Organic Corner Accent Blob */}
-                <div
-                  className={`absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-gradient-to-tl ${card.cornerGradient} pointer-events-none`}
-                />
+              {/* Background Photographic Visual */}
+              <img
+                src={card.bgImage}
+                alt={`${card.titlePrimary} ${card.titleAccent || ''}`}
+                className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
+              />
 
-                {/* Left Icon Treatment */}
+              {/* Tinted Protective Gradient Overlay */}
+              <div className={`absolute inset-0 ${card.overlay} pointer-events-none`} />
+
+              {/* Top Section: Glowing Icon Badge */}
+              <div className="relative z-10">
                 <div
-                  className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${card.badgeBg} border ${card.badgeBorder} flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 ${
-                    isActive ? 'scale-105' : ''
-                  }`}
+                  className={`w-14 h-14 rounded-2xl ${card.iconBadgeBg} border backdrop-blur-md flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-105`}
                 >
-                  <IconComponent className={`w-7 h-7 sm:w-8 sm:h-8 ${card.iconColor}`} />
+                  <IconComponent className={`w-6 h-6 ${card.iconColor}`} />
                 </div>
+              </div>
 
-                {/* Content */}
-                <div className="flex-1 min-w-0 pr-2">
-                  <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-snug">
-                    {card.title}
-                  </h4>
-                  <p className="text-xs sm:text-sm md:text-[15px] text-slate-600 font-medium leading-relaxed mt-1">
+              {/* Bottom Section: Title, Description, and Circular Arrow Action */}
+              <div className="relative z-10 space-y-4">
+                <div className="space-y-2">
+                  <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight font-['Plus_Jakarta_Sans',sans-serif] flex flex-wrap items-baseline gap-2">
+                    <span>{card.titlePrimary}</span>
+                    {card.titleAccent && (
+                      <span className={`font-['Caveat',cursive] text-3xl md:text-4xl font-bold ${card.accentColor} -rotate-1 tracking-normal inline-block`}>
+                        {card.titleAccent}
+                      </span>
+                    )}
+                  </h3>
+                  <p className="text-white/85 text-sm md:text-[15px] font-medium leading-relaxed max-w-[280px]">
                     {card.desc}
                   </p>
                 </div>
+
+                <div className="pt-2">
+                  <div
+                    className={`w-10 h-10 rounded-full border ${card.btnBorder} bg-black/20 backdrop-blur-xs flex items-center justify-center transition-all duration-300 group-hover:scale-110 shadow-sm cursor-pointer`}
+                  >
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
@@ -2523,16 +2390,18 @@ export default function Careers() {
             {/* SECTION 5: WHAT WE LOOK FOR */}
             <div className="space-y-12 py-12">
               <div className="text-center max-w-2xl mx-auto space-y-3">
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[#EC4899] text-xs font-semibold uppercase tracking-wider">
+                <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-[#EC4899] text-xs font-bold uppercase tracking-wider">
                   <Award className="h-3.5 w-3.5" />
-                  <span>Our Culture</span>
+                  <span>OUR CULTURE</span>
                 </div>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight">What We Look For</h2>
-                <p className="text-slate-500 text-sm font-semibold">The qualities that make a great BNX team member.</p>
+                <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight font-['Plus_Jakarta_Sans',sans-serif]">
+                  What We <span className="text-[#3B82F6] relative inline-block">Look For<svg className="absolute -top-3 -right-6 w-5 h-5 text-[#3B82F6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 14l4-4M10 8l4-4M16 4l4-2" /></svg></span>
+                </h2>
+                <p className="text-slate-500 text-sm md:text-base font-semibold">The qualities that make a great BNX team member.</p>
               </div>
 
-              {/* Premium Vertical Stacked-Card Carousel */}
-              <WhatWeLookForStackedCarousel />
+              {/* Large 3-Column x 2-Row Culture Cards Grid */}
+              <WhatWeLookForCardsGrid />
             </div>
 
 
