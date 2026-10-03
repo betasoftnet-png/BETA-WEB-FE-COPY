@@ -2472,38 +2472,198 @@ export default function Careers() {
             </div>
 
             {/* SECTION 10: PREMIUM CALL TO ACTION SECTION */}
-            <div className="relative overflow-hidden rounded-3xl p-10 md:p-16 border border-purple-100 bg-gradient-to-r from-purple-50/90 via-fuchsia-50/80 to-pink-50/90 text-center shadow-xl shadow-purple-500/5 mt-12 md:mt-16 mx-4 md:mx-6 group">
-              {/* Subtle background glow circles inside CTA */}
-              <div className="absolute top-[-30px] left-[-30px] w-48 h-48 bg-[#8B5CF6]/10 rounded-full blur-2xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
-              <div className="absolute bottom-[-30px] right-[-30px] w-64 h-64 bg-[#EC4899]/10 rounded-full blur-2xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
+            <div className="relative overflow-hidden rounded-[32px] md:rounded-[36px] p-8 sm:p-12 md:p-16 border border-[#D4E5F7] shadow-[0_20px_50px_rgba(59,130,246,0.07)] mt-12 md:mt-16 mx-4 md:mx-6 group min-h-[380px] md:min-h-[420px] flex items-center">
+              {/* Pure CSS/SVG Abstract Architectural Background (Light sky-blue & white, translucent curves, glass panel, podium) */}
+              <svg
+                viewBox="0 0 1000 380"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden"
+                preserveAspectRatio="xMidYMid slice"
+              >
+                <defs>
+                  {/* Base sky background gradient */}
+                  <linearGradient id="ctaBgSky" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#F4F9FF" />
+                    <stop offset="35%" stopColor="#EBF4FE" />
+                    <stop offset="70%" stopColor="#DCECFE" />
+                    <stop offset="100%" stopColor="#CDE4FE" />
+                  </linearGradient>
 
-              <div className="relative z-10 space-y-6 max-w-3xl mx-auto">
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[#EC4899] text-xs font-semibold uppercase tracking-wider">
-                  <Sparkles className="h-3.5 w-3.5 text-[#EC4899] animate-pulse" />
+                  {/* Primary Arch Gradient */}
+                  <linearGradient id="archMainGrad" x1="0%" y1="100%" x2="60%" y2="0%">
+                    <stop offset="0%" stopColor="#BAE6FD" stopOpacity="0.4" />
+                    <stop offset="40%" stopColor="#E0F2FE" stopOpacity="0.65" />
+                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.9" />
+                  </linearGradient>
+
+                  {/* Secondary Curve Gradient */}
+                  <linearGradient id="archSecondGrad" x1="20%" y1="100%" x2="80%" y2="0%">
+                    <stop offset="0%" stopColor="#93C5FD" stopOpacity="0.3" />
+                    <stop offset="60%" stopColor="#BAE6FD" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.8" />
+                  </linearGradient>
+
+                  {/* Fluted Glass Gradient */}
+                  <linearGradient id="flutedGlassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#BAE6FD" stopOpacity="0.5" />
+                    <stop offset="50%" stopColor="#E0F2FE" stopOpacity="0.75" />
+                    <stop offset="100%" stopColor="#93C5FD" stopOpacity="0.4" />
+                  </linearGradient>
+
+                  {/* Podium Top Gradient */}
+                  <linearGradient id="podiumTopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.98" />
+                    <stop offset="70%" stopColor="#F0F7FF" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0.8" />
+                  </linearGradient>
+
+                  {/* Podium Base Gradient */}
+                  <linearGradient id="podiumSideGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#E2E8F0" stopOpacity="0.95" />
+                    <stop offset="25%" stopColor="#F8FAFC" stopOpacity="0.98" />
+                    <stop offset="85%" stopColor="#EDF4FD" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#CBD5E1" stopOpacity="0.95" />
+                  </linearGradient>
+
+                  {/* Soft Glow Filters */}
+                  <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="24" result="blur" />
+                  </filter>
+                  <filter id="warmGlow" x="-40%" y="-40%" width="180%" height="180%">
+                    <feGaussianBlur stdDeviation="18" result="blur" />
+                  </filter>
+                  <linearGradient id="leftProtectionGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#F4F9FF" stopOpacity="0.98" />
+                    <stop offset="55%" stopColor="#F4F9FF" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="#F4F9FF" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+
+                {/* Overall Sky-to-White Base Fill */}
+                <rect width="1000" height="380" fill="url(#ctaBgSky)" />
+
+                {/* Ambient Light Blooms on the Right */}
+                <circle cx="680" cy="180" r="140" fill="rgba(186, 230, 253, 0.45)" filter="url(#softGlow)" />
+                <circle cx="820" cy="140" r="120" fill="rgba(147, 197, 253, 0.35)" filter="url(#softGlow)" />
+                <circle cx="760" cy="300" r="60" fill="rgba(254, 240, 138, 0.45)" filter="url(#warmGlow)" />
+
+                {/* Smooth Ambient Light Sweep from Left */}
+                <ellipse cx="500" cy="190" rx="200" ry="120" fill="rgba(255, 255, 255, 0.45)" filter="url(#softGlow)" />
+
+                {/* 1. Large Parabolic Architectural Curved Sail (Far Layer) */}
+                <path
+                  d="M 520 380 C 560 250, 640 120, 840 40 L 980 40 C 980 200, 950 320, 950 380 Z"
+                  fill="url(#archSecondGrad)"
+                />
+                <path
+                  d="M 520 380 C 560 250, 640 120, 840 40"
+                  stroke="rgba(255, 255, 255, 0.75)"
+                  strokeWidth="1.8"
+                  fill="none"
+                />
+
+                {/* Translucent Sphere nestled in curve */}
+                <ellipse cx="640" cy="175" rx="55" ry="60" fill="rgba(147, 197, 253, 0.4)" filter="url(#softGlow)" />
+
+                {/* 2. Main Sweeping Parabolic Curved Wave (Middle Layer) */}
+                <path
+                  d="M 440 380 C 470 280, 540 160, 720 70 C 800 30, 880 15, 960 10 L 960 380 Z"
+                  fill="url(#archMainGrad)"
+                  opacity="0.8"
+                />
+                <path
+                  d="M 440 380 C 470 280, 540 160, 720 70 C 800 30, 880 15, 960 10"
+                  stroke="#FFFFFF"
+                  strokeWidth="2.2"
+                  strokeOpacity="0.9"
+                  fill="none"
+                />
+
+                {/* Thin Elegant Glowing Curved Edge Accent */}
+                <path
+                  d="M 410 380 C 440 300, 500 200, 650 110"
+                  stroke="rgba(255, 255, 255, 0.85)"
+                  strokeWidth="1.4"
+                  strokeDasharray="4 2"
+                  strokeOpacity="0.6"
+                  fill="none"
+                />
+
+                {/* 3. Minimal Fluted Ribbed Glass Panel (Far Right) */}
+                <g transform="translate(820, 0)">
+                  <rect x="0" y="0" width="130" height="280" fill="url(#flutedGlassGrad)" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1.5" />
+                  <line x1="12" y1="0" x2="12" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="24" y1="0" x2="24" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="36" y1="0" x2="36" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="48" y1="0" x2="48" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="60" y1="0" x2="60" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="72" y1="0" x2="72" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="84" y1="0" x2="84" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="96" y1="0" x2="96" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="108" y1="0" x2="108" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                  <line x1="120" y1="0" x2="120" y2="280" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="3" />
+                </g>
+
+                {/* Horizon Floor Line & Soft Reflection Surface */}
+                <path
+                  d="M 400 310 L 1000 300"
+                  stroke="rgba(255, 255, 255, 0.9)"
+                  strokeWidth="1.2"
+                  strokeOpacity="0.8"
+                />
+
+                {/* 4. Minimal Cylindrical Architectural Podium (Bottom Right) */}
+                <g transform="translate(780, 270)">
+                  <path
+                    d="M 0 16 L 0 65 C 0 80, 180 80, 180 65 L 180 16 Z"
+                    fill="url(#podiumSideGrad)"
+                    stroke="rgba(255, 255, 255, 0.6)"
+                    strokeWidth="1"
+                  />
+                  <ellipse cx="90" cy="16" rx="90" ry="18" fill="url(#podiumTopGrad)" stroke="#FFFFFF" strokeWidth="1.5" />
+                  <ellipse cx="0" cy="60" rx="35" ry="14" fill="rgba(254, 240, 138, 0.5)" filter="url(#warmGlow)" />
+                </g>
+
+                {/* Gradient Overlay from Left for 100% Solid Text Legibility */}
+                <rect width="520" height="380" fill="url(#leftProtectionGrad)" />
+              </svg>
+
+              <div className="relative z-10 space-y-6 max-w-xl text-left">
+                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/70 text-[#0055FF] text-xs font-bold uppercase tracking-wider shadow-xs">
+                  <Sparkles className="h-3.5 w-3.5 text-[#0055FF]" />
                   <span>Join Our Journey</span>
                 </div>
                 <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight tracking-tight">
-                  Your Future Starts Here
+                  Your Future <br />
+                  <span className="relative inline-block bg-gradient-to-r from-[#0055FF] via-[#7C3AED] to-[#D946EF] bg-clip-text text-transparent">
+                    Starts Here
+                    <svg className="absolute -bottom-2.5 left-0 w-full h-3 text-[#0055FF]/70" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                      <path d="M 2 8 C 50 2, 150 2, 198 8 C 150 5, 50 5, 2 8 Z" fill="currentColor" opacity="0.6" />
+                    </svg>
+                  </span>
                 </h2>
-                <p className="text-slate-650 max-w-xl mx-auto text-sm md:text-base leading-relaxed font-semibold">
+                <p className="text-slate-650 max-w-lg text-sm md:text-base leading-relaxed font-semibold">
                   At Beta,every idea matters, every challenge is an opportunity to grow, and every team member contributes to building innovative solutions. If you're ready to learn, collaborate, and make an impact, we'd love to have you on our journey.
                 </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
                   <a
                     href="#search-roles"
                     onClick={(e) => {
                       e.preventDefault();
                       document.getElementById('search-roles')?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-black bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#7c4ee6] hover:to-[#db3c8b] text-white transition-all duration-300 hover:scale-[1.02] shadow-md shadow-purple-500/20 no-underline cursor-pointer border-none text-center"
+                    className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-3.5 rounded-xl text-sm font-black bg-gradient-to-r from-[#0055FF] to-[#7C3AED] hover:from-[#0044D0] hover:to-[#6D28D9] text-white transition-all duration-300 hover:scale-[1.02] shadow-md shadow-blue-500/20 no-underline cursor-pointer border-none text-center"
                   >
-                    Explore careers
+                    <span>Explore careers</span>
+                    <ArrowRight className="h-4 w-4 ml-1" />
                   </a>
                   <a
                     href="mailto:hr@betasoftnet.com"
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-black bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 transition-all duration-300 hover:scale-[1.02] shadow-md shadow-slate-200/50 no-underline cursor-pointer text-center"
+                    className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-3.5 rounded-xl text-sm font-black bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 transition-all duration-300 hover:scale-[1.02] shadow-md shadow-slate-200/50 no-underline cursor-pointer text-center"
                   >
-                    Contact HR
+                    <span>Contact HR</span>
+                    <ArrowRight className="h-4 w-4 ml-1" />
                   </a>
                 </div>
               </div>
