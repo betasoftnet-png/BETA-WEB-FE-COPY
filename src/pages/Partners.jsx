@@ -16,7 +16,8 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
-  Compass
+  Compass,
+  BarChart2
 } from 'lucide-react';
 import api from '../api';
 
@@ -258,10 +259,38 @@ const categories = [
 ];
 
 const successStories = [
-  { id: 1, name: 'Apex Cloud Systems', category: 'Cloud Infrastructure', metric: '+180% Latency Reduction', desc: 'Powers Beta distributed cloud deployments with ultra-low latency compute clusters globally.', logo: 'APEX', logoColor: 'from-blue-500 to-indigo-500' },
-  { id: 2, name: 'Nova Core Cyber', category: 'Security Integration', metric: '99.99% Hardened MFA Gates', desc: 'Co-development partner for B2 Auth Security protocols, auditing and hardening SSO & MFA gateways.', logo: 'NOVA', logoColor: 'from-cyan-500 to-teal-500' },
-  { id: 3, name: 'Vertex Solutions', category: 'System Integration', metric: '10K+ Client Migrations', desc: 'Specialized consulting partner orchestrating large-scale enterprise migrations onto the Cliks Business suite.', logo: 'VERTEX', logoColor: 'from-purple-500 to-indigo-500' },
-  { id: 4, name: 'Vanguard Networks', category: 'Network Services', metric: '100% Encrypted Transport', desc: 'Collaborator on encrypted transport pipes ensuring secure and private network routing for BNXmail nodes.', logo: 'VANGUARD', logoColor: 'from-blue-500 to-cyan-500' }
+  {
+    id: 1,
+    name: 'Amazon Web Services',
+    category: 'CLOUD INFRASTRUCTURE',
+    desc: 'Pazcare Data databases cloud deployments with ultra-low latency across our business globally.',
+    logo: 'AWS',
+    logoBg: 'bg-[#0066FF]'
+  },
+  {
+    id: 2,
+    name: 'NowaCore Cyber',
+    category: 'SECURITY ENHANCEMENT',
+    desc: 'Co-development partner for S2 Auth Secuir by protocaby, assisting and hardening, S256 ZIRA gateway.',
+    logo: 'NOW',
+    logoBg: 'bg-[#00B4D8]'
+  },
+  {
+    id: 3,
+    name: 'TeraCloud Systems',
+    category: 'SYSTEM INTEGRATION',
+    desc: 'Spetab free consulting partner contcrnithip mogenate a Flagtrabon migntbane crint tra Click Cloud now rube.',
+    logo: 'TERA',
+    logoBg: 'bg-[#7C3AED]'
+  },
+  {
+    id: 4,
+    name: 'Vanguard Networks',
+    category: 'NETWORK SERVICES',
+    desc: 'Collaborator on encrypted transport pipes ensuring secure and private network routing for BNXmail nodes.',
+    logo: 'VANG',
+    logoBg: 'bg-[#0284C7]'
+  }
 ];
 
 const journeyRoadmap = [
@@ -1413,74 +1442,136 @@ export default function Partners() {
         <StatisticsSection />
 
         {/* SECTION 6: PARTNER SUCCESS STORIES */}
-        <div className="space-y-12">
-          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
-            <div className="text-left space-y-3">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FF6325]/10 border border-[#FF6325]/20 text-[#FF6325] text-xs font-semibold uppercase tracking-wider">
-                <Layers className="h-3.5 w-3.5" />
-                <span>Case Studies</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-extrabold text-white">Partner Success Stories</h2>
-              <p className="text-[#CBD5E1] text-sm">Real-world metrics and growth profiles from organizations operating inside our ecosystem.</p>
-            </div>
-
-            {/* Slider buttons */}
-            <div className="flex space-x-3 self-end sm:self-center">
-              <button
-                onClick={() => scrollCarousel('left')}
-                className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-900 text-white border border-slate-800 transition cursor-pointer"
-                aria-label="Previous story"
-              >
-                <ChevronLeft className="h-4.5 w-4.5" />
-              </button>
-              <button
-                onClick={() => scrollCarousel('right')}
-                className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-900 text-white border border-slate-800 transition cursor-pointer"
-                aria-label="Next story"
-              >
-                <ChevronRight className="h-4.5 w-4.5" />
-              </button>
-            </div>
+        <section className="relative w-full rounded-[28px] sm:rounded-[36px] bg-white p-8 sm:p-12 md:p-14 overflow-hidden border border-slate-200/80 shadow-sm select-none">
+          {/* Top-Right Blue Particle/Wave Decoration */}
+          <div className="absolute top-0 right-0 w-64 sm:w-80 md:w-[420px] h-64 sm:h-80 md:h-[420px] pointer-events-none z-0">
+            <svg className="w-full h-full" viewBox="0 0 400 400" fill="none">
+              <defs>
+                <pattern id="stipplePatternTR" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.3" fill="#0066FF" opacity="0.75" />
+                  <circle cx="10" cy="8" r="1.6" fill="#0080FF" opacity="0.65" />
+                  <circle cx="6" cy="14" r="1.1" fill="#00B4D8" opacity="0.8" />
+                  <circle cx="14" cy="4" r="0.9" fill="#38BDF8" opacity="0.75" />
+                </pattern>
+                <mask id="stippleMaskTR">
+                  <path d="M 400,0 L 210,0 C 250,80 300,160 400,250 Z" fill="white" />
+                  <path d="M 400,0 C 180,60 210,220 400,360 Z" fill="white" opacity="0.6" />
+                </mask>
+              </defs>
+              <rect width="400" height="400" fill="url(#stipplePatternTR)" mask="url(#stippleMaskTR)" />
+              <path d="M 230,0 C 270,100 310,180 400,230" stroke="#0066FF" strokeWidth="2.5" strokeDasharray="3 4" strokeOpacity="0.85" />
+              <path d="M 190,0 C 240,130 290,230 400,290" stroke="#0099FF" strokeWidth="2" strokeDasharray="2 5" strokeOpacity="0.7" />
+              <path d="M 150,0 C 210,160 270,280 400,350" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="1 4" strokeOpacity="0.6" />
+            </svg>
           </div>
 
-          {/* Horizontal Scroll Story Grid */}
-          <div
-            ref={carouselRef}
-            className="flex space-x-6 overflow-x-auto pb-6 scrollbar-none snap-x snap-mandatory text-left"
-          >
-            {successStories.map((story) => (
+          {/* Bottom-Left Blue Particle/Wave Decoration */}
+          <div className="absolute bottom-0 left-0 w-64 sm:w-80 md:w-[420px] h-64 sm:h-80 md:h-[420px] pointer-events-none z-0">
+            <svg className="w-full h-full" viewBox="0 0 400 400" fill="none">
+              <defs>
+                <pattern id="stipplePatternBL" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.3" fill="#0066FF" opacity="0.75" />
+                  <circle cx="10" cy="8" r="1.6" fill="#0080FF" opacity="0.65" />
+                  <circle cx="6" cy="14" r="1.1" fill="#00B4D8" opacity="0.8" />
+                  <circle cx="14" cy="4" r="0.9" fill="#38BDF8" opacity="0.75" />
+                </pattern>
+                <mask id="stippleMaskBL">
+                  <path d="M 0,400 L 0,210 C 80,250 160,300 250,400 Z" fill="white" />
+                  <path d="M 0,400 C 60,180 220,210 360,400 Z" fill="white" opacity="0.6" />
+                </mask>
+              </defs>
+              <rect width="400" height="400" fill="url(#stipplePatternBL)" mask="url(#stippleMaskBL)" />
+              <path d="M 0,230 C 100,270 180,310 230,400" stroke="#0066FF" strokeWidth="2.5" strokeDasharray="3 4" strokeOpacity="0.85" />
+              <path d="M 0,190 C 130,240 230,290 290,400" stroke="#0099FF" strokeWidth="2" strokeDasharray="2 5" strokeOpacity="0.7" />
+              <path d="M 0,150 C 160,210 280,270 350,400" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="1 4" strokeOpacity="0.6" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Left Column: Heading, Subtitle & Button */}
+            <div className="lg:col-span-4 text-left space-y-4 pt-2">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-bold uppercase tracking-wider">
+                <BarChart2 className="h-3.5 w-3.5" />
+                <span>SUCCESS STORIES</span>
+              </div>
+              <h2 className="text-4xl sm:text-5xl font-black text-[#0B2545] tracking-tight leading-[1.1]">
+                Partner<br />Success Stories
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-sm">
+                Real-world metrics and smart partnerships from organizations across industries worldwide.
+              </p>
+              <div className="pt-2">
+                <button className="px-7 py-3 rounded-full text-sm font-bold text-white bg-[#0066FF] hover:bg-[#0052CC] shadow-md shadow-blue-500/25 transition-all duration-200 cursor-pointer inline-flex items-center justify-center">
+                  See all stories
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Navigation Arrows & Story Cards Carousel */}
+            <div className="lg:col-span-8 space-y-4 w-full min-w-0">
+              {/* Slider Buttons Aligned Top-Right */}
+              <div className="flex justify-end space-x-2.5">
+                <button
+                  onClick={() => scrollCarousel('left')}
+                  className="w-10 h-10 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-all duration-200 flex items-center justify-center cursor-pointer shadow-sm hover:border-slate-300"
+                  aria-label="Previous story"
+                >
+                  <ChevronLeft className="h-4.5 w-4.5" />
+                </button>
+                <button
+                  onClick={() => scrollCarousel('right')}
+                  className="w-10 h-10 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-all duration-200 flex items-center justify-center cursor-pointer shadow-sm hover:border-slate-300"
+                  aria-label="Next story"
+                >
+                  <ChevronRight className="h-4.5 w-4.5" />
+                </button>
+              </div>
+
+              {/* Horizontal Scroll Story Grid */}
               <div
-                key={story.id}
-                className="flex-shrink-0 w-full sm:w-[400px] snap-center glass-card-neon p-6 rounded-3xl border border-purple-500/15 flex flex-col justify-between space-y-6"
+                ref={carouselRef}
+                className="flex space-x-5 overflow-x-auto pb-4 scrollbar-none snap-x snap-mandatory text-left"
               >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded bg-[#7C3AED]/10 border border-[#7C3AED]/20 text-[#7C3AED] text-[9px] font-bold uppercase tracking-wider">
-                      {story.category}
-                    </span>
-                    <span className="text-xs font-black text-[#00FFB2]">
-                      {story.metric}
-                    </span>
-                  </div>
+                {successStories.map((story) => (
+                  <div
+                    key={story.id}
+                    className="relative flex-shrink-0 w-[290px] sm:w-[320px] snap-start rounded-[24px] bg-[#070F1E] overflow-hidden p-6 sm:p-7 flex flex-col justify-between shadow-xl border border-blue-500/20 group select-none min-h-[380px]"
+                  >
+                    {/* Subtle ambient particle & edge glow */}
+                    <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(ellipse_at_top_right,rgba(0,102,255,0.25),transparent_60%),radial-gradient(ellipse_at_bottom_left,rgba(0,163,255,0.2),transparent_60%)]" />
 
-                  <p className="text-sm font-medium text-[#CBD5E1] leading-relaxed">
-                    "{story.desc}"
-                  </p>
-                </div>
+                    <div className="relative z-10 space-y-5">
+                      {/* Category Pill Outline */}
+                      <div className="inline-block">
+                        <span className="px-3 py-1 rounded-full border border-blue-500/40 text-blue-400 text-[10px] font-bold uppercase tracking-wider bg-blue-950/40">
+                          {story.category}
+                        </span>
+                      </div>
 
-                <div className="flex items-center space-x-3 border-t border-purple-500/10 pt-4">
-                  <div className={`h-9 w-9 rounded bg-gradient-to-tr ${story.logoColor} flex items-center justify-center text-[10px] font-black text-white`}>
-                    {story.logo}
+                      {/* Quote */}
+                      <p className="text-white/95 text-sm sm:text-[15px] font-normal leading-relaxed">
+                        “{story.desc}”
+                      </p>
+                    </div>
+
+                    {/* Divider and Partner info (No 'Read story' or arrow) */}
+                    <div className="relative z-10 pt-5 mt-4 border-t border-slate-800">
+                      <div className="flex items-center space-x-3.5">
+                        <div className={`w-10 h-10 rounded-xl ${story.logoBg || 'bg-[#0066FF]'} flex items-center justify-center font-black text-xs text-white shadow-md flex-shrink-0`}>
+                          {story.logo}
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="text-sm font-bold text-white tracking-tight truncate">{story.name}</h4>
+                          <p className="text-[11px] text-slate-400 font-medium">Strategic Partner</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h5 className="text-xs font-bold text-white">{story.name}</h5>
-                    <p className="text-[9px] text-slate-500 font-semibold">Strategic Alliance</p>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-        </div>
+        </section>
 
         {/* SECTION 7: PARTNERSHIP JOURNEY ROADMAP */}
         <motion.div
