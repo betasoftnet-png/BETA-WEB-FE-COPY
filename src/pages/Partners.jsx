@@ -942,345 +942,346 @@ export default function Partners() {
       </div>
 
       {/* SECTION 2: PARTNER ECOSYSTEM VISUALIZATION */}
-      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-[#EAF6FF]">
-        <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[#0B2545] tracking-tight">
+      <section className="relative w-full py-16 md:py-24 bg-[#EDF4F9] overflow-hidden select-none">
+        {/* Decorative curved side elements (Blue brand identity at far left and far right edges) */}
+        {/* Left Curved Decoration */}
+        <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-36 md:w-48 lg:w-60 pointer-events-none z-0">
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 220 700"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <defs>
+              <linearGradient id="blueSideGradLeft1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#0052CC" stopOpacity="0.9" />
+                <stop offset="45%" stopColor="#0284C7" stopOpacity="0.85" />
+                <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.95" />
+              </linearGradient>
+              <linearGradient id="blueSideGradLeft2" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#003B99" stopOpacity="0.95" />
+                <stop offset="60%" stopColor="#0066FF" stopOpacity="0.85" />
+                <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.75" />
+              </linearGradient>
+              <linearGradient id="blueSideGradLeftAccent" x1="0%" y1="50%" x2="100%" y2="50%">
+                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.55" />
+                <stop offset="100%" stopColor="#0284C7" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M 0,0 L 95,0 C 165,180 185,320 115,500 C 75,600 45,660 0,700 Z"
+              fill="url(#blueSideGradLeft1)"
+            />
+            <path
+              d="M 0,0 L 55,0 C 135,220 145,400 75,580 C 45,640 25,680 0,700 Z"
+              fill="url(#blueSideGradLeft2)"
+            />
+            <path
+              d="M 0,80 C 145,240 165,420 45,650"
+              stroke="#60A5FA"
+              strokeWidth="2.5"
+              strokeOpacity="0.7"
+              fill="none"
+            />
+            <path
+              d="M 0,0 C 125,200 135,450 0,700 Z"
+              fill="url(#blueSideGradLeftAccent)"
+            />
+          </svg>
+        </div>
+
+        {/* Right Curved Decoration */}
+        <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-36 md:w-48 lg:w-60 pointer-events-none z-0">
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 220 700"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <defs>
+              <linearGradient id="blueSideGradRight1" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#0052CC" stopOpacity="0.9" />
+                <stop offset="45%" stopColor="#0284C7" stopOpacity="0.85" />
+                <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.95" />
+              </linearGradient>
+              <linearGradient id="blueSideGradRight2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stopColor="#003B99" stopOpacity="0.95" />
+                <stop offset="60%" stopColor="#0066FF" stopOpacity="0.85" />
+                <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.75" />
+              </linearGradient>
+              <linearGradient id="blueSideGradRightAccent" x1="100%" y1="50%" x2="0%" y2="50%">
+                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.55" />
+                <stop offset="100%" stopColor="#0284C7" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M 220,0 L 125,0 C 55,180 35,320 105,500 C 145,600 175,660 220,700 Z"
+              fill="url(#blueSideGradRight1)"
+            />
+            <path
+              d="M 220,0 L 165,0 C 85,220 75,400 145,580 C 175,640 195,680 220,700 Z"
+              fill="url(#blueSideGradRight2)"
+            />
+            <path
+              d="M 220,80 C 75,240 55,420 175,650"
+              stroke="#60A5FA"
+              strokeWidth="2.5"
+              strokeOpacity="0.7"
+              fill="none"
+            />
+            <path
+              d="M 220,0 L 220,700 C 100,450 110,200 220,0 Z"
+              fill="url(#blueSideGradRightAccent)"
+            />
+          </svg>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0B2545] tracking-tight">
               Partner Ecosystem Visualization
             </h2>
-            <p className="text-[#475569] text-sm md:text-base">
+            <p className="mt-3 text-[#475569] text-sm sm:text-base md:text-lg">
               Visualizing structural connections between our core suite and our global alliance layers.
             </p>
           </div>
 
-          {/* Central Interactive Orbit Node Map — Modern Sky-Blue Enterprise Ecosystem Card */}
-          <div
-            className="relative max-w-3xl w-full mx-auto rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden select-none flex items-center justify-center p-3 sm:p-6"
-            style={{
-              background: '#D5EEFE',
-              aspectRatio: '6 / 5',
-              boxShadow: '0 20px 50px rgba(0, 74, 173, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.8)'
-            }}
-          >
-            <style>{`
-              @keyframes partnerOrbitSpin {
-                0% {
-                  transform: rotate(0deg);
-                }
-                100% {
-                  transform: rotate(360deg);
-                }
-              }
-              .partner-orbit-spinner {
-                transform-origin: 300px 250px;
-                animation: partnerOrbitSpin 6.5s linear infinite;
-              }
-              @keyframes subtleNodeGlow {
-                0%, 100% {
-                  filter: drop-shadow(0 0 10px var(--node-glow));
-                }
-                50% {
-                  filter: drop-shadow(0 0 18px var(--node-glow));
-                }
-              }
-              .subtle-node-glow {
-                animation: subtleNodeGlow 4s ease-in-out infinite;
-              }
-            `}</style>
+          {/* Ecosystem Visual Canvas Area */}
+          <div className="relative w-full max-w-5xl mx-auto h-[480px] sm:h-[540px] md:h-[600px] lg:h-[620px] flex items-center justify-center">
+            {/* Concentric Subtle Circular Rings (Behind cards and hub, no connecting lines) */}
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              viewBox="0 0 1000 620"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              {/* Concentric circular rings around center (500, 310) */}
+              <circle
+                cx="500"
+                cy="310"
+                r="115"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.95)"
+                strokeWidth="2"
+              />
+              <circle
+                cx="500"
+                cy="310"
+                r="195"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.8)"
+                strokeWidth="1.8"
+              />
+              <circle
+                cx="500"
+                cy="310"
+                r="305"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.45)"
+                strokeWidth="1.5"
+              />
+            </svg>
 
-            {/* Scaled Ecosystem Canvas (600x500 reference coordinate system) */}
-            <div className="relative w-full h-full flex items-center justify-center">
-              {/* Background SVG: Lines, Orbit Path, Glowing Orbit Particle */}
-              <svg
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                viewBox="0 0 600 500"
-                preserveAspectRatio="xMidYMid meet"
+            {/* Central Station: Larger BETA HUB circle with orange/red outline & glow */}
+            <div
+              className="absolute z-20 rounded-full bg-white flex flex-col items-center justify-center text-center select-none"
+              style={{
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 'clamp(120px, 17vw, 175px)',
+                height: 'clamp(120px, 17vw, 175px)',
+                border: '3.5px solid #FF4D15',
+                boxShadow: '0 0 40px rgba(255, 77, 21, 0.38), 0 0 18px rgba(255, 77, 21, 0.25), 0 10px 25px rgba(11, 37, 69, 0.08)'
+              }}
+            >
+              <Building
+                className="text-[#FF4D15] mb-1 sm:mb-1.5"
+                strokeWidth={2}
+                style={{ width: 'clamp(28px, 4vw, 42px)', height: 'clamp(28px, 4vw, 42px)' }}
+              />
+              <span
+                className="font-extrabold text-[#0B2545] tracking-wider uppercase"
+                style={{ fontSize: 'clamp(11px, 1.6vw, 15px)' }}
               >
-                <defs>
-                  {/* Particle Bloom Filter */}
-                  <filter id="particleBloomGlow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur1" />
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur2" />
-                    <feMerge>
-                      <feMergeNode in="blur2" />
-                      <feMergeNode in="blur1" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
+                BETA HUB
+              </span>
+            </div>
 
-                  {/* Orbit Particle Trail Gradient */}
-                  <linearGradient id="orbitParticleTrailGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
-                    <stop offset="65%" stopColor="#FFFFFF" stopOpacity="0.35" />
-                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.9" />
-                  </linearGradient>
-
-                  {/* Central Hub Outer Glow */}
-                  <filter id="hubAuraGlow" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
-                  </filter>
-                </defs>
-
-                {/* Soft White Aura around Center Hub */}
-                <circle
-                  cx="300"
-                  cy="250"
-                  r="74"
-                  fill="rgba(255, 255, 255, 0.45)"
-                  filter="url(#hubAuraGlow)"
-                />
-
-                {/* Straight Dashed Connection Lines (Center to Nodes) */}
-                {/* 1. Top Node Connection (Orange) */}
-                <line
-                  x1="300"
-                  y1="250"
-                  x2="300"
-                  y2="70"
-                  stroke="#FF5B22"
-                  strokeWidth="2.5"
-                  strokeDasharray="5 5"
-                  strokeLinecap="round"
-                />
-
-                {/* 2. Upper-Left Node Connection (Cyan/Sky-Blue) */}
-                <line
-                  x1="300"
-                  y1="250"
-                  x2="128.8"
-                  y2="194.4"
-                  stroke="#38BDF8"
-                  strokeWidth="2.5"
-                  strokeDasharray="5 5"
-                  strokeLinecap="round"
-                />
-
-                {/* 3. Upper-Right Node Connection (Purple) */}
-                <line
-                  x1="300"
-                  y1="250"
-                  x2="471.2"
-                  y2="194.4"
-                  stroke="#A855F7"
-                  strokeWidth="2.5"
-                  strokeDasharray="5 5"
-                  strokeLinecap="round"
-                />
-
-                {/* 4. Lower-Left Node Connection (Coral/Red) */}
-                <line
-                  x1="300"
-                  y1="250"
-                  x2="194.2"
-                  y2="395.6"
-                  stroke="#FF5252"
-                  strokeWidth="2.5"
-                  strokeDasharray="5 5"
-                  strokeLinecap="round"
-                />
-
-                {/* 5. Lower-Right Node Connection (Mint/Green) */}
-                <line
-                  x1="300"
-                  y1="250"
-                  x2="405.8"
-                  y2="395.6"
-                  stroke="#34D399"
-                  strokeWidth="2.5"
-                  strokeDasharray="5 5"
-                  strokeLinecap="round"
-                />
-
-                {/* Concentric Thin Orbit Ring */}
-                <circle
-                  cx="300"
-                  cy="250"
-                  r="118"
-                  fill="none"
-                  stroke="rgba(255, 255, 255, 0.72)"
-                  strokeWidth="2.2"
-                />
-
-                {/* Smooth Animated Circular Orbit Particle & Trail (Continuous 6.5s linear rotation) */}
-                <g className="partner-orbit-spinner">
-                  {/* Trail arc smoothly fading behind the particle */}
-                  <path
-                    d="M 224.2 159.6 A 118 118 0 0 1 300 132"
-                    fill="none"
-                    stroke="url(#orbitParticleTrailGrad)"
-                    strokeWidth="3.2"
-                    strokeLinecap="round"
-                  />
-                  {/* Glowing Particle Outer Halo */}
-                  <circle
-                    cx="300"
-                    cy="132"
-                    r="12"
-                    fill="rgba(255, 255, 255, 0.55)"
-                    filter="url(#particleBloomGlow)"
-                  />
-                  {/* Solid White Glowing Core */}
-                  <circle
-                    cx="300"
-                    cy="132"
-                    r="6.5"
-                    fill="#FFFFFF"
-                  />
-                </g>
-              </svg>
-
-              {/* Central Stationary "BETA HUB" Element */}
+            {/* Five spacious rounded white cards with soft shadows & pastel circular icons */}
+            {/* 1. Top Card: Internet */}
+            <div
+              className="absolute rounded-[20px] sm:rounded-[24px] md:rounded-[28px] bg-white flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_42px_rgba(15,23,42,0.09)] z-10 cursor-default"
+              style={{
+                left: '50%',
+                top: '15%',
+                transform: 'translate(-50%, -50%)',
+                width: 'clamp(150px, 22vw, 245px)',
+                height: 'clamp(95px, 13vw, 136px)',
+                boxShadow: '0 12px 32px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.9)'
+              }}
+            >
               <div
-                className="absolute z-20 rounded-full bg-white flex flex-col items-center justify-center text-center select-none"
+                className="rounded-full flex items-center justify-center mb-2 sm:mb-2.5"
                 style={{
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 'clamp(94px, 20vw, 134px)',
-                  height: 'clamp(94px, 20vw, 134px)',
-                  border: '4.5px solid #FF5B22',
-                  boxShadow: '0 0 28px rgba(255, 91, 34, 0.32), 0 12px 30px rgba(7, 28, 59, 0.16)'
-                }}
-              >
-                <Building
-                  className="text-[#FF5B22] mb-0.5 sm:mb-1"
-                  strokeWidth={1.9}
-                  style={{ width: 'clamp(22px, 4.4vw, 30px)', height: 'clamp(22px, 4.4vw, 30px)' }}
-                />
-                <span
-                  className="font-black text-[#0B192E] tracking-wider uppercase"
-                  style={{ fontSize: 'clamp(10px, 1.9vw, 13px)' }}
-                >
-                  BETA HUB
-                </span>
-              </div>
-
-              {/* Five Stationary Connected Dark Navy Nodes */}
-              {/* 1. Top Node — Globe Icon */}
-              <div
-                className="absolute z-10 rounded-full bg-[#08172E] flex items-center justify-center group cursor-default subtle-node-glow transition-transform hover:scale-105"
-                title="Global Alliance Layer"
-                style={{
-                  left: '50%',
-                  top: '14%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 'clamp(48px, 10.5vw, 70px)',
-                  height: 'clamp(48px, 10.5vw, 70px)',
-                  border: '2.5px solid #FF5B22',
-                  boxShadow: '0 0 18px rgba(255, 91, 34, 0.45)',
-                  '--node-glow': 'rgba(255, 91, 34, 0.35)'
+                  width: 'clamp(38px, 5.2vw, 56px)',
+                  height: 'clamp(38px, 5.2vw, 56px)',
+                  backgroundColor: '#FFF0E5'
                 }}
               >
                 <Globe
-                  className="text-white"
-                  strokeWidth={1.9}
-                  style={{ width: 'clamp(20px, 4.2vw, 28px)', height: 'clamp(20px, 4.2vw, 28px)' }}
+                  className="text-slate-800"
+                  strokeWidth={2}
+                  style={{ width: 'clamp(18px, 2.6vw, 26px)', height: 'clamp(18px, 2.6vw, 26px)' }}
                 />
-                <div className="absolute -top-7 px-2 py-0.5 rounded bg-slate-900/90 text-white text-[9px] font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md">
-                  Global
-                </div>
               </div>
+              <span
+                className="font-bold text-[#0B2545] tracking-tight"
+                style={{ fontSize: 'clamp(12px, 1.7vw, 17px)' }}
+              >
+                Internet
+              </span>
+            </div>
 
-              {/* 2. Upper-Left Node — Layers/Stack Icon */}
+            {/* 2. Left Card: Application */}
+            <div
+              className="absolute rounded-[20px] sm:rounded-[24px] md:rounded-[28px] bg-white flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_42px_rgba(15,23,42,0.09)] z-10 cursor-default"
+              style={{
+                left: '19%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 'clamp(150px, 22vw, 245px)',
+                height: 'clamp(95px, 13vw, 136px)',
+                boxShadow: '0 12px 32px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.9)'
+              }}
+            >
               <div
-                className="absolute z-10 rounded-full bg-[#08172E] flex items-center justify-center group cursor-default subtle-node-glow transition-transform hover:scale-105"
-                title="Platform Stack Layer"
+                className="rounded-full flex items-center justify-center mb-2 sm:mb-2.5"
                 style={{
-                  left: '21.47%',
-                  top: '38.88%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 'clamp(48px, 10.5vw, 70px)',
-                  height: 'clamp(48px, 10.5vw, 70px)',
-                  border: '2.5px solid #38BDF8',
-                  boxShadow: '0 0 18px rgba(56, 189, 248, 0.45)',
-                  '--node-glow': 'rgba(56, 189, 248, 0.35)'
+                  width: 'clamp(38px, 5.2vw, 56px)',
+                  height: 'clamp(38px, 5.2vw, 56px)',
+                  backgroundColor: '#E0F2FE'
                 }}
               >
                 <Layers
-                  className="text-white"
-                  strokeWidth={1.9}
-                  style={{ width: 'clamp(20px, 4.2vw, 28px)', height: 'clamp(20px, 4.2vw, 28px)' }}
+                  className="text-[#0284C7]"
+                  strokeWidth={2}
+                  style={{ width: 'clamp(18px, 2.6vw, 26px)', height: 'clamp(18px, 2.6vw, 26px)' }}
                 />
-                <div className="absolute -top-7 px-2 py-0.5 rounded bg-slate-900/90 text-white text-[9px] font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md">
-                  Infrastructure
-                </div>
               </div>
+              <span
+                className="font-bold text-[#0B2545] tracking-tight"
+                style={{ fontSize: 'clamp(12px, 1.7vw, 17px)' }}
+              >
+                Application
+              </span>
+            </div>
 
-              {/* 3. Upper-Right Node — Code Icon */}
+            {/* 3. Right Card: Development */}
+            <div
+              className="absolute rounded-[20px] sm:rounded-[24px] md:rounded-[28px] bg-white flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_42px_rgba(15,23,42,0.09)] z-10 cursor-default"
+              style={{
+                left: '81%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 'clamp(150px, 22vw, 245px)',
+                height: 'clamp(95px, 13vw, 136px)',
+                boxShadow: '0 12px 32px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.9)'
+              }}
+            >
               <div
-                className="absolute z-10 rounded-full bg-[#08172E] flex items-center justify-center group cursor-default subtle-node-glow transition-transform hover:scale-105"
-                title="Developer & API Layer"
+                className="rounded-full flex items-center justify-center mb-2 sm:mb-2.5"
                 style={{
-                  left: '78.53%',
-                  top: '38.88%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 'clamp(48px, 10.5vw, 70px)',
-                  height: 'clamp(48px, 10.5vw, 70px)',
-                  border: '2.5px solid #A855F7',
-                  boxShadow: '0 0 18px rgba(168, 85, 247, 0.45)',
-                  '--node-glow': 'rgba(168, 85, 247, 0.35)'
+                  width: 'clamp(38px, 5.2vw, 56px)',
+                  height: 'clamp(38px, 5.2vw, 56px)',
+                  backgroundColor: '#F3E8FF'
                 }}
               >
                 <Code2
-                  className="text-white"
-                  strokeWidth={1.9}
-                  style={{ width: 'clamp(20px, 4.2vw, 28px)', height: 'clamp(20px, 4.2vw, 28px)' }}
+                  className="text-[#9333EA]"
+                  strokeWidth={2}
+                  style={{ width: 'clamp(18px, 2.6vw, 26px)', height: 'clamp(18px, 2.6vw, 26px)' }}
                 />
-                <div className="absolute -top-7 px-2 py-0.5 rounded bg-slate-900/90 text-white text-[9px] font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md">
-                  Developer
-                </div>
               </div>
+              <span
+                className="font-bold text-[#0B2545] tracking-tight"
+                style={{ fontSize: 'clamp(12px, 1.7vw, 17px)' }}
+              >
+                Development
+              </span>
+            </div>
 
-              {/* 4. Lower-Left Node — Users Icon */}
+            {/* 4. Bottom-Left Card: Users */}
+            <div
+              className="absolute rounded-[20px] sm:rounded-[24px] md:rounded-[28px] bg-white flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_42px_rgba(15,23,42,0.09)] z-10 cursor-default"
+              style={{
+                left: '31%',
+                top: '84%',
+                transform: 'translate(-50%, -50%)',
+                width: 'clamp(150px, 22vw, 245px)',
+                height: 'clamp(95px, 13vw, 136px)',
+                boxShadow: '0 12px 32px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.9)'
+              }}
+            >
               <div
-                className="absolute z-10 rounded-full bg-[#08172E] flex items-center justify-center group cursor-default subtle-node-glow transition-transform hover:scale-105"
-                title="Partner & Client Community Layer"
+                className="rounded-full flex items-center justify-center mb-2 sm:mb-2.5"
                 style={{
-                  left: '32.37%',
-                  top: '79.12%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 'clamp(48px, 10.5vw, 70px)',
-                  height: 'clamp(48px, 10.5vw, 70px)',
-                  border: '2.5px solid #FF5252',
-                  boxShadow: '0 0 18px rgba(255, 82, 82, 0.45)',
-                  '--node-glow': 'rgba(255, 82, 82, 0.35)'
+                  width: 'clamp(38px, 5.2vw, 56px)',
+                  height: 'clamp(38px, 5.2vw, 56px)',
+                  backgroundColor: '#FFE4E6'
                 }}
               >
                 <Users
-                  className="text-white"
-                  strokeWidth={1.9}
-                  style={{ width: 'clamp(20px, 4.2vw, 28px)', height: 'clamp(20px, 4.2vw, 28px)' }}
+                  className="text-[#E11D48]"
+                  strokeWidth={2}
+                  style={{ width: 'clamp(18px, 2.6vw, 26px)', height: 'clamp(18px, 2.6vw, 26px)' }}
                 />
-                <div className="absolute -bottom-7 px-2 py-0.5 rounded bg-slate-900/90 text-white text-[9px] font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md">
-                  Community
-                </div>
               </div>
+              <span
+                className="font-bold text-[#0B2545] tracking-tight"
+                style={{ fontSize: 'clamp(12px, 1.7vw, 17px)' }}
+              >
+                Users
+              </span>
+            </div>
 
-              {/* 5. Lower-Right Node — Processor/Chip Icon */}
+            {/* 5. Bottom-Right Card: Infrastructure */}
+            <div
+              className="absolute rounded-[20px] sm:rounded-[24px] md:rounded-[28px] bg-white flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_42px_rgba(15,23,42,0.09)] z-10 cursor-default"
+              style={{
+                left: '69%',
+                top: '84%',
+                transform: 'translate(-50%, -50%)',
+                width: 'clamp(150px, 22vw, 245px)',
+                height: 'clamp(95px, 13vw, 136px)',
+                boxShadow: '0 12px 32px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.9)'
+              }}
+            >
               <div
-                className="absolute z-10 rounded-full bg-[#08172E] flex items-center justify-center group cursor-default subtle-node-glow transition-transform hover:scale-105"
-                title="Hardware & Processing Layer"
+                className="rounded-full flex items-center justify-center mb-2 sm:mb-2.5"
                 style={{
-                  left: '67.63%',
-                  top: '79.12%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 'clamp(48px, 10.5vw, 70px)',
-                  height: 'clamp(48px, 10.5vw, 70px)',
-                  border: '2.5px solid #34D399',
-                  boxShadow: '0 0 18px rgba(52, 211, 153, 0.45)',
-                  '--node-glow': 'rgba(52, 211, 153, 0.35)'
+                  width: 'clamp(38px, 5.2vw, 56px)',
+                  height: 'clamp(38px, 5.2vw, 56px)',
+                  backgroundColor: '#DCFCE7'
                 }}
               >
                 <Cpu
-                  className="text-white"
-                  strokeWidth={1.9}
-                  style={{ width: 'clamp(20px, 4.2vw, 28px)', height: 'clamp(20px, 4.2vw, 28px)' }}
+                  className="text-[#059669]"
+                  strokeWidth={2}
+                  style={{ width: 'clamp(18px, 2.6vw, 26px)', height: 'clamp(18px, 2.6vw, 26px)' }}
                 />
-                <div className="absolute -bottom-7 px-2 py-0.5 rounded bg-slate-900/90 text-white text-[9px] font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md">
-                  Computing
-                </div>
               </div>
+              <span
+                className="font-bold text-[#0B2545] tracking-tight"
+                style={{ fontSize: 'clamp(12px, 1.7vw, 17px)' }}
+              >
+                Infrastructure
+              </span>
             </div>
           </div>
         </div>
