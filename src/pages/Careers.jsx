@@ -2407,24 +2407,46 @@ export default function Careers() {
 
 
             {/* SECTION 8: CALL TO ACTION SECTION */}
-            <div className="cta-block relative overflow-hidden rounded-3xl p-10 md:p-16 border border-blue-100 bg-gradient-to-r from-blue-50/90 via-sky-50/80 to-blue-50/90 text-center shadow-xl shadow-blue-500/5">
-              {/* Subtle blue background glow circles inside CTA */}
-              <div className="absolute top-[-30px] left-[-30px] w-48 h-48 bg-blue-200/30 rounded-full blur-2xl pointer-events-none" />
-              <div className="absolute bottom-[-30px] right-[-30px] w-64 h-64 bg-sky-200/30 rounded-full blur-2xl pointer-events-none" />
+            <div className="cta-block relative overflow-hidden rounded-[32px] md:rounded-[40px] border border-slate-200/80 bg-white p-8 sm:p-12 md:p-16 min-h-[380px] md:min-h-[420px] flex items-center shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] text-left">
+              {/* Premium Realistic Workspace Visual Integrated into the Right Side */}
+              <img
+                src="/careers_cta_workspace.jpg"
+                alt="Workspace"
+                className="absolute right-0 top-0 bottom-0 w-full sm:w-[68%] md:w-[60%] lg:w-[54%] h-full object-cover object-right pointer-events-none select-none"
+              />
 
-              <div className="relative z-10 space-y-6 max-w-2xl mx-auto">
-                <h2 className="text-3xl md:text-5xl font-black text-black leading-tight tracking-tight">
-                  Ready to Build Something Amazing?
+              {/* Seamless Fade & Ambient Glow Gradient Overlays */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 via-45% to-white/0 pointer-events-none" />
+              <div className="absolute inset-0 bg-white/85 sm:bg-transparent pointer-events-none" />
+              <div className="absolute top-0 left-0 w-96 h-96 bg-sky-100/40 rounded-full blur-3xl pointer-events-none" />
+
+              {/* Left Content Area */}
+              <div className="relative z-10 max-w-xl space-y-5">
+                {/* Pill Badge */}
+                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/70 text-[#0055FF] text-xs font-bold uppercase tracking-wider shadow-xs">
+                  <Users className="h-3.5 w-3.5" />
+                  <span>Join Our Team</span>
+                </div>
+
+                {/* Main Headline */}
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0B1E3B] leading-[1.12] tracking-tight font-['Plus_Jakarta_Sans',sans-serif]">
+                  Ready to Build <br className="hidden sm:inline" />
+                  <span className="text-[#0055FF]">Something Amazing?</span>
                 </h2>
-                <p className="text-black max-w-xl mx-auto text-sm md:text-base leading-relaxed font-semibold">
+
+                {/* Subtitle */}
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium max-w-lg">
                   Join a team of creators, system architects, and designers scaling software to thousands of businesses globally.
                 </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+
+                {/* Action Button */}
+                <div className="pt-2">
                   <a
                     href="#search-roles"
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-black bg-gradient-to-r from-[#004AAD] to-blue-600 hover:from-[#003A8C] hover:to-blue-700 text-white transition-all duration-300 hover:scale-[1.02] shadow-md shadow-blue-500/20 no-underline"
+                    className="inline-flex items-center space-x-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-[#0055FF] hover:bg-[#0042D0] !text-white transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-blue-500/25 cursor-pointer no-underline group"
                   >
-                    Apply Now
+                    <span>Apply Now</span>
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>
                 </div>
               </div>
