@@ -1444,7 +1444,7 @@ export default function Partners() {
         </div>
 
         {/* SECTION 6: PARTNER SUCCESS STORIES */}
-        <section className="relative w-full py-16 sm:py-20 md:py-24 bg-[#9DD1F5] overflow-hidden select-none">
+        <section className="relative w-full py-16 sm:py-20 md:py-24 bg-[#D5EEFE] overflow-hidden select-none">
           {/* Top-Right Blue Halftone / Dotted Pattern */}
           <div className="absolute top-0 right-0 w-64 sm:w-80 md:w-[440px] h-64 sm:h-80 md:h-[440px] pointer-events-none z-0">
             <svg className="w-full h-full" viewBox="0 0 400 400" fill="none">
