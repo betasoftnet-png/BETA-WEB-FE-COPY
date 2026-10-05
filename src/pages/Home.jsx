@@ -657,115 +657,61 @@ export default function Home() {
           }
         }
 
-        /* 5-SECOND HIGH-PERFORMANCE 3-SCENE TYPOGRAPHY INTRO */
-        .hero-intro-stage {
-          perspective: 1200px;
-          perspective-origin: center 40%;
-          transform-style: preserve-3d;
+        /* 5-SECOND HUMAN-DESIGNED HERO TYPOGRAPHY INTRO ANIMATION */
+        .hero-navy-text {
+          color: #003B82 !important;
+          -webkit-text-fill-color: #003B82 !important;
+          letter-spacing: -0.025em;
         }
 
-        /* SCENE 1 (0.0s - 1.5s): "Where Imagination Meets Innovation" */
-        @keyframes animScene1 {
+        .hero-gradient-text {
+          background: linear-gradient(90deg, #7C3AED 0%, #A855F7 35%, #D946EF 70%, #F43F5E 100%) !important;
+          -webkit-background-clip: text !important;
+          background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          color: transparent !important;
+          letter-spacing: -0.025em;
+        }
+
+        /* 1. "Where Imagination" smoothly appears first (fade + soft slide up) */
+        @keyframes heroPart1Entrance {
           0% {
             opacity: 0;
-            transform: translate3d(0, 16px, 0) scale(0.96);
-            visibility: visible;
+            transform: translate3d(0, 20px, 0);
           }
-          9% { /* 0.45s: softly faded and settled in */
+          22% { /* ~1.1s: softly settles into position */
             opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            visibility: visible;
+            transform: translate3d(0, 0, 0);
           }
-          26% { /* 1.3s: hold stable and readable */
+          100% { /* stable in center */
             opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            visibility: visible;
-          }
-          32% { /* 1.6s: smooth upward morph/reveal dissolve */
-            opacity: 0;
-            transform: translate3d(0, -12px, 0) scale(1.02);
-            visibility: hidden;
-          }
-          100% {
-            opacity: 0;
-            transform: translate3d(0, -12px, 0) scale(1.02);
-            visibility: hidden;
+            transform: translate3d(0, 0, 0);
           }
         }
 
-        /* SCENE 2 (1.5s - 3.2s): "Tomorrow’s Technology Turns Dreams Into Reality" */
-        @keyframes animScene2 {
-          0%, 26% {
+        /* 2. "Meets Innovation" follows with soft upward/fade transition */
+        @keyframes heroPart2Entrance {
+          0%, 14% { /* 0.0s - 0.7s: delayed start */
             opacity: 0;
-            transform: translate3d(0, 14px, 0) scale(0.97);
-            visibility: hidden;
+            transform: translate3d(0, 22px, 0);
           }
-          28% { /* 1.4s: begins unveiling as Scene 1 softly dissolves */
-            opacity: 0;
-            transform: translate3d(0, 14px, 0) scale(0.97);
-            visibility: visible;
-          }
-          36% { /* 1.8s: fully arrived and crystal clear */
+          38% { /* ~1.9s: smoothly glides into place alongside Part 1 */
             opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            visibility: visible;
+            transform: translate3d(0, 0, 0);
           }
-          58% { /* 2.9s: hold cleanly and readably */
+          100% { /* 1.9s - 5.0s+: both settle together and remain stable */
             opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            visibility: visible;
-          }
-          65% { /* 3.25s: smooth morph transition out */
-            opacity: 0;
-            transform: translate3d(0, -12px, 0) scale(1.02);
-            visibility: hidden;
-          }
-          100% {
-            opacity: 0;
-            transform: translate3d(0, -12px, 0) scale(1.02);
-            visibility: hidden;
+            transform: translate3d(0, 0, 0);
           }
         }
 
-        /* SCENE 3 (3.2s - 5.0s & Final Screen): "Where Technology Meets Possibility" */
-        @keyframes animScene3 {
-          0%, 62% {
-            opacity: 0;
-            transform: translate3d(0, 18px, 0) scale(0.96);
-            visibility: hidden;
-          }
-          64% { /* 3.2s: grand entrance begins */
-            opacity: 0;
-            transform: translate3d(0, 18px, 0) scale(0.96);
-            visibility: visible;
-          }
-          78% { /* 3.9s: arrived with smooth momentum */
-            opacity: 1;
-            transform: translate3d(0, -2px, 0) scale(1.005);
-            visibility: visible;
-          }
-          92% { /* 4.6s: settles smoothly into permanent position */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            visibility: visible;
-          }
-          100% { /* 5.0s: locked and stable */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            visibility: visible;
-          }
-        }
-
-        .hero-scene-1 {
-          animation: animScene1 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .hero-text-part-1 {
+          animation: heroPart1Entrance 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity;
         }
-        .hero-scene-2 {
-          animation: animScene2 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          will-change: transform, opacity;
-        }
-        .hero-scene-3 {
-          animation: animScene3 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+        .hero-text-part-2 {
+          animation: heroPart2Entrance 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity;
         }
 
@@ -824,70 +770,64 @@ export default function Home() {
           }
         }
 
-        .hero-ambient-curves {
+        /* SUBTLE FLOWING BACKGROUND WAVES (Gently moving Left to Right) */
+        .hero-flowing-waves {
+          animation: flowingWavesLR 18s ease-in-out infinite alternate;
           will-change: transform;
-          animation: fullScreenCurvesDrift 28s ease-in-out infinite alternate;
         }
 
-        @keyframes fullScreenCurvesDrift {
+        @keyframes flowingWavesLR {
           0% {
-            transform: translate3d(0, 0, 0);
+            transform: translate3d(-50px, 0, 0);
           }
           50% {
-            transform: translate3d(14px, -14px, 0);
+            transform: translate3d(15px, -6px, 0);
           }
           100% {
-            transform: translate3d(-14px, 10px, 0);
+            transform: translate3d(50px, 0, 0);
           }
         }
 
-        .hero-fullscreen-curve-1 {
-          animation: fsCurveShift1 16s ease-in-out infinite alternate;
-          transform-origin: center;
+        .hero-wave-path-1 {
+          animation: wavePathShift1 16s ease-in-out infinite alternate;
         }
-        .hero-fullscreen-curve-2 {
-          animation: fsCurveShift2 20s ease-in-out infinite alternate;
-          transform-origin: center;
+        .hero-wave-path-2 {
+          animation: wavePathShift2 20s ease-in-out infinite alternate;
         }
-        .hero-fullscreen-curve-3 {
-          animation: fsCurveShift3 24s ease-in-out infinite alternate;
-          transform-origin: center;
+        .hero-wave-path-3 {
+          animation: wavePathShift3 24s ease-in-out infinite alternate;
         }
 
-        @keyframes fsCurveShift1 {
+        @keyframes wavePathShift1 {
           0% {
             transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translate3d(24px, -18px, 0);
+            transform: translate3d(24px, -12px, 0);
           }
         }
 
-        @keyframes fsCurveShift2 {
+        @keyframes wavePathShift2 {
           0% {
             transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translate3d(-22px, 16px, 0);
+            transform: translate3d(-20px, 14px, 0);
           }
         }
 
-        @keyframes fsCurveShift3 {
+        @keyframes wavePathShift3 {
           0% {
             transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translate3d(18px, 14px, 0);
+            transform: translate3d(16px, 10px, 0);
           }
         }
 
         /* Post-5s Static Composition - Zero CPU/GPU animation load */
-        .hero-intro-static .hero-scene-1,
-        .hero-intro-static .hero-scene-2 {
-          display: none !important;
-          animation: none !important;
-        }
-        .hero-intro-static .hero-scene-3 {
+        .hero-intro-static .hero-text-part-1,
+        .hero-intro-static .hero-text-part-2 {
           animation: none !important;
           opacity: 1 !important;
           transform: none !important;
@@ -895,24 +835,19 @@ export default function Home() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .hero-scene-1,
-          .hero-scene-2 {
-            display: none !important;
-            animation: none !important;
-          }
-          .hero-scene-3 {
+          .hero-text-part-1,
+          .hero-text-part-2 {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
-            visibility: visible !important;
           }
+          .hero-flowing-waves,
+          .hero-wave-path-1,
+          .hero-wave-path-2,
+          .hero-wave-path-3,
           .hero-ambient-blob-1,
           .hero-ambient-blob-2,
-          .hero-ambient-blob-3,
-          .hero-ambient-curves,
-          .hero-fullscreen-curve-1,
-          .hero-fullscreen-curve-2,
-          .hero-fullscreen-curve-3 {
+          .hero-ambient-blob-3 {
             animation: none !important;
           }
         }
@@ -1015,112 +950,76 @@ export default function Home() {
           <div className="hero-ambient-blob-2 absolute -bottom-[10%] -right-[10%] w-[65vw] h-[65vh] min-w-[550px] min-h-[450px] rounded-full" />
           <div className="hero-ambient-blob-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] h-[60vh] min-w-[650px] min-h-[400px] rounded-full" />
 
-          {/* Large faint curved light shapes moving slowly across the ENTIRE screen */}
+          {/* Flowing Wave Shapes moving gently from left to right */}
           <svg
-            className="hero-ambient-curves absolute inset-0 w-full h-full"
-            viewBox="0 0 1920 1080"
+            className="hero-flowing-waves absolute w-[115%] h-[600px] max-w-none"
+            viewBox="0 0 1920 600"
             preserveAspectRatio="xMidYMid slice"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
-              <linearGradient id="fullScreenCurveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#004AAD" stopOpacity="0.08" />
-                <stop offset="40%" stopColor="#7C3AED" stopOpacity="0.10" />
-                <stop offset="80%" stopColor="#C026D3" stopOpacity="0.06" />
-                <stop offset="100%" stopColor="#0284C7" stopOpacity="0.03" />
+              <filter id="waveSoftBlur" x="-10%" y="-20%" width="120%" height="140%">
+                <feGaussianBlur stdDeviation="7" />
+              </filter>
+              <linearGradient id="heroWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.32" />
+                <stop offset="25%" stopColor="#818CF8" stopOpacity="0.28" />
+                <stop offset="60%" stopColor="#C084FC" stopOpacity="0.26" />
+                <stop offset="85%" stopColor="#E879F9" stopOpacity="0.22" />
+                <stop offset="100%" stopColor="#F472B6" stopOpacity="0.18" />
               </linearGradient>
-              <linearGradient id="fullScreenCurveGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.08" />
-                <stop offset="50%" stopColor="#6366F1" stopOpacity="0.09" />
-                <stop offset="85%" stopColor="#A855F7" stopOpacity="0.06" />
-                <stop offset="100%" stopColor="#EC4899" stopOpacity="0.04" />
+              <linearGradient id="heroWaveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#93C5FD" stopOpacity="0.26" />
+                <stop offset="35%" stopColor="#A78BFA" stopOpacity="0.24" />
+                <stop offset="70%" stopColor="#C084FC" stopOpacity="0.22" />
+                <stop offset="100%" stopColor="#FB7185" stopOpacity="0.16" />
               </linearGradient>
-              <linearGradient id="fullScreenCurveGrad3" x1="0%" y1="50%" x2="100%" y2="50%">
-                <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.05" />
-                <stop offset="50%" stopColor="#818CF8" stopOpacity="0.07" />
-                <stop offset="100%" stopColor="#C084FC" stopOpacity="0.04" />
+              <linearGradient id="heroWaveGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.18" />
+                <stop offset="45%" stopColor="#818CF8" stopOpacity="0.20" />
+                <stop offset="80%" stopColor="#D946EF" stopOpacity="0.16" />
+                <stop offset="100%" stopColor="#F43F5E" stopOpacity="0.14" />
               </linearGradient>
             </defs>
-            <path
-              className="hero-fullscreen-curve-1"
-              d="M -120,280 C 400,60 850,720 1380,300 C 1680,100 1880,480 2080,360"
-              stroke="url(#fullScreenCurveGrad1)"
-              strokeWidth="80"
-              strokeLinecap="round"
-            />
-            <path
-              className="hero-fullscreen-curve-2"
-              d="M -120,780 C 350,960 760,360 1220,720 C 1580,940 1820,500 2080,640"
-              stroke="url(#fullScreenCurveGrad2)"
-              strokeWidth="70"
-              strokeLinecap="round"
-            />
-            <path
-              className="hero-fullscreen-curve-3"
-              d="M -100,500 C 460,580 920,160 1480,540 C 1780,720 1940,400 2060,480"
-              stroke="url(#fullScreenCurveGrad3)"
-              strokeWidth="60"
-              strokeLinecap="round"
-            />
+            <g filter="url(#waveSoftBlur)">
+              <path
+                className="hero-wave-path-1"
+                d="M -120,330 C 260,430 640,210 1060,290 C 1440,360 1720,190 2060,260"
+                stroke="url(#heroWaveGrad1)"
+                strokeWidth="95"
+                strokeLinecap="round"
+              />
+              <path
+                className="hero-wave-path-2"
+                d="M -120,220 C 320,150 720,360 1140,310 C 1520,250 1760,400 2060,330"
+                stroke="url(#heroWaveGrad2)"
+                strokeWidth="85"
+                strokeLinecap="round"
+              />
+              <path
+                className="hero-wave-path-3"
+                d="M -120,270 C 380,350 820,170 1260,280 C 1620,360 1860,220 2060,270"
+                stroke="url(#heroWaveGrad3)"
+                strokeWidth="65"
+                strokeLinecap="round"
+              />
+            </g>
           </svg>
         </div>
 
         {/* Hero Content Layer */}
         <div className="relative z-10 w-full">
-          {/* Central main title / 5-Second 3-Scene 3D Typography Intro Area */}
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-2 pb-2 relative select-none hero-intro-stage min-h-[170px] sm:min-h-[200px] md:min-h-[220px] flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
-            
-            {/* SCENE 1 (0s to 1.5s): "Where Imagination Meets Innovation" */}
-            <div className="hero-scene-1 absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
-              <h2
-                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight select-none text-center"
-                style={{
-                  textShadow: '0 1px 2px rgba(0, 74, 173, 0.12)'
-                }}
-              >
-                <span className="text-[#004AAD]">Where Imagination</span>{" "}
-                <span className="text-[#7C3AED]">Meets Innovation</span>
-              </h2>
-            </div>
-
-            {/* SCENE 2 (1.5s to 3.2s): "Tomorrow’s Technology Turns Dreams Into Reality" */}
-            <div className="hero-scene-2 absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
-              <h2
-                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight select-none text-center"
-                style={{
-                  textShadow: '0 1px 2px rgba(0, 74, 173, 0.12)'
-                }}
-              >
-                <span className="text-[#004AAD]">Tomorrow’s Technology</span>{" "}
-                <span className="text-[#7C3AED]">Turns Dreams Into Reality</span>
-              </h2>
-            </div>
-
-            {/* SCENE 3 (3.2s to 5.0s & Final Screen): "Where Technology Meets Possibility" */}
-            <div className="hero-scene-3 relative z-20 space-y-2 sm:space-y-3 py-2 w-full max-w-5xl mx-auto">
-              {/* Line 1: Where Technology Meets */}
-              <h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight text-[#004AAD] block"
-                style={{
-                  textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 3px 8px rgba(0, 74, 173, 0.14)'
-                }}
-              >
-                Where Technology Meets
-              </h1>
-
-              {/* Line 2: Possibility */}
-              <div className="pt-0.5 block">
-                <span
-                  className="inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#EC4899] bg-clip-text text-transparent"
-                  style={{
-                    filter: 'drop-shadow(0 2px 8px rgba(124, 58, 237, 0.20))'
-                  }}
-                >
-                  Possibility
-                </span>
-              </div>
-            </div>
+          {/* Central Main Headline: Human-Designed 5-Second Typography Intro */}
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-2 pb-2 relative select-none min-h-[140px] sm:min-h-[160px] md:min-h-[180px] flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[76px] font-black tracking-tight leading-tight text-center flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4">
+              <span className="hero-text-part-1 hero-navy-text inline-block font-black select-none">
+                Where Imagination
+              </span>{" "}
+              <span className="hero-text-part-2 hero-gradient-text inline-block font-black select-none">
+                Meets Innovation
+              </span>
+            </h1>
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:items-end gap-6 w-full">
