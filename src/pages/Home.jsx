@@ -991,13 +991,31 @@ export default function Home() {
           }
         }
 
+        /* TOP BRAND MARK BETA LOGO */
+        .top-beta-brand-logo {
+          animation: topBetaLogoFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+        }
+
+        @keyframes topBetaLogoFadeIn {
+          0% {
+            opacity: 0;
+            transform: translate3d(0, 6px, 0) scale(0.97);
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+          }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .beta-card-glow,
           .beta-card-curve-1,
           .beta-card-curve-2 {
             animation: none !important;
           }
-          .beta-logo-animated {
+          .beta-logo-animated,
+          .top-beta-brand-logo {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
@@ -1068,6 +1086,15 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10 w-full">
+          {/* Top Brand Mark: BETA Logo */}
+          <div className="w-full flex items-center justify-center pt-1 pb-3 sm:pb-4 select-none">
+            <img
+              src="/logo.png"
+              alt="BETA"
+              className="top-beta-brand-logo h-9 sm:h-11 md:h-12 lg:h-14 w-auto object-contain select-none"
+            />
+          </div>
+
           {/* Central main title / 5-Second 3-Scene 3D Typography Intro Area */}
           <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-2 pb-2 relative select-none hero-intro-stage min-h-[170px] sm:min-h-[200px] md:min-h-[220px] flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
             
