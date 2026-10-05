@@ -995,6 +995,7 @@ export default function Home() {
         .top-beta-brand-text {
           font-family: 'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif !important;
           color: #004AAD !important;
+          letter-spacing: -0.035em !important;
           animation: betaWordmarkEntrance 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity, filter;
           transform-style: preserve-3d;
@@ -1140,9 +1141,9 @@ export default function Home() {
         {/* Hero Content Layer */}
         <div className="relative z-10 w-full">
           {/* Top Brand Mark: BETA Text with Individual 3D Interactive Letters */}
-          <div className="w-full flex items-center justify-center pt-2 pb-3 sm:pb-4 md:pb-6 select-none" style={{ perspective: '1000px' }}>
+          <div className="w-full flex items-center justify-center pt-1 pb-1 sm:pb-1.5 md:pb-2 select-none" style={{ perspective: '1000px' }}>
             <span
-              className="top-beta-brand-text text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[120px] 2xl:text-[136px] select-none uppercase tracking-wide leading-none inline-block"
+              className="top-beta-brand-text text-5xl sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[102px] 2xl:text-[114px] select-none uppercase tracking-[-0.035em] leading-none inline-block"
               style={{
                 fontFamily: "'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif",
                 transformStyle: 'preserve-3d'
@@ -1153,12 +1154,12 @@ export default function Home() {
           </div>
 
           {/* Central main title / 5-Second 3-Scene 3D Typography Intro Area */}
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-2 pb-2 relative select-none hero-intro-stage min-h-[170px] sm:min-h-[200px] md:min-h-[220px] flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-0 pb-1 relative select-none hero-intro-stage min-h-[110px] sm:min-h-[125px] md:min-h-[135px] flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
             
             {/* SCENE 1 (0s to 1.5s): "Where Imagination Meets Innovation" */}
             <div className="hero-scene-1 absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
               <h2
-                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight select-none text-center"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] xl:text-5xl font-black tracking-tight leading-tight select-none text-center"
                 style={{
                   textShadow: '0 1px 2px rgba(0, 74, 173, 0.12)'
                 }}
@@ -1171,7 +1172,7 @@ export default function Home() {
             {/* SCENE 2 (1.5s to 3.2s): "Tomorrow’s Technology Turns Dreams Into Reality" */}
             <div className="hero-scene-2 absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
               <h2
-                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight select-none text-center"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] xl:text-5xl font-black tracking-tight leading-tight select-none text-center"
                 style={{
                   textShadow: '0 1px 2px rgba(0, 74, 173, 0.12)'
                 }}
@@ -1182,10 +1183,10 @@ export default function Home() {
             </div>
 
             {/* SCENE 3 (3.2s to 5.0s & Final Screen): "Where Technology Meets Possibility" */}
-            <div className="hero-scene-3 relative z-20 space-y-2 sm:space-y-3 py-2 w-full max-w-5xl mx-auto">
+            <div className="hero-scene-3 relative z-20 space-y-0.5 sm:space-y-1 py-0.5 w-full max-w-5xl mx-auto">
               {/* Line 1: Where Technology Meets */}
               <h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight text-[#004AAD] block"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] xl:text-[58px] font-black tracking-tight leading-[1.1] text-[#004AAD] block"
                 style={{
                   textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 3px 8px rgba(0, 74, 173, 0.14)'
                 }}
@@ -1194,9 +1195,9 @@ export default function Home() {
               </h1>
 
               {/* Line 2: Possibility */}
-              <div className="pt-0.5 block">
+              <div className="pt-0 block">
                 <span
-                  className="inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#EC4899] bg-clip-text text-transparent"
+                  className="inline-block text-3xl sm:text-4xl md:text-5xl lg:text-[52px] xl:text-[58px] font-black tracking-tight leading-[1.1] bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#EC4899] bg-clip-text text-transparent"
                   style={{
                     filter: 'drop-shadow(0 2px 8px rgba(124, 58, 237, 0.20))'
                   }}
