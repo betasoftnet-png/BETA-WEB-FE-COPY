@@ -1140,18 +1140,18 @@ export default function Home() {
           {/* Top Brand Mark: Refined Corporate BETA Wordmark (Taller, Cleaner, Lighter Stroke, Minimal Shadow) */}
           <div className="w-full flex items-center justify-center pt-1 pb-1 sm:pb-1.5 md:pb-2 select-none">
             <span
-              className="top-beta-brand-text text-5xl sm:text-6xl md:text-[68px] lg:text-[78px] xl:text-[88px] 2xl:text-[98px] select-none uppercase tracking-[-0.03em] leading-none inline-flex items-center justify-center gap-0"
+              className="top-beta-brand-text text-5xl sm:text-6xl md:text-[68px] lg:text-[78px] xl:text-[88px] 2xl:text-[98px] select-none uppercase tracking-[-0.03em] leading-none inline-flex items-center justify-center gap-0.5 sm:gap-1"
               style={{
                 fontFamily: "'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif"
               }}
             >
               <span className="beta-letter beta-letter-b inline-flex items-center">
-                <svg viewBox="50 0 556 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="B">
+                <svg viewBox="0 0 630 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="B">
                   <path d="M60,0 H225 V688 H60 Z M268,0 H392 Q585,0 585,168 Q585,242 558,280 Q530,316 472,332 V336 Q535,351 562,384 Q592,422 592,502 Q592,592 545,640 Q498,688 392,688 H268 Z M268,252 H312 Q338,252 351,250 Q364,248 371,242 Q378,236 381,227 Q384,218 384,206 Q384,193 381,184 Q378,175 371,169 Q364,163 351,161 Q338,159 312,159 H268 Z M268,520 H316 Q342,520 355,518 Q368,516 375,510 Q382,504 385,494 Q388,484 388,472 Q388,458 385,448 Q382,438 375,432 Q368,424 316,424 H268 Z" />
                 </svg>
               </span>
               <span className="beta-letter beta-letter-e inline-flex items-center">
-                <svg viewBox="50 0 480 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="E">
+                <svg viewBox="0 0 565 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="E">
                   <path d="M60,0 H225 V688 H60 Z M268,0 H520 V165 H268 Z M268,252 H482 V417 H268 Z M268,504 H520 V688 H268 Z" />
                 </svg>
               </span>
@@ -1161,7 +1161,7 @@ export default function Home() {
                 </svg>
               </span>
               <span className="beta-letter beta-letter-a inline-flex items-center">
-                <svg viewBox="6 0 658 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="A">
+                <svg viewBox="0 0 655 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="A">
                   <path d="M205,0 H232 L310,290 L188,688 H12 Z M455,540 H272 L310,375 H375 L272,0 H448 L658,688 H478 Z" />
                 </svg>
               </span>
