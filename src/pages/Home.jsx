@@ -405,7 +405,170 @@ function Philosophy3DShowcase() {
   );
 }
 
+// ==========================================
+// PROFESSIONAL CORPORATE BRAND INTRO
+// Minimal, elegant, human-designed brand-film sequence
+// ==========================================
+function CorporateBrandIntro({ onStartReveal, onComplete }) {
+  // Sequence timing (total ~3.5s):
+  // Step 0: Clean initial background (0 - 180ms)
+  // Step 1: "Beta" letters enter letter-by-letter with subtle horizontal motion blur (180ms - 920ms)
+  // Step 2: "Beta" smoothly shifts upward (920ms - 1280ms)
+  // Step 3: "Where Technology Meets" slides upward slightly and fades in (1280ms - 1780ms)
+  // Step 4: "Possibility" reveals with brand gradient, blur-to-sharp & 96%->100% scale (1780ms - 2320ms)
+  // Step 5: "Unified Software for" -> "Connected Generation" upward reveal (2320ms - 2950ms)
+  // Step 6: Begin smooth dissolve into main hero layout (2950ms - 3550ms)
+  // Step 7: Complete / unmount overlay (3550ms)
+
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setStep(1), 180);
+    const t2 = setTimeout(() => setStep(2), 920);
+    const t3 = setTimeout(() => setStep(3), 1280);
+    const t4 = setTimeout(() => setStep(4), 1780);
+    const t5 = setTimeout(() => setStep(5), 2320);
+    const t6 = setTimeout(() => {
+      setStep(6);
+      if (onStartReveal) onStartReveal();
+    }, 2950);
+    const t7 = setTimeout(() => {
+      setStep(7);
+      if (onComplete) onComplete();
+    }, 3550);
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === ' ') {
+        setStep(7);
+        if (onStartReveal) onStartReveal();
+        if (onComplete) onComplete();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+      clearTimeout(t5);
+      clearTimeout(t6);
+      clearTimeout(t7);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onStartReveal, onComplete]);
+
+  if (step >= 7) return null;
+
+  const handleSkip = (e) => {
+    e.stopPropagation();
+    setStep(7);
+    if (onStartReveal) onStartReveal();
+    if (onComplete) onComplete();
+  };
+
+  return (
+    <div
+      onClick={handleSkip}
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center select-none overflow-hidden transition-opacity duration-600 ${
+        step === 6 ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}
+      style={{
+        backgroundColor: '#F8FAFC',
+        backgroundImage: 'radial-gradient(rgba(0, 74, 173, 0.012) 1px, transparent 1px)',
+        backgroundSize: '24px 24px'
+      }}
+    >
+      {/* Subtle ambient light matching the corporate background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[55%] h-[55%] rounded-full bg-blue-300/10 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[55%] h-[55%] rounded-full bg-indigo-300/10 blur-[120px]" />
+      </div>
+
+      {/* Centered Brand Presentation */}
+      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center justify-center space-y-4 sm:space-y-5">
+        {/* Step 2 & 3: Word "Beta" */}
+        <div
+          className={`transition-all duration-700 ease-out flex items-center justify-center space-x-0.5 sm:space-x-1 ${
+            step >= 2 ? '-translate-y-3 sm:-translate-y-4' : 'translate-y-0'
+          }`}
+        >
+          {['B', 'e', 't', 'a'].map((letter, idx) => {
+            const letterDelay = idx * 110;
+            const isVisible = step >= 1;
+            return (
+              <span
+                key={idx}
+                className="inline-block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-[#004AAD] tracking-tight"
+                style={{
+                  fontFamily: "'Inter', 'Roboto', 'Plus Jakarta Sans', system-ui, sans-serif",
+                  transition: 'opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), transform 500ms cubic-bezier(0.16, 1, 0.3, 1), filter 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+                  transitionDelay: `${letterDelay}ms`,
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateX(0)' : 'translateX(10px)',
+                  filter: isVisible ? 'blur(0px)' : 'blur(8px)'
+                }}
+              >
+                {letter}
+              </span>
+            );
+          })}
+        </div>
+
+        {/* Step 4 & 5: "Where Technology Meets Possibility" */}
+        <div
+          className={`transition-all duration-600 ease-out space-y-1.5 sm:space-y-2 ${
+            step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
+          }`}
+        >
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Where Technology Meets{' '}
+            <span
+              className={`inline-block bg-gradient-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-transparent transition-all duration-700 ease-out ${
+                step >= 4
+                  ? 'opacity-100 scale-100 blur-0'
+                  : 'opacity-0 scale-[0.96] blur-sm'
+              }`}
+            >
+              Possibility
+            </span>
+          </h2>
+        </div>
+
+        {/* Step 6: "Unified Software for" / "Connected Generation" */}
+        <div
+          className={`pt-2 sm:pt-4 transition-all duration-500 ease-out space-y-1 ${
+            step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
+          }`}
+        >
+          <p className="text-base sm:text-lg md:text-xl font-bold text-slate-800 tracking-wide">
+            Unified Software for
+          </p>
+          <p
+            className={`text-lg sm:text-xl md:text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent tracking-wide transition-all duration-500 delay-150 ease-out ${
+              step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+            }`}
+          >
+            Connected Generation
+          </p>
+        </div>
+      </div>
+
+      {/* Discreet Minimalist Skip Button */}
+      <button
+        onClick={handleSkip}
+        className="absolute bottom-6 right-6 text-[11px] sm:text-xs text-slate-400 hover:text-slate-700 uppercase tracking-widest font-bold transition-colors duration-200 cursor-pointer bg-transparent border-none py-1.5 px-3 rounded-lg hover:bg-slate-200/50"
+        aria-label="Skip Intro"
+      >
+        Skip &rarr;
+      </button>
+    </div>
+  );
+}
+
 export default function Home() {
+  const [introState, setIntroState] = useState('playing'); // 'playing' | 'revealing' | 'complete'
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
@@ -707,12 +870,13 @@ export default function Home() {
         }
       `}</style>
 
-
-
-
-
-
-
+      {/* BRAND INTRO OVERLAY */}
+      {introState !== 'complete' && (
+        <CorporateBrandIntro
+          onStartReveal={() => setIntroState('revealing')}
+          onComplete={() => setIntroState('complete')}
+        />
+      )}
 
       {/* HERO SECTION: SIDE-BY-SIDE LAYOUT */}
       <div className="relative w-full mb-16 pt-6 pb-12 overflow-hidden">
@@ -728,14 +892,14 @@ export default function Home() {
               className="space-y-2"
             >
               <motion.h1
-                className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter cursor-pointer select-none flex items-center justify-center gap-0 mt-5 mb-1"
-                style={{ fontFamily: '"Saira Stencil One", sans-serif' }}
+                className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight cursor-pointer select-none flex items-center justify-center gap-0 mt-5 mb-1"
+                style={{ fontFamily: "'Inter', 'Roboto', 'Plus Jakarta Sans', system-ui, sans-serif" }}
                 variants={{
                   hidden: { opacity: 0 },
                   visible: {
                     opacity: 1,
                     transition: {
-                      staggerChildren: 0.15,
+                      staggerChildren: 0.12,
                     }
                   }
                 }}
@@ -746,28 +910,27 @@ export default function Home() {
                   <motion.span
                     key={idx}
                     variants={{
-                      hidden: { opacity: 0, y: 50, scale: 0.3 },
+                      hidden: { opacity: 0, y: 30, scale: 0.8 },
                       visible: {
                         opacity: 1,
                         y: 0,
                         scale: 1,
-                        transition: { type: 'spring', damping: 8, stiffness: 100 }
+                        transition: { type: 'spring', damping: 12, stiffness: 120 }
                       }
                     }}
                     whileHover={{
-                      scale: 1.25,
-                      y: -12,
-                      rotate: idx % 2 === 0 ? 6 : -6,
+                      scale: 1.15,
+                      y: -6,
                       color: '#005be3',
-                      filter: 'drop-shadow(0 12px 20px rgba(0, 74, 173, 0.4))'
+                      filter: 'drop-shadow(0 12px 20px rgba(0, 74, 173, 0.3))'
                     }}
-                    whileTap={{ scale: 0.9 }}
+                    whileTap={{ scale: 0.95 }}
                     className="inline-block transition-all duration-300 ease-out"
                     style={{
                       color: '#004AAD',
-                      textShadow: '0px 0px 30px rgba(0, 74, 173, 0.12)',
+                      textShadow: '0px 0px 30px rgba(0, 74, 173, 0.10)',
                       padding: '0',
-                      marginLeft: letter === 'T' ? '5px' : '0px'
+                      marginLeft: letter === 'T' ? '4px' : '0px'
                     }}
                   >
                     {letter}
@@ -786,17 +949,14 @@ export default function Home() {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:items-end gap-6 w-full">
             {/* Left Column: Heading and description */}
-            <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 lg:pb-16">
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="space-y-6 w-full flex flex-col items-center lg:items-start text-center lg:text-left"
-              >
-                <motion.h2
-                  variants={itemVariants}
-                  className="w-full text-slate-900 leading-tight tracking-tight flex flex-col items-center lg:items-start text-center lg:text-left"
-                >
+            <motion.div
+              initial={introState === 'playing' ? { opacity: 0, y: 24 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 lg:pb-16"
+            >
+              <div className="space-y-6 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+                <h2 className="w-full text-slate-900 leading-tight tracking-tight flex flex-col items-center lg:items-start text-center lg:text-left">
                   <span className="block text-3xl sm:text-4xl lg:text-[54px] font-black text-slate-900 tracking-wide">
                     Unified Software for
                   </span>
@@ -804,20 +964,22 @@ export default function Home() {
                   <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-3xl sm:text-4xl lg:text-[48px] font-extrabold mt-1 lg:whitespace-nowrap whitespace-normal">
                     Connected Generation
                   </span>
-                </motion.h2>
+                </h2>
 
-                <motion.p
-                  variants={itemVariants}
-                  className="mt-2 text-slate-700 text-lg leading-9 text-center lg:text-left w-full max-w-4xl tracking-wide font-medium"
-                >
+                <p className="mt-2 text-slate-700 text-lg leading-9 text-center lg:text-left w-full max-w-4xl tracking-wide font-medium">
                   Beta builds secure, real-time corporate applications. SMTP mail threads,
                   live authentication protocols, and agile sprints under one dashboard.
-                </motion.p>
-              </motion.div>
-            </div>
+                </p>
+              </div>
+            </motion.div>
 
             {/* Right Column: Enterprise suite */}
-            <div className="w-full lg:w-1/2 h-full flex flex-col justify-center text-left">
+            <motion.div
+              initial={introState === 'playing' ? { opacity: 0, y: 30 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full lg:w-1/2 h-full flex flex-col justify-center text-left"
+            >
               <div className="glass-card bg-white/80 hover:bg-white/95 backdrop-blur-md border border-slate-200/90 p-4 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 w-full">
                 <div className="border-b border-slate-100 pb-2.5 w-full mb-4">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block">
@@ -898,7 +1060,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
