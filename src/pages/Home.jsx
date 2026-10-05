@@ -991,55 +991,65 @@ export default function Home() {
           }
         }
 
-        /* TOP BRAND MARK BETA TEXT WITH SUBTLE SHIMMER & GLOW ENTRANCE */
+        /* TOP BRAND MARK BETA TEXT WITH SMOOTH ENTRANCE & 3D INTERACTION */
         .top-beta-brand-text {
           font-family: 'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif !important;
-          background: linear-gradient(
-            115deg,
-            #004AAD 0%,
-            #004AAD 38%,
-            #38BDF8 49%,
-            #93C5FD 52%,
-            #004AAD 62%,
-            #004AAD 100%
-          );
-          background-size: 260% 100%;
-          -webkit-background-clip: text !important;
-          -webkit-text-fill-color: transparent !important;
-          background-position: 100% 0;
+          color: #004AAD !important;
           animation: betaWordmarkEntrance 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          will-change: transform, opacity, background-position, filter;
+          will-change: transform, opacity, filter;
+          transform-style: preserve-3d;
+        }
+
+        /* INDIVIDUAL 3D INTERACTIVE BETA LETTERS */
+        .beta-letter {
+          display: inline-block;
+          color: #004AAD !important;
+          transform: translateY(0) translateZ(0) scale(1);
+          transform-style: preserve-3d;
+          transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1),
+                      text-shadow 300ms cubic-bezier(0.25, 1, 0.5, 1),
+                      filter 300ms cubic-bezier(0.25, 1, 0.5, 1);
+          will-change: transform, text-shadow, filter;
+          cursor: pointer;
+        }
+
+        .beta-letter:hover {
+          transform: translateY(-8px) translateZ(28px) scale(1.045);
+          text-shadow: 
+            0 1px 0 #003d8f,
+            0 2px 0 #003378,
+            0 3px 0 #002960,
+            0 4px 0 #00204d,
+            0 5px 0 #00183b,
+            0 8px 16px rgba(0, 74, 173, 0.32),
+            0 14px 28px rgba(0, 74, 173, 0.18);
+          filter: brightness(1.07);
         }
 
         @keyframes betaWordmarkEntrance {
           0% {
             opacity: 0;
             transform: translate3d(0, 10px, 0) scale(0.92);
-            background-position: 100% 0;
             filter: drop-shadow(0 0 0 rgba(0, 74, 173, 0));
           }
           30% {
             opacity: 1;
             transform: translate3d(0, 3px, 0) scale(0.98);
-            background-position: 100% 0;
             filter: drop-shadow(0 0 0 rgba(0, 74, 173, 0));
           }
           62% {
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
-            background-position: 0% 0;
             filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.45)) drop-shadow(0 6px 16px rgba(0, 74, 173, 0.18));
           }
           82% {
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
-            background-position: -100% 0;
             filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.15)) drop-shadow(0 4px 12px rgba(0, 74, 173, 0.12));
           }
           100% {
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
-            background-position: -160% 0;
             filter: drop-shadow(0 4px 12px rgba(0, 74, 173, 0.10));
           }
         }
@@ -1055,8 +1065,13 @@ export default function Home() {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
-            background-position: -160% 0 !important;
             filter: drop-shadow(0 4px 12px rgba(0, 74, 173, 0.10)) !important;
+          }
+          .beta-letter,
+          .beta-letter:hover {
+            transform: none !important;
+            text-shadow: none !important;
+            filter: none !important;
           }
         }
       `}</style>
@@ -1124,16 +1139,16 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10 w-full">
-          {/* Top Brand Mark: BETA Text */}
-          <div className="w-full flex items-center justify-center pt-2 pb-3 sm:pb-4 md:pb-6 select-none">
+          {/* Top Brand Mark: BETA Text with Individual 3D Interactive Letters */}
+          <div className="w-full flex items-center justify-center pt-2 pb-3 sm:pb-4 md:pb-6 select-none" style={{ perspective: '1000px' }}>
             <span
-              className="top-beta-brand-text text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[120px] 2xl:text-[136px] select-none uppercase tracking-wide leading-none"
+              className="top-beta-brand-text text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[120px] 2xl:text-[136px] select-none uppercase tracking-wide leading-none inline-block"
               style={{
                 fontFamily: "'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif",
-                display: 'inline-block'
+                transformStyle: 'preserve-3d'
               }}
             >
-              BETA
+              <span className="beta-letter">B</span><span className="beta-letter">E</span><span className="beta-letter">T</span><span className="beta-letter">A</span>
             </span>
           </div>
 
