@@ -28,7 +28,8 @@ import {
   Rocket,
   Quote,
   TrendingUp,
-  Puzzle
+  Puzzle,
+  ChevronDown
 } from 'lucide-react';
 
 // ==========================================
@@ -406,42 +407,46 @@ function Philosophy3DShowcase() {
 }
 
 // ==========================================
-// PROFESSIONAL CORPORATE BRAND INTRO
-// Minimal, elegant, human-designed brand-film sequence
+// REDESIGNED BETA CORPORATE HERO INTRO
+// Centered, clean, human-designed & GPU-friendly
+// Visual Reference inspired by minimal corporate pill & geometric accents
 // ==========================================
-function CorporateBrandIntro({ onStartReveal, onComplete }) {
-  // Sequence timing (total ~3.5s):
-  // Step 0: Clean initial background (0 - 180ms)
-  // Step 1: "Beta" letters enter letter-by-letter with subtle horizontal motion blur (180ms - 920ms)
-  // Step 2: "Beta" smoothly shifts upward (920ms - 1280ms)
-  // Step 3: "Where Technology Meets" slides upward slightly and fades in (1280ms - 1780ms)
-  // Step 4: "Possibility" reveals with brand gradient, blur-to-sharp & 96%->100% scale (1780ms - 2320ms)
-  // Step 5: "Unified Software for" -> "Connected Generation" upward reveal (2320ms - 2950ms)
-  // Step 6: Begin smooth dissolve into main hero layout (2950ms - 3550ms)
-  // Step 7: Complete / unmount overlay (3550ms)
+function BETAAnimatedHeroIntro() {
+  // Sequence timing (total ~2.8s):
+  // Step 0: Initial mount (0 - 150ms)
+  // Step 1: BETA logo fades in with small upward translation; light-blue geometric accents appear around logo (150ms - 650ms)
+  // Step 2: Logo subtle scale pulse + Phrase 1 "Building Better Software" (650ms - 1150ms)
+  // Step 3: Phrase 2 "Connecting Businesses" (1150ms - 1650ms)
+  // Step 4: Phrase 3 "Creating Digital Solutions" (1650ms - 2150ms)
+  // Step 5: Phrase 4 "Technology That Works" (2150ms - 2650ms)
+  // Step 6: Temporary text and temporary intro elements smoothly fade out (2650ms - 2850ms)
+  // Step 7: Final state permanently active (2850ms+)
 
   const [step, setStep] = useState(0);
+  const [activePhraseIndex, setActivePhraseIndex] = useState(0);
+
+  const phrases = [
+    'Building Better Software',
+    'Connecting Businesses',
+    'Creating Digital Solutions',
+    'Technology That Works'
+  ];
 
   useEffect(() => {
-    const t1 = setTimeout(() => setStep(1), 180);
-    const t2 = setTimeout(() => setStep(2), 920);
-    const t3 = setTimeout(() => setStep(3), 1280);
-    const t4 = setTimeout(() => setStep(4), 1780);
-    const t5 = setTimeout(() => setStep(5), 2320);
-    const t6 = setTimeout(() => {
-      setStep(6);
-      if (onStartReveal) onStartReveal();
-    }, 2950);
-    const t7 = setTimeout(() => {
-      setStep(7);
-      if (onComplete) onComplete();
-    }, 3550);
+    const t1 = setTimeout(() => setStep(1), 150);
+    const t2 = setTimeout(() => {
+      setStep(2);
+      setActivePhraseIndex(0);
+    }, 650);
+    const t3 = setTimeout(() => setActivePhraseIndex(1), 1150);
+    const t4 = setTimeout(() => setActivePhraseIndex(2), 1650);
+    const t5 = setTimeout(() => setActivePhraseIndex(3), 2150);
+    const t6 = setTimeout(() => setStep(6), 2650);
+    const t7 = setTimeout(() => setStep(7), 2850);
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' || e.key === ' ') {
         setStep(7);
-        if (onStartReveal) onStartReveal();
-        if (onComplete) onComplete();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -456,118 +461,172 @@ function CorporateBrandIntro({ onStartReveal, onComplete }) {
       clearTimeout(t7);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onStartReveal, onComplete]);
+  }, []);
 
-  if (step >= 7) return null;
+  const isFinalState = step >= 7;
+  const isIntroPulsing = step === 2;
+  const showIntroPhrase = step >= 2 && step < 6;
+  const showGeometricAccents = step >= 1 && step < 6;
 
   const handleSkip = (e) => {
     e.stopPropagation();
     setStep(7);
-    if (onStartReveal) onStartReveal();
-    if (onComplete) onComplete();
   };
 
   return (
-    <div
-      onClick={handleSkip}
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center select-none overflow-hidden transition-opacity duration-600 ${
-        step === 6 ? 'opacity-0 pointer-events-none' : 'opacity-100'
-      }`}
+    <section
+      className="relative w-full min-h-[calc(100vh-3.5rem)] md:h-[calc(100vh-3.5rem)] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 select-none overflow-hidden"
+      onClick={step < 7 ? handleSkip : undefined}
       style={{
-        backgroundColor: '#F8FAFC',
-        backgroundImage: 'radial-gradient(rgba(0, 74, 173, 0.012) 1px, transparent 1px)',
-        backgroundSize: '24px 24px'
+        cursor: step < 7 ? 'pointer' : 'default'
       }}
     >
-      {/* Subtle ambient light matching the corporate background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[55%] h-[55%] rounded-full bg-blue-300/10 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[55%] h-[55%] rounded-full bg-indigo-300/10 blur-[120px]" />
-      </div>
+      {/* Centered Main Hero Box */}
+      <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
 
-      {/* Centered Brand Presentation */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center justify-center space-y-4 sm:space-y-5">
-        {/* Step 2 & 3: Word "Beta" */}
-        <div
-          className={`transition-all duration-700 ease-out flex items-center justify-center space-x-0.5 sm:space-x-1 ${
-            step >= 2 ? '-translate-y-3 sm:-translate-y-4' : 'translate-y-0'
-          }`}
-        >
-          {['B', 'e', 't', 'a'].map((letter, idx) => {
-            const letterDelay = idx * 110;
-            const isVisible = step >= 1;
-            return (
-              <span
-                key={idx}
-                className="inline-block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-[#004AAD] tracking-tight"
-                style={{
-                  fontFamily: "'Inter', 'Roboto', 'Plus Jakarta Sans', system-ui, sans-serif",
-                  transition: 'opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), transform 500ms cubic-bezier(0.16, 1, 0.3, 1), filter 500ms cubic-bezier(0.16, 1, 0.3, 1)',
-                  transitionDelay: `${letterDelay}ms`,
-                  opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? 'translateX(0)' : 'translateX(10px)',
-                  filter: isVisible ? 'blur(0px)' : 'blur(8px)'
-                }}
-              >
-                {letter}
-              </span>
-            );
-          })}
+        {/* --- 1. BETA LOGO WITH CORPORATE GEOMETRIC ACCENTS --- */}
+        <div className="relative flex items-center justify-center mb-3 sm:mb-4 md:mb-5">
+          {/* Subtle Left Geometric Elements (Reference style: soft pastel semicircles & dot) */}
+          <div
+            className="flex items-center space-x-1.5 sm:space-x-2 mr-2 sm:mr-3 transition-all duration-500 ease-out"
+            style={{
+              opacity: showGeometricAccents ? 1 : 0,
+              transform: showGeometricAccents ? 'translateX(0)' : 'translateX(10px)',
+              pointerEvents: 'none'
+            }}
+          >
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-300" />
+            <div className="w-2.5 h-6 sm:w-3.5 sm:h-8 rounded-l-full bg-sky-100 border-l border-y border-sky-200/80" />
+          </div>
+
+          {/* Logo Frame: Clean, corporate, rounded squircle with subtle border */}
+          <div
+            className={`relative p-2.5 sm:p-3.5 md:p-4 rounded-2xl sm:rounded-3xl bg-white border border-blue-100/90 shadow-sm transition-all duration-500 ease-out ${
+              step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            } ${isIntroPulsing ? 'hero-logo-pulse' : ''}`}
+            style={{ willChange: 'transform, opacity' }}
+          >
+            <img
+              src="/logo.png"
+              alt="BETA Logo"
+              className="h-14 sm:h-18 md:h-20 lg:h-22 w-auto object-contain transition-transform duration-300 select-none"
+            />
+          </div>
+
+          {/* Subtle Right Geometric Elements (Reference style: soft pastel semicircles & dot) */}
+          <div
+            className="flex items-center space-x-1.5 sm:space-x-2 ml-2 sm:mr-3 transition-all duration-500 ease-out"
+            style={{
+              opacity: showGeometricAccents ? 1 : 0,
+              transform: showGeometricAccents ? 'translateX(0)' : 'translateX(-10px)',
+              pointerEvents: 'none'
+            }}
+          >
+            <div className="w-2.5 h-6 sm:w-3.5 sm:h-8 rounded-r-full bg-sky-100 border-r border-y border-sky-200/80" />
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-300" />
+          </div>
         </div>
 
-        {/* Step 4 & 5: "Where Technology Meets Possibility" */}
+        {/* --- 2. ANIMATED CYCLING TEXT PHRASES (DURING INTRO) --- */}
         <div
-          className={`transition-all duration-600 ease-out space-y-1.5 sm:space-y-2 ${
-            step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
-          }`}
+          className="h-10 sm:h-11 flex items-center justify-center transition-all duration-300"
+          style={{
+            opacity: showIntroPhrase ? 1 : 0,
+            transform: showIntroPhrase ? 'translateY(0)' : 'translateY(-6px)',
+            display: isFinalState ? 'none' : 'flex'
+          }}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Where Technology Meets{' '}
-            <span
-              className={`inline-block bg-gradient-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-transparent transition-all duration-700 ease-out ${
-                step >= 4
-                  ? 'opacity-100 scale-100 blur-0'
-                  : 'opacity-0 scale-[0.96] blur-sm'
-              }`}
+          {showIntroPhrase && (
+            <div
+              key={activePhraseIndex}
+              className="hero-phrase-animate inline-flex items-center px-4 sm:px-5 py-1.5 rounded-full bg-white/95 border border-blue-200/80 shadow-sm text-xs sm:text-sm md:text-base font-semibold text-[#004AAD] tracking-wide"
             >
+              <span className="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse" />
+              {phrases[activePhraseIndex]}
+            </div>
+          )}
+        </div>
+
+        {/* --- 3. FINAL STATE HERO CONTENT --- */}
+        <div
+          className="transition-all duration-700 ease-out flex flex-col items-center justify-center"
+          style={{
+            opacity: isFinalState ? 1 : 0,
+            transform: isFinalState ? 'translateY(0)' : 'translateY(12px)',
+            pointerEvents: isFinalState ? 'auto' : 'none'
+          }}
+        >
+          {/* Brand Wordmark: BETA */}
+          <h2
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-[#004AAD] tracking-tight leading-none mb-1 sm:mb-2 select-none"
+            style={{
+              fontFamily: "'Inter', 'Roboto', 'Plus Jakarta Sans', system-ui, sans-serif",
+              textShadow: '0 4px 20px rgba(0, 74, 173, 0.08)'
+            }}
+          >
+            BETA
+          </h2>
+
+          {/* Heading: Where Technology Meets Possibility */}
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight max-w-4xl mx-auto mb-3 sm:mb-4 px-2">
+            <span className="text-[#002D7A]">Where Technology Meets</span>{' '}
+            <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-transparent">
               Possibility
             </span>
-          </h2>
+          </h1>
+
+          {/* Clean Corporate Tagline */}
+          <p className="text-slate-600 text-sm sm:text-base md:text-lg font-medium max-w-2xl mx-auto mb-6 px-4 leading-relaxed">
+            Enterprise software engineered for real-time scale, security, and connected business operations.
+          </p>
+
+          {/* Action links */}
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <a
+              href="#platform-overview"
+              className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#004AAD] hover:bg-[#003c8f] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
+            >
+              <span>Explore Platform</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <Link
+              to="/careers"
+              className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#004AAD] text-xs sm:text-sm font-bold shadow-sm transition-all duration-200"
+            >
+              <span>Careers</span>
+            </Link>
+          </div>
         </div>
 
-        {/* Step 6: "Unified Software for" / "Connected Generation" */}
-        <div
-          className={`pt-2 sm:pt-4 transition-all duration-500 ease-out space-y-1 ${
-            step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
-          }`}
-        >
-          <p className="text-base sm:text-lg md:text-xl font-bold text-slate-800 tracking-wide">
-            Unified Software for
-          </p>
-          <p
-            className={`text-lg sm:text-xl md:text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent tracking-wide transition-all duration-500 delay-150 ease-out ${
-              step >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-            }`}
-          >
-            Connected Generation
-          </p>
-        </div>
       </div>
 
-      {/* Discreet Minimalist Skip Button */}
-      <button
-        onClick={handleSkip}
-        className="absolute bottom-6 right-6 text-[11px] sm:text-xs text-slate-400 hover:text-slate-700 uppercase tracking-widest font-bold transition-colors duration-200 cursor-pointer bg-transparent border-none py-1.5 px-3 rounded-lg hover:bg-slate-200/50"
-        aria-label="Skip Intro"
-      >
-        Skip &rarr;
-      </button>
-    </div>
+      {/* Discreet Minimal Skip Button (only during intro) */}
+      {!isFinalState && (
+        <button
+          onClick={handleSkip}
+          className="absolute bottom-5 right-5 text-[11px] sm:text-xs text-slate-400 hover:text-slate-700 uppercase tracking-widest font-bold transition-colors duration-200 cursor-pointer bg-white/80 border border-slate-200/60 py-1.5 px-3 rounded-full shadow-xs hover:bg-slate-100"
+          aria-label="Skip Intro"
+        >
+          Skip &rarr;
+        </button>
+      )}
+
+      {/* Gentle Scroll Indicator when in Final State */}
+      {isFinalState && (
+        <a
+          href="#platform-overview"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center text-slate-400 hover:text-[#004AAD] transition-colors duration-200 cursor-pointer"
+          aria-label="Scroll to platform overview"
+        >
+          <span className="text-[10px] uppercase font-bold tracking-widest mb-1">Scroll</span>
+          <ChevronDown className="w-4 h-4 animate-bounce" />
+        </a>
+      )}
+    </section>
   );
 }
 
 export default function Home() {
-  const [introState, setIntroState] = useState('playing'); // 'playing' | 'revealing' | 'complete'
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -771,63 +830,34 @@ export default function Home() {
           background-size: 400% 400%;
           animation: gradientShift 15s ease infinite;
         }
-        .swirling-showcase-bg {
-          background: radial-gradient(circle at 50% 50%, #061033 0%, #01040f 70%, #000105 100%);
-          background-size: 150% 150%;
-          animation: gradientSwirl 10s ease infinite;
-          position: relative;
+        @keyframes heroPhraseCycle {
+          0% {
+            opacity: 0;
+            transform: translateY(8px);
+          }
+          15% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          85% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-6px);
+          }
         }
-        .orbit-ring-1 {
-          position: absolute;
-          width: 130px;
-          height: 130px;
-          border: 1px dashed rgba(59, 130, 246, 0.2);
-          border-radius: 50%;
-          animation: rotateOrbit1 15s linear infinite;
+        .hero-phrase-animate {
+          animation: heroPhraseCycle 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .orbit-ring-2 {
-          position: absolute;
-          width: 170px;
-          height: 170px;
-          border: 1px dashed rgba(6, 182, 212, 0.15);
-          border-radius: 50%;
-          animation: rotateOrbit2 20s linear infinite;
+        @keyframes heroLogoPulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
         }
-        .orbit-node-1 {
-          position: absolute;
-          top: -5px;
-          left: 50%;
-          margin-left: -5px;
-          width: 10px;
-          height: 10px;
-          background: #3b82f6;
-          border-radius: 50%;
-          box-shadow: 0 0 8px #3b82f6, 0 0 16px #3b82f6;
-        }
-        .orbit-node-2 {
-          position: absolute;
-          bottom: -5px;
-          left: 50%;
-          margin-left: -5px;
-          width: 10px;
-          height: 10px;
-          background: #06b6d4;
-          border-radius: 50%;
-          box-shadow: 0 0 8px #06b6d4, 0 0 16px #06b6d4;
-        }
-        .orbit-node-3 {
-          position: absolute;
-          right: -5px;
-          top: 50%;
-          margin-top: -5px;
-          width: 9px;
-          height: 9px;
-          background: #a855f7;
-          border-radius: 50%;
-          box-shadow: 0 0 8px #a855f7, 0 0 16px #a855f7;
-        }
-        .bnx-logo-pulse-premium {
-          animation: logoPulseGlow 3.5s ease-in-out infinite;
+        .hero-logo-pulse {
+          animation: heroLogoPulse 600ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .hero-blue-banner h1, .hero-blue-banner h2, .hero-blue-banner h3 {
           color: #ffffff !important;
@@ -870,198 +900,125 @@ export default function Home() {
         }
       `}</style>
 
-      {/* BRAND INTRO OVERLAY */}
-      {introState !== 'complete' && (
-        <CorporateBrandIntro
-          onStartReveal={() => setIntroState('revealing')}
-          onComplete={() => setIntroState('complete')}
-        />
-      )}
+      {/* 1. HERO INTRO & BRAND FOCUS SECTION */}
+      <BETAAnimatedHeroIntro />
 
-      {/* HERO SECTION: SIDE-BY-SIDE LAYOUT */}
-      <div className="relative w-full mb-16 pt-6 pb-12 overflow-hidden">
-
-        {/* Hero Content Layer */}
-        <div className="relative z-10">
-          {/* Central main title */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 text-center pt-0 mt-0">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-2"
-            >
-              <motion.h1
-                className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight cursor-pointer select-none flex items-center justify-center gap-0 mt-5 mb-1"
-                style={{ fontFamily: "'Inter', 'Roboto', 'Plus Jakarta Sans', system-ui, sans-serif" }}
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.12,
-                    }
-                  }
-                }}
-                initial="hidden"
-                animate="visible"
-              >
-                {['B', 'E', 'T', 'A'].map((letter, idx) => (
-                  <motion.span
-                    key={idx}
-                    variants={{
-                      hidden: { opacity: 0, y: 30, scale: 0.8 },
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        transition: { type: 'spring', damping: 12, stiffness: 120 }
-                      }
-                    }}
-                    whileHover={{
-                      scale: 1.15,
-                      y: -6,
-                      color: '#005be3',
-                      filter: 'drop-shadow(0 12px 20px rgba(0, 74, 173, 0.3))'
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-block transition-all duration-300 ease-out"
-                    style={{
-                      color: '#004AAD',
-                      textShadow: '0px 0px 30px rgba(0, 74, 173, 0.10)',
-                      padding: '0',
-                      marginLeft: letter === 'T' ? '4px' : '0px'
-                    }}
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
-              </motion.h1>
-
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-blue-950 tracking-tight leading-tight max-w-4xl mx-auto">
-                Where Technology Meets{" "}
-                <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-transparent">
-                  Possibility
-                </span>
-              </h1>
-            </motion.div>
-          </div>
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:items-end gap-6 w-full">
-            {/* Left Column: Heading and description */}
-            <motion.div
-              initial={introState === 'playing' ? { opacity: 0, y: 24 } : false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 lg:pb-16"
-            >
-              <div className="space-y-6 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
-                <h2 className="w-full text-slate-900 leading-tight tracking-tight flex flex-col items-center lg:items-start text-center lg:text-left">
-                  <span className="block text-3xl sm:text-4xl lg:text-[54px] font-black text-slate-900 tracking-wide">
-                    Unified Software for
-                  </span>
-
-                  <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-3xl sm:text-4xl lg:text-[48px] font-extrabold mt-1 lg:whitespace-nowrap whitespace-normal">
-                    Connected Generation
-                  </span>
-                </h2>
-
-                <p className="mt-2 text-slate-700 text-lg leading-9 text-center lg:text-left w-full max-w-4xl tracking-wide font-medium">
-                  Beta builds secure, real-time corporate applications. SMTP mail threads,
-                  live authentication protocols, and agile sprints under one dashboard.
-                </p>
+      {/* 2. ENTERPRISE PLATFORM OVERVIEW SECTION */}
+      <div id="platform-overview" className="relative w-full mb-16 pt-8 pb-12 overflow-hidden">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center lg:items-center gap-8 w-full">
+          {/* Left Column: Heading and description */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6"
+          >
+            <div className="space-y-4 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#E9F4FF] border border-[#004AAD]/20 text-[#004AAD] text-xs font-semibold uppercase tracking-wider">
+                <span>Unified Enterprise Architecture</span>
               </div>
-            </motion.div>
+              <h2 className="w-full text-slate-900 leading-tight tracking-tight flex flex-col items-center lg:items-start text-center lg:text-left">
+                <span className="block text-3xl sm:text-4xl lg:text-[50px] font-black text-slate-900 tracking-wide">
+                  Unified Software for
+                </span>
+                <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-3xl sm:text-4xl lg:text-[46px] font-extrabold mt-1">
+                  Connected Generation
+                </span>
+              </h2>
 
-            {/* Right Column: Enterprise suite */}
-            <motion.div
-              initial={introState === 'playing' ? { opacity: 0, y: 30 } : false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full lg:w-1/2 h-full flex flex-col justify-center text-left"
-            >
-              <div className="glass-card bg-white/80 hover:bg-white/95 backdrop-blur-md border border-slate-200/90 p-4 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 w-full">
-                <div className="border-b border-slate-100 pb-2.5 w-full mb-4">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block">
-                    Enterprise Suite
-                  </span>
+              <p className="mt-2 text-slate-600 text-base sm:text-lg leading-relaxed text-center lg:text-left w-full max-w-2xl font-medium">
+                Beta builds secure, real-time corporate applications. SMTP mail threads,
+                live authentication protocols, and agile sprints under one dashboard.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Enterprise suite */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full lg:w-1/2 h-full flex flex-col justify-center text-left"
+          >
+            <div className="glass-card bg-white/90 backdrop-blur-md border border-slate-200/90 p-5 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 w-full">
+              <div className="border-b border-slate-100 pb-3 w-full mb-4 flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block">
+                  Enterprise Suite
+                </span>
+                <span className="text-[11px] font-semibold text-[#004AAD] bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">
+                  Live Products
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch">
+                {/* Left Side inside Box: Clean Corporate BETA Showcase Card */}
+                <div className="w-full min-h-[220px] text-center overflow-hidden relative select-none flex flex-col items-center justify-center bg-gradient-to-b from-blue-50/70 via-slate-50/50 to-indigo-50/40 border border-blue-100/80 rounded-2xl p-5">
+                  <div className="relative z-10 flex flex-col items-center justify-center">
+                    <div className="bg-white border border-blue-100 p-3.5 rounded-2xl shadow-xs mb-3 transition-transform duration-300 hover:scale-105">
+                      <img src="/logo.png" alt="Beta Logo" className="h-14 w-auto object-contain select-none" />
+                    </div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#004AAD]">
+                      BETA Core Platform
+                    </span>
+                    <p className="text-[11px] text-slate-500 mt-1 font-medium">
+                      Unified Business Ecosystem
+                    </p>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
-                  {/* Left Side inside Box: Styled BNX Showcase Card */}
-                  <div className="lg:col-span-1 w-full h-72 text-center overflow-hidden relative select-none flex flex-col items-center justify-center swirling-showcase-bg rounded-2xl">
-                    {/* Deep Glowing Tech Starfield Particles */}
-                    <div className="absolute w-2 h-2 bg-blue-400/40 rounded-full blur-[1px]" style={{ bottom: '10%', left: '20%', animation: 'floatParticle 5s linear infinite', animationDelay: '0s' }} />
-                    <div className="absolute w-1 h-1 bg-cyan-300/30 rounded-full blur-[0.5px]" style={{ bottom: '15%', left: '45%', animation: 'floatParticle 7s linear infinite', animationDelay: '2.5s' }} />
-                    <div className="absolute w-2 h-2 bg-indigo-500/20 rounded-full blur-[1.5px]" style={{ bottom: '10%', left: '75%', animation: 'floatParticle 6s linear infinite', animationDelay: '1.2s' }} />
-
-                    {/* Glowing Orbit Rings */}
-                    <div className="orbit-ring-1 pointer-events-none">
-                      <div className="orbit-node-1" />
-                    </div>
-                    <div className="orbit-ring-2 pointer-events-none">
-                      <div className="orbit-node-2" />
-                      <div className="orbit-node-3" />
-                    </div>
-
-                    {/* Tech Aura Glow behind Logo */}
-                    <div className="absolute w-28 h-28 bg-blue-500/10 blur-xl pointer-events-none animate-pulse" />
-
-                    {/* Pulsating Premium Logo Container */}
-                    <div className="relative z-10 transition-transform duration-300 hover:scale-105">
-                      <div className="bg-white border border-blue-500/45 w-24 h-24 rounded-2xl flex items-center justify-center bnx-logo-pulse-premium transition-all duration-300 relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/25 via-cyan-500/10 to-transparent pointer-events-none" />
-                        <img src="/logo.png" alt="Beta Logo" className="object-contain relative z-10 animate-pulse" style={{ width: '90px', height: '90px' }} />
+                {/* Right Side: Vertical list of products (BNXmail and Cliks Business) */}
+                <div className="flex flex-col gap-3 h-full justify-between items-stretch sm:border-l sm:border-slate-100 sm:pl-4">
+                  {/* BNXmail */}
+                  <a
+                    href="https://www.bnxmail.com/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex flex-col justify-center p-3.5 rounded-xl border border-slate-200 hover:border-blue-300 bg-slate-50/70 hover:bg-blue-50/30 transition-all duration-300 group cursor-pointer text-left gap-1"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                        <img src="/bnx_mail_logo.png" alt="BNX Mail" className="h-10 w-10 object-contain" />
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Right Side: Vertical list of products (BNXmail and Cliks Business) */}
-                  <div className="lg:col-span-1 flex flex-col gap-4 h-full justify-between items-stretch lg:border-l lg:border-slate-200/80 lg:pl-4">
-                    {/* BNXmail */}
-                    <a
-                      href="https://www.bnxmail.com/login"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex flex-col justify-center p-4 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50/70 hover:bg-slate-100 transition-all duration-300 group cursor-pointer text-left gap-1"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                          <img src="/bnx_mail_logo.png" alt="BNX Mail" className="h-14 w-14 object-contain" />
-                        </div>
+                      <div>
                         <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#004AAD] transition-colors duration-200">
                           BNXmail
                         </h4>
+                        <span className="text-[10px] text-blue-600 font-semibold">Real-time sync</span>
                       </div>
-                      <p className="text-slate-500 text-xs font-medium leading-normal mt-0.5">
-                        Real time mail, always <span className="whitespace-nowrap">in sync.</span> “Instant mail, Connected work.”
-                      </p>
-                    </a>
+                    </div>
+                    <p className="text-slate-500 text-xs font-medium leading-normal mt-1">
+                      Instant mail, connected work.
+                    </p>
+                  </a>
 
-                    {/* Cliks Business */}
-                    <a
-                      href="https://www.cliksbusiness.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex flex-col justify-center p-4 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50/70 hover:bg-slate-100 transition-all duration-300 group cursor-pointer text-left gap-1"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                          <img src="/cliks_business_logo.png" alt="Cliks Business" className="h-12 w-12 object-contain" />
-                        </div>
+                  {/* Cliks Business */}
+                  <a
+                    href="https://www.cliksbusiness.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex flex-col justify-center p-3.5 rounded-xl border border-slate-200 hover:border-blue-300 bg-slate-50/70 hover:bg-blue-50/30 transition-all duration-300 group cursor-pointer text-left gap-1"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                        <img src="/cliks_business_logo.png" alt="Cliks Business" className="h-10 w-10 object-contain" />
+                      </div>
+                      <div>
                         <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#004AAD] transition-colors duration-200">
                           Cliks Business
                         </h4>
+                        <span className="text-[10px] text-purple-600 font-semibold">Business growth</span>
                       </div>
-                      <p className="text-slate-500 text-xs font-medium leading-normal mt-0.5">
-                        "Connecting businesses, creating opportunities, and enabling growth."
-                      </p>
-                    </a>
-                  </div>
+                    </div>
+                    <p className="text-slate-500 text-xs font-medium leading-normal mt-1">
+                      Connecting businesses & opportunities.
+                    </p>
+                  </a>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
 
