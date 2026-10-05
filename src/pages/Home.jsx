@@ -1143,7 +1143,7 @@ export default function Home() {
               </span>
               <span className="beta-letter beta-letter-a inline-flex items-center">
                 <svg viewBox="0 0 687 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="A">
-                  <path d="M221,0 H238 L317,274 L202,688 H2 Z M283,0 H466 L685,688 H481 L446,566 H279 L321,412 L283,0 Z M328,348 H386 L352,148 Z" />
+                  <path d="M221,0 H263 L44,688 H2 Z M301,0 H466 L685,688 H485 L450,535 H237 L202,688 H82 L301,0 Z M278.5,405 H408.5 L343.5,175 Z" />
                 </svg>
               </span>
             </span>
