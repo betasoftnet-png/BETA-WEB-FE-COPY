@@ -2152,8 +2152,12 @@ export default function Careers() {
                     <React.Fragment key={step.id}>
                       {/* Glowing Node Circle */}
                       <motion.div
-                        className="careers-reveal-card"
-                        style={{ '--card-delay': `${idx * 120 + 80}ms` }}
+                        className="careers-reveal-card glass-card-purple p-4 md:p-4 lg:p-5 rounded-3xl border border-purple-500/20 text-center flex flex-col items-center justify-center shadow-md w-[170px] h-[170px] md:w-[160px] md:h-[160px] lg:w-[180px] lg:h-[180px] group relative shrink-0 cursor-pointer"
+                        style={{
+                          '--card-delay': `${idx * 120 + 80}ms`,
+                          transformStyle: "preserve-3d",
+                          perspective: 1000
+                        }}
                         initial="initial"
                         whileInView="visible"
                         whileHover="hover"
@@ -2205,8 +2209,6 @@ export default function Careers() {
                           }
                         }}
                         viewport={{ once: true }}
-                        style={{ transformStyle: "preserve-3d", perspective: 1000 }}
-                        className="glass-card-purple p-4 md:p-4 lg:p-5 rounded-3xl border border-purple-500/20 text-center flex flex-col items-center justify-center shadow-md w-[170px] h-[170px] md:w-[160px] md:h-[160px] lg:w-[180px] lg:h-[180px] group relative shrink-0 cursor-pointer"
                       >
                         <motion.div
                           variants={{
