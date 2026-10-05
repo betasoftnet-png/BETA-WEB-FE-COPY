@@ -411,7 +411,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setHeroIntroDone(true);
-    }, 4500);
+    }, 11500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -657,201 +657,209 @@ export default function Home() {
           }
         }
 
-        /* 4.5-SECOND 3D CINEMATIC INTRO ANIMATION */
+        /* 11.5-SECOND 3D TYPOGRAPHY INTRO ANIMATION */
         .hero-3d-stage {
           perspective: 1200px;
           perspective-origin: center 40%;
           transform-style: preserve-3d;
         }
 
-        /* 0.0s - 0.8s: Opening Technical Grid & Soft Blue Center Glow */
-        @keyframes techCenterGlow {
+        /* Ambient soft blue lighting behind text */
+        @keyframes heroAmbientGlow {
           0% {
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0.65);
+            transform: translate(-50%, -50%) scale(0.7);
           }
-          17.8% { /* 0.8s: Form soft blue lighting */
-            opacity: 0.9;
+          10% { /* ~1.15s */
+            opacity: 0.85;
             transform: translate(-50%, -50%) scale(1.0);
           }
-          51.1% { /* 2.3s */
+          55% { /* ~6.3s */
             opacity: 0.7;
             transform: translate(-50%, -50%) scale(1.05);
           }
-          80.0% { /* 3.6s: Converging toward center */
-            opacity: 0.45;
+          85% { /* ~9.8s */
+            opacity: 0.6;
             transform: translate(-50%, -50%) scale(1.0);
           }
-          100% { /* 4.5s: Stable ambient backing */
-            opacity: 0.25;
+          100% { /* 11.5s */
+            opacity: 0.3;
             transform: translate(-50%, -50%) scale(1.0);
           }
         }
 
-        /* Subtle technical baseline datum line */
-        @keyframes techDatumLine {
-          0% {
+        /* Subtle technical blue line passing behind Sentence 2 (3.5s - 7.0s) */
+        @keyframes techLineSentence2 {
+          0%, 30.4% { /* 0.0s - 3.5s: Hidden */
             opacity: 0;
             transform: translate(-50%, -50%) scaleX(0);
           }
-          17.8% { /* 0.8s: Forms across */
-            opacity: 0.8;
-            transform: translate(-50%, -50%) scaleX(1);
+          34.8% { /* 4.0s: Line traces across */
+            opacity: 0.75;
+            transform: translate(-50%, -50%) scaleX(0.4);
           }
-          80.0% { /* 3.6s: Remains crisp guide */
-            opacity: 0.5;
-            transform: translate(-50%, -50%) scaleX(0.9);
+          47.8% { /* 5.5s: Fully extended behind sentence 2 */
+            opacity: 0.9;
+            transform: translate(-50%, -50%) scaleX(1.0);
           }
-          100% { /* 4.5s: Settles into delicate underline */
-            opacity: 0.25;
-            transform: translate(-50%, -50%) scaleX(0.7);
+          58.0% { /* 6.7s: Fades out */
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scaleX(0.8);
+          }
+          60.9%, 100% { /* 7.0s+ */
+            opacity: 0;
+            transform: translate(-50%, -50%) scaleX(0);
           }
         }
 
-        /* Subtle technical corner brackets */
-        @keyframes techBrackets {
+        /* SENTENCE 1: "Where Imagination Meets Innovation" (0.0s - 3.5s) */
+        @keyframes animSentence1 {
           0% {
             opacity: 0;
-            transform: scale(1.15);
+            transform: translate3d(0, 24px, -80px) scale(0.92);
+            filter: blur(4px);
+            visibility: visible;
           }
-          17.8% {
-            opacity: 0.75;
-            transform: scale(1.0);
+          12.0% { /* ~1.4s: Enters forward */
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
           }
-          80.0% {
-            opacity: 0.4;
-            transform: scale(0.98);
+          24.3% { /* ~2.8s: Held */
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          30.4% { /* 3.5s: Fades and moves backward */
+            opacity: 0;
+            transform: translate3d(0, -18px, -70px) scale(0.95);
+            filter: blur(3px);
+            visibility: hidden;
           }
           100% {
-            opacity: 0.15;
-            transform: scale(0.95);
+            opacity: 0;
+            transform: translate3d(0, -18px, -70px) scale(0.95);
+            visibility: hidden;
           }
         }
 
-        /* 0.8s - 1.6s: "Where" Entrance with 3D depth & perspective */
-        @keyframes animWordWhere {
-          0%, 17.8% { /* 0.0s - 0.8s: Hidden */
+        /* Horizontal light sweep across Sentence 1 */
+        @keyframes textSweepSentence1 {
+          0%, 8.0% {
+            background-position: 100% 50%;
+          }
+          22.0% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        /* SENTENCE 2: "Tomorrow’s Technology Turns Dreams Into Reality" (3.5s - 7.0s) */
+        @keyframes animSentence2 {
+          0%, 29.5% { /* 0.0s - 3.4s: Hidden */
             opacity: 0;
-            transform: translate3d(0, 28px, -70px) rotateX(22deg);
+            transform: translate3d(0, 24px, -80px) scale(0.93);
             filter: blur(4px);
-            text-shadow: 0 0 0 transparent;
+            visibility: hidden;
           }
-          35.6% { /* 1.6s: Assembled into place */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotateX(0deg);
-            filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 12px rgba(7, 87, 184, 0.16);
-          }
-          80.0% { /* 3.6s */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotateX(0deg);
-            filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 12px rgba(7, 87, 184, 0.16);
-          }
-          100% { /* 4.5s: Final stable typography */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotateX(0deg);
-            filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 3px 10px rgba(7, 87, 184, 0.12);
-          }
-        }
-
-        /* 1.6s - 2.3s: "Technology" Entrance - Mechanical/digital technical assembly */
-        @keyframes animWordTechnology {
-          0%, 35.6% { /* 0.0s - 1.6s: Hidden */
+          30.4% { /* 3.5s: Starts entering */
             opacity: 0;
-            transform: translate3d(0, 32px, -85px) rotateX(24deg) scale(0.92);
-            clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+            transform: translate3d(0, 24px, -80px) scale(0.93);
             filter: blur(4px);
-            text-shadow: 0 0 0 transparent;
+            visibility: visible;
           }
-          43.3% { /* ~1.95s: Digital construction slice reveal */
+          41.7% { /* 4.8s: Forward in position */
             opacity: 1;
-            clip-path: polygon(0 0, 65% 0, 55% 100%, 0 100%);
-            transform: translate3d(0, 12px, -35px) rotateX(10deg) scale(0.97);
-            filter: blur(1px);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 6px 14px rgba(7, 87, 184, 0.22);
-          }
-          51.1% { /* 2.3s: Solid assembled 3D structure */
-            opacity: 1;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            transform: translate3d(0, 0, 0) rotateX(0deg) scale(1.0);
+            transform: translate3d(0, 0, 0) scale(1.0);
             filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 14px rgba(7, 87, 184, 0.16);
+            visibility: visible;
           }
-          80.0% { /* 3.6s */
+          53.9% { /* 6.2s: Held */
             opacity: 1;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            transform: translate3d(0, 0, 0) rotateX(0deg) scale(1.0);
+            transform: translate3d(0, 0, 0) scale(1.0);
             filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 14px rgba(7, 87, 184, 0.16);
+            visibility: visible;
           }
-          100% { /* 4.5s: Final stable typography */
-            opacity: 1;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            transform: translate3d(0, 0, 0) rotateX(0deg) scale(1.0);
-            filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 3px 10px rgba(7, 87, 184, 0.12);
-          }
-        }
-
-        /* 2.3s - 2.9s: "Meets" Entrance - Elegant 3D transition */
-        @keyframes animWordMeets {
-          0%, 51.1% { /* 0.0s - 2.3s: Hidden */
+          60.9% { /* 7.0s: Fades and moves backward */
             opacity: 0;
-            transform: translate3d(0, 24px, -60px) rotateX(18deg);
+            transform: translate3d(0, -18px, -70px) scale(0.94);
             filter: blur(3px);
-            text-shadow: 0 0 0 transparent;
+            visibility: hidden;
           }
-          64.4% { /* 2.9s: Settled in place beside Technology */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotateX(0deg);
-            filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 12px rgba(7, 87, 184, 0.16);
-          }
-          80.0% { /* 3.6s */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotateX(0deg);
-            filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 12px rgba(7, 87, 184, 0.16);
-          }
-          100% { /* 4.5s: Final stable */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotateX(0deg);
-            filter: blur(0);
-            text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 3px 10px rgba(7, 87, 184, 0.12);
-          }
-        }
-
-        /* 2.9s - 3.6s: "Possibility" - Visual highlight, natural 3D expansion and gradient reveal */
-        @keyframes animWordPossibility {
-          0%, 64.4% { /* 0.0s - 2.9s: Hidden */
+          100% {
             opacity: 0;
-            transform: translate3d(0, 30px, -70px) scale(0.92);
-            filter: blur(6px) drop-shadow(0 0 0 transparent);
-            letter-spacing: -0.02em;
-          }
-          80.0% { /* 3.6s: Expanded into prominent luminous position */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            filter: blur(0) drop-shadow(0 4px 18px rgba(147, 51, 234, 0.25));
-            letter-spacing: normal;
-          }
-          100% { /* 4.5s: Settle cleanly into composition */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            filter: blur(0) drop-shadow(0 3px 14px rgba(147, 51, 234, 0.20));
-            letter-spacing: normal;
+            transform: translate3d(0, -18px, -70px) scale(0.94);
+            visibility: hidden;
           }
         }
 
-        /* 3.6s - 4.5s: Final Combination Convergence */
-        @keyframes headlineConvergence {
-          0%, 80.0% {
-            transform: scale(1.0);
+        /* FINAL SENTENCE 3: LINE 1 - "Where Technology Meets" (7.0s - 11.5s) */
+        @keyframes animFinalLine1 {
+          0%, 60.0% { /* 0.0s - 6.9s: Hidden */
+            opacity: 0;
+            transform: translate3d(0, 22px, -50px);
+            filter: blur(3px);
+            visibility: hidden;
           }
-          90.0% {
-            transform: scale(1.01);
+          60.9% { /* 7.0s: Begins reveal */
+            opacity: 0;
+            transform: translate3d(0, 22px, -50px);
+            filter: blur(3px);
+            visibility: visible;
+          }
+          74.0% { /* ~8.5s: Fully revealed with 3D depth */
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            filter: blur(0);
+            visibility: visible;
+          }
+        }
+
+        /* FINAL SENTENCE 3: LINE 2 - "Possibility" (7.0s - 11.5s) */
+        @keyframes animFinalLine2 {
+          0%, 70.0% { /* 0.0s - 8.0s: Hidden */
+            opacity: 0;
+            transform: translate3d(0, 24px, -60px) scale(0.94);
+            filter: blur(4px);
+            visibility: hidden;
+          }
+          71.3% { /* 8.2s: Begins reveal */
+            opacity: 0;
+            transform: translate3d(0, 24px, -60px) scale(0.94);
+            filter: blur(4px);
+            visibility: visible;
+          }
+          83.5% { /* 9.6s: Luminous gradient expansion */
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+        }
+
+        /* FINAL SENTENCE 3 GROUP SCALE: 96% to 100% (9.8s - 10.5s) */
+        @keyframes animFinalGroupScale {
+          0%, 85.0% { /* 0.0s - 9.8s */
+            transform: scale(0.96);
+          }
+          91.3% { /* 10.5s */
+            transform: scale(1.0);
           }
           100% {
             transform: scale(1.0);
@@ -859,85 +867,76 @@ export default function Home() {
         }
 
         .hero-glow-anim {
-          animation: techCenterGlow 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: heroAmbientGlow 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .hero-datum-line {
-          animation: techDatumLine 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .hero-tech-line-s2 {
+          animation: techLineSentence2 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .hero-brackets-anim {
-          animation: techBrackets 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .hero-word-where {
-          animation: animWordWhere 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .hero-s1-anim {
+          animation: animSentence1 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity, filter;
         }
-        .hero-word-technology {
-          animation: animWordTechnology 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          will-change: transform, opacity, clip-path, filter;
+        .hero-s1-sweep {
+          background: linear-gradient(110deg, #002D7A 20%, #0757B8 40%, #60A5FA 50%, #0757B8 60%, #002D7A 80%);
+          background-size: 250% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: textSweepSentence1 11.5s ease-out forwards;
         }
-        .hero-word-meets {
-          animation: animWordMeets 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .hero-s2-anim {
+          animation: animSentence2 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity, filter;
         }
-        .hero-word-possibility {
-          animation: animWordPossibility 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .hero-final-line1 {
+          animation: animFinalLine1 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity, filter;
         }
-        .hero-headline-group {
-          animation: headlineConvergence 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .hero-final-line2 {
+          animation: animFinalLine2 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity, filter;
+        }
+        .hero-final-group {
+          animation: animFinalGroupScale 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform;
         }
 
-        /* Post-4.5s Static Composition - Zero CPU/GPU paint cycles */
+        /* Post-11.5s Static Composition - Zero CPU/GPU paint cycles */
         .hero-intro-static .hero-glow-anim {
           animation: none !important;
           opacity: 0.25 !important;
           transform: translate(-50%, -50%) scale(1.0) !important;
         }
-        .hero-intro-static .hero-datum-line {
+        .hero-intro-static .hero-tech-line-s2,
+        .hero-intro-static .hero-s1-anim,
+        .hero-intro-static .hero-s2-anim {
+          display: none !important;
           animation: none !important;
-          opacity: 0.25 !important;
-          transform: translate(-50%, -50%) scaleX(0.7) !important;
         }
-        .hero-intro-static .hero-brackets-anim {
-          animation: none !important;
-          opacity: 0.15 !important;
-          transform: scale(0.95) !important;
-        }
-        .hero-intro-static .hero-word-where,
-        .hero-intro-static .hero-word-technology,
-        .hero-intro-static .hero-word-meets {
+        .hero-intro-static .hero-final-line1,
+        .hero-intro-static .hero-final-line2,
+        .hero-intro-static .hero-final-group {
           animation: none !important;
           opacity: 1 !important;
           transform: none !important;
           filter: none !important;
-          clip-path: none !important;
-          text-shadow: 0 1px 0 #002266, 0 2px 0 #001b52, 0 3px 10px rgba(7, 87, 184, 0.12) !important;
-        }
-        .hero-intro-static .hero-word-possibility {
-          animation: none !important;
-          opacity: 1 !important;
-          transform: none !important;
-          filter: drop-shadow(0 3px 14px rgba(147, 51, 234, 0.20)) !important;
-        }
-        .hero-intro-static .hero-headline-group {
-          animation: none !important;
-          transform: none !important;
+          visibility: visible !important;
         }
 
         @media (prefers-reduced-motion: reduce) {
           .hero-glow-anim,
-          .hero-datum-line,
-          .hero-brackets-anim,
-          .hero-word-where,
-          .hero-word-technology,
-          .hero-word-meets,
-          .hero-word-possibility,
-          .hero-headline-group {
+          .hero-tech-line-s2,
+          .hero-s1-anim,
+          .hero-s2-anim {
+            display: none !important;
+            animation: none !important;
+          }
+          .hero-final-line1,
+          .hero-final-line2,
+          .hero-final-group {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
-            clip-path: none !important;
-            filter: none !important;
+            visibility: visible !important;
           }
         }
       `}</style>
@@ -947,64 +946,71 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10">
-          {/* Central main title / 3D Cinematic Intro Area */}
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-4 pb-2 relative select-none hero-3d-stage ${heroIntroDone ? 'hero-intro-static' : ''}`}>
+          {/* Central main title / 10-12s 3D Cinematic Typography Intro Area */}
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-4 pb-2 relative select-none hero-3d-stage min-h-[170px] sm:min-h-[200px] md:min-h-[220px] flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
             
-            {/* 0.0-0.8s: Subtle soft blue center glow */}
+            {/* Ambient soft blue lighting */}
             <div
-              className="hero-glow-anim absolute top-1/2 left-1/2 w-[380px] sm:w-[560px] md:w-[720px] h-[240px] sm:h-[320px] pointer-events-none rounded-full"
+              className="hero-glow-anim absolute top-1/2 left-1/2 w-[380px] sm:w-[560px] md:w-[720px] h-[240px] sm:h-[300px] pointer-events-none rounded-full"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(7, 87, 184, 0.15) 0%, rgba(147, 51, 234, 0.05) 45%, rgba(248, 250, 252, 0) 75%)',
+                background: 'radial-gradient(ellipse at center, rgba(7, 87, 184, 0.14) 0%, rgba(147, 51, 234, 0.04) 50%, rgba(248, 250, 252, 0) 75%)',
                 zIndex: 0
               }}
             />
 
-            {/* 0.0-0.8s: Technical precision datum line */}
+            {/* Subtle blue technical line passing behind Sentence 2 (3.5s - 7.0s) */}
             <div
-              className="hero-datum-line absolute top-1/2 left-1/2 w-[280px] sm:w-[480px] md:w-[640px] h-[1px] pointer-events-none"
+              className="hero-tech-line-s2 absolute top-1/2 left-1/2 w-[300px] sm:w-[500px] md:w-[680px] h-[2px] pointer-events-none"
               style={{
-                background: 'linear-gradient(90deg, transparent, rgba(7, 87, 184, 0.35) 20%, rgba(7, 87, 184, 0.6) 50%, rgba(7, 87, 184, 0.35) 80%, transparent)',
+                background: 'linear-gradient(90deg, transparent, rgba(7, 87, 184, 0.25) 20%, rgba(7, 87, 184, 0.65) 50%, rgba(7, 87, 184, 0.25) 80%, transparent)',
                 zIndex: 1
               }}
             />
 
-            {/* Technical corner alignment brackets (Subtle engineering aesthetic) */}
-            <div className="hero-brackets-anim absolute inset-x-8 sm:inset-x-16 md:inset-x-28 inset-y-0 pointer-events-none flex flex-col justify-between z-1">
-              <div className="flex justify-between items-center text-[10px] font-mono text-blue-400/50 tracking-wider">
-                <span className="inline-block border-t border-l border-blue-400/40 w-2.5 h-2.5"></span>
-                <span className="hidden sm:inline-block opacity-40">SYS.ENGINEER // CORE.v4</span>
-                <span className="inline-block border-t border-r border-blue-400/40 w-2.5 h-2.5"></span>
-              </div>
-              <div className="flex justify-between items-center text-[10px] font-mono text-blue-400/50 tracking-wider">
-                <span className="inline-block border-b border-l border-blue-400/40 w-2.5 h-2.5"></span>
-                <span className="hidden sm:inline-block opacity-40">COORDINATE // 00:04:50</span>
-                <span className="inline-block border-b border-r border-blue-400/40 w-2.5 h-2.5"></span>
-              </div>
+            {/* 0 - 3.5s: "Where Imagination Meets Innovation" */}
+            <div className="hero-s1-anim absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
+              <h2
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight hero-s1-sweep"
+                style={{
+                  textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 14px rgba(7, 87, 184, 0.16)'
+                }}
+              >
+                Where Imagination Meets Innovation
+              </h2>
             </div>
 
-            {/* Headline Group: 3D Typography */}
-            <div className="hero-headline-group relative z-10 space-y-2 sm:space-y-3 py-2">
+            {/* 3.5 - 7.0s: "Tomorrow’s Technology Turns Dreams Into Reality" */}
+            <div className="hero-s2-anim absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
+              <h2
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-[#002D7A]"
+                style={{
+                  textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 14px rgba(7, 87, 184, 0.14)'
+                }}
+              >
+                Tomorrow’s Technology Turns Dreams Into Reality
+              </h2>
+            </div>
+
+            {/* 7.0 - 12.0s (Final Headline): "Where Technology Meets Possibility" */}
+            <div className="hero-final-group relative z-20 space-y-2 sm:space-y-3 py-2 w-full">
               {/* Line 1: Where Technology Meets */}
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-[#002D7A] flex items-center justify-center flex-wrap gap-x-3 gap-y-1">
-                {/* 0.8-1.6s: Where */}
-                <span className="hero-word-where inline-block">
-                  Where
-                </span>
-
-                {/* 1.6-2.3s: Technology */}
-                <span className="hero-word-technology inline-block">
-                  Technology
-                </span>
-
-                {/* 2.3-2.9s: Meets */}
-                <span className="hero-word-meets inline-block">
-                  Meets
-                </span>
+              <h1
+                className="hero-final-line1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-[#002D7A] block"
+                style={{
+                  textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 3px 10px rgba(7, 87, 184, 0.12)'
+                }}
+              >
+                Where Technology Meets
               </h1>
 
               {/* Line 2: Possibility */}
-              <div className="pt-0.5">
-                <span className="hero-word-possibility inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight bg-gradient-to-r from-[#0757B8] via-purple-600 to-pink-500 bg-clip-text text-transparent">
+              <div className="hero-final-line2 pt-0.5 block">
+                <span
+                  className="inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight bg-gradient-to-r from-[#0757B8] via-purple-600 to-pink-500 bg-clip-text text-transparent"
+                  style={{
+                    filter: 'drop-shadow(0 3px 14px rgba(147, 51, 234, 0.20))'
+                  }}
+                >
                   Possibility
                 </span>
               </div>
