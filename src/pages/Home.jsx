@@ -411,7 +411,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setHeroIntroDone(true);
-    }, 5000);
+    }, 11500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -657,50 +657,286 @@ export default function Home() {
           }
         }
 
-        /* 5-SECOND 3D TYPOGRAPHY INTRO ANIMATION */
+        /* 11.5-SECOND 3D TYPOGRAPHY INTRO ANIMATION */
         .hero-3d-stage {
           perspective: 1200px;
           perspective-origin: center 40%;
           transform-style: preserve-3d;
         }
 
-        @keyframes heroTextIntro5s {
+        /* Ambient soft blue lighting behind text */
+        @keyframes heroAmbientGlow {
           0% {
             opacity: 0;
-            transform: translate3d(0, 28px, -60px) scale(0.95);
-            filter: blur(4px);
+            transform: translate(-50%, -50%) scale(0.7);
           }
-          32% { /* 1.6s: Smooth forward arrival */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            filter: blur(0);
+          10% { /* ~1.15s */
+            opacity: 0.85;
+            transform: translate(-50%, -50%) scale(1.0);
           }
-          100% { /* 5.0s: Fully settled */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            filter: blur(0);
+          55% { /* ~6.3s */
+            opacity: 0.7;
+            transform: translate(-50%, -50%) scale(1.05);
+          }
+          85% { /* ~9.8s */
+            opacity: 0.6;
+            transform: translate(-50%, -50%) scale(1.0);
+          }
+          100% { /* 11.5s */
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scale(1.0);
           }
         }
 
-        .hero-intro-text-anim {
-          animation: heroTextIntro5s 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        /* Subtle technical blue line passing behind Sentence 2 (3.5s - 7.0s) */
+        @keyframes techLineSentence2 {
+          0%, 30.4% { /* 0.0s - 3.5s: Hidden */
+            opacity: 0;
+            transform: translate(-50%, -50%) scaleX(0);
+          }
+          34.8% { /* 4.0s: Line traces across */
+            opacity: 0.75;
+            transform: translate(-50%, -50%) scaleX(0.4);
+          }
+          47.8% { /* 5.5s: Fully extended behind sentence 2 */
+            opacity: 0.9;
+            transform: translate(-50%, -50%) scaleX(1.0);
+          }
+          58.0% { /* 6.7s: Fades out */
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scaleX(0.8);
+          }
+          60.9%, 100% { /* 7.0s+ */
+            opacity: 0;
+            transform: translate(-50%, -50%) scaleX(0);
+          }
+        }
+
+        /* SENTENCE 1: "Where Imagination Meets Innovation" (0.0s - 3.5s) */
+        @keyframes animSentence1 {
+          0% {
+            opacity: 0;
+            transform: translate3d(0, 24px, -80px) scale(0.92);
+            filter: blur(4px);
+            visibility: visible;
+          }
+          12.0% { /* ~1.4s: Enters forward */
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          24.3% { /* ~2.8s: Held */
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          30.4% { /* 3.5s: Fades and moves backward */
+            opacity: 0;
+            transform: translate3d(0, -18px, -70px) scale(0.95);
+            filter: blur(3px);
+            visibility: hidden;
+          }
+          100% {
+            opacity: 0;
+            transform: translate3d(0, -18px, -70px) scale(0.95);
+            visibility: hidden;
+          }
+        }
+
+        /* Horizontal light sweep across Sentence 1 */
+        @keyframes textSweepSentence1 {
+          0%, 8.0% {
+            background-position: 100% 50%;
+          }
+          22.0% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        /* SENTENCE 2: "Tomorrow’s Technology Turns Dreams Into Reality" (3.5s - 7.0s) */
+        @keyframes animSentence2 {
+          0%, 29.5% { /* 0.0s - 3.4s: Hidden */
+            opacity: 0;
+            transform: translate3d(0, 24px, -80px) scale(0.93);
+            filter: blur(4px);
+            visibility: hidden;
+          }
+          30.4% { /* 3.5s: Starts entering */
+            opacity: 0;
+            transform: translate3d(0, 24px, -80px) scale(0.93);
+            filter: blur(4px);
+            visibility: visible;
+          }
+          41.7% { /* 4.8s: Forward in position */
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          53.9% { /* 6.2s: Held */
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          60.9% { /* 7.0s: Fades and moves backward */
+            opacity: 0;
+            transform: translate3d(0, -18px, -70px) scale(0.94);
+            filter: blur(3px);
+            visibility: hidden;
+          }
+          100% {
+            opacity: 0;
+            transform: translate3d(0, -18px, -70px) scale(0.94);
+            visibility: hidden;
+          }
+        }
+
+        /* FINAL SENTENCE 3: LINE 1 - "Where Technology Meets" (7.0s - 11.5s) */
+        @keyframes animFinalLine1 {
+          0%, 60.0% { /* 0.0s - 6.9s: Hidden */
+            opacity: 0;
+            transform: translate3d(0, 22px, -50px);
+            filter: blur(3px);
+            visibility: hidden;
+          }
+          60.9% { /* 7.0s: Begins reveal */
+            opacity: 0;
+            transform: translate3d(0, 22px, -50px);
+            filter: blur(3px);
+            visibility: visible;
+          }
+          74.0% { /* ~8.5s: Fully revealed with 3D depth */
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            filter: blur(0);
+            visibility: visible;
+          }
+        }
+
+        /* FINAL SENTENCE 3: LINE 2 - "Possibility" (7.0s - 11.5s) */
+        @keyframes animFinalLine2 {
+          0%, 70.0% { /* 0.0s - 8.0s: Hidden */
+            opacity: 0;
+            transform: translate3d(0, 24px, -60px) scale(0.94);
+            filter: blur(4px);
+            visibility: hidden;
+          }
+          71.3% { /* 8.2s: Begins reveal */
+            opacity: 0;
+            transform: translate3d(0, 24px, -60px) scale(0.94);
+            filter: blur(4px);
+            visibility: visible;
+          }
+          83.5% { /* 9.6s: Luminous gradient expansion */
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+            filter: blur(0);
+            visibility: visible;
+          }
+        }
+
+        /* FINAL SENTENCE 3 GROUP SCALE: 96% to 100% (9.8s - 10.5s) */
+        @keyframes animFinalGroupScale {
+          0%, 85.0% { /* 0.0s - 9.8s */
+            transform: scale(0.96);
+          }
+          91.3% { /* 10.5s */
+            transform: scale(1.0);
+          }
+          100% {
+            transform: scale(1.0);
+          }
+        }
+
+        .hero-glow-anim {
+          animation: heroAmbientGlow 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .hero-tech-line-s2 {
+          animation: techLineSentence2 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .hero-s1-anim {
+          animation: animSentence1 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity, filter;
         }
+        .hero-s1-sweep {
+          background: linear-gradient(110deg, #002D7A 20%, #0757B8 40%, #60A5FA 50%, #0757B8 60%, #002D7A 80%);
+          background-size: 250% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: textSweepSentence1 11.5s ease-out forwards;
+        }
+        .hero-s2-anim {
+          animation: animSentence2 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity, filter;
+        }
+        .hero-final-line1 {
+          animation: animFinalLine1 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity, filter;
+        }
+        .hero-final-line2 {
+          animation: animFinalLine2 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity, filter;
+        }
+        .hero-final-group {
+          animation: animFinalGroupScale 11.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform;
+        }
 
-        /* Post-5s Static Composition - Zero CPU/GPU paint cycles */
-        .hero-intro-static .hero-intro-text-anim {
+        /* Post-11.5s Static Composition - Zero CPU/GPU paint cycles */
+        .hero-intro-static .hero-glow-anim {
+          animation: none !important;
+          opacity: 0.25 !important;
+          transform: translate(-50%, -50%) scale(1.0) !important;
+        }
+        .hero-intro-static .hero-tech-line-s2,
+        .hero-intro-static .hero-s1-anim,
+        .hero-intro-static .hero-s2-anim {
+          display: none !important;
+          animation: none !important;
+        }
+        .hero-intro-static .hero-final-line1,
+        .hero-intro-static .hero-final-line2,
+        .hero-intro-static .hero-final-group {
           animation: none !important;
           opacity: 1 !important;
           transform: none !important;
           filter: none !important;
+          visibility: visible !important;
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .hero-intro-text-anim {
+          .hero-glow-anim,
+          .hero-tech-line-s2,
+          .hero-s1-anim,
+          .hero-s2-anim {
+            display: none !important;
+            animation: none !important;
+          }
+          .hero-final-line1,
+          .hero-final-line2,
+          .hero-final-group {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
-            filter: none !important;
+            visibility: visible !important;
           }
         }
       `}</style>
@@ -710,30 +946,74 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10">
-          {/* Central main title / 5-Second 3D Typography Intro Area */}
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center pt-2 pb-2 relative select-none hero-3d-stage flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
-            <div className="hero-intro-text-anim relative z-10 w-full max-w-6xl mx-auto py-2">
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[86px] font-black tracking-tight leading-[1.08] select-none text-center">
-                {/* Line 1: Tomorrow’s Technology in strong BETA blue */}
-                <span
-                  className="block text-[#004AAD] mb-1 sm:mb-2 md:mb-3"
-                  style={{
-                    textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 16px rgba(0, 74, 173, 0.16)'
-                  }}
-                >
-                  Tomorrow’s Technology
-                </span>
+          {/* Central main title / 10-12s 3D Cinematic Typography Intro Area */}
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-4 pb-2 relative select-none hero-3d-stage min-h-[170px] sm:min-h-[200px] md:min-h-[220px] flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
+            
+            {/* Ambient soft blue lighting */}
+            <div
+              className="hero-glow-anim absolute top-1/2 left-1/2 w-[380px] sm:w-[560px] md:w-[720px] h-[240px] sm:h-[300px] pointer-events-none rounded-full"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(7, 87, 184, 0.14) 0%, rgba(147, 51, 234, 0.04) 50%, rgba(248, 250, 252, 0) 75%)',
+                zIndex: 0
+              }}
+            />
 
-                {/* Line 2: Turns Dreams Into Reality in professional blue-to-purple gradient */}
+            {/* Subtle blue technical line passing behind Sentence 2 (3.5s - 7.0s) */}
+            <div
+              className="hero-tech-line-s2 absolute top-1/2 left-1/2 w-[300px] sm:w-[500px] md:w-[680px] h-[2px] pointer-events-none"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(7, 87, 184, 0.25) 20%, rgba(7, 87, 184, 0.65) 50%, rgba(7, 87, 184, 0.25) 80%, transparent)',
+                zIndex: 1
+              }}
+            />
+
+            {/* 0 - 3.5s: "Where Imagination Meets Innovation" */}
+            <div className="hero-s1-anim absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
+              <h2
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight hero-s1-sweep"
+                style={{
+                  textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 14px rgba(7, 87, 184, 0.16)'
+                }}
+              >
+                Where Imagination Meets Innovation
+              </h2>
+            </div>
+
+            {/* 3.5 - 7.0s: "Tomorrow’s Technology Turns Dreams Into Reality" */}
+            <div className="hero-s2-anim absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
+              <h2
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-[#002D7A]"
+                style={{
+                  textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 4px 14px rgba(7, 87, 184, 0.14)'
+                }}
+              >
+                Tomorrow’s Technology Turns Dreams Into Reality
+              </h2>
+            </div>
+
+            {/* 7.0 - 12.0s (Final Headline): "Where Technology Meets Possibility" */}
+            <div className="hero-final-group relative z-20 space-y-2 sm:space-y-3 py-2 w-full">
+              {/* Line 1: Where Technology Meets */}
+              <h1
+                className="hero-final-line1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-[#002D7A] block"
+                style={{
+                  textShadow: '0 1px 0 #002266, 0 2px 0 #001b52, 0 3px 10px rgba(7, 87, 184, 0.12)'
+                }}
+              >
+                Where Technology Meets
+              </h1>
+
+              {/* Line 2: Possibility */}
+              <div className="hero-final-line2 pt-0.5 block">
                 <span
-                  className="block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent"
+                  className="inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight bg-gradient-to-r from-[#0757B8] via-purple-600 to-pink-500 bg-clip-text text-transparent"
                   style={{
-                    filter: 'drop-shadow(0 4px 16px rgba(124, 58, 237, 0.20))'
+                    filter: 'drop-shadow(0 3px 14px rgba(147, 51, 234, 0.20))'
                   }}
                 >
-                  Turns Dreams Into Reality
+                  Possibility
                 </span>
-              </h1>
+              </div>
             </div>
           </div>
 
