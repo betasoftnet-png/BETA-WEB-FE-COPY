@@ -1147,22 +1147,22 @@ export default function Home() {
             >
               <span className="beta-letter beta-letter-b inline-flex items-center">
                 <svg viewBox="0 0 670 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="B">
-                  <path d="M65,0 H265 V688 H65 Z M307,0 H421 Q622,0 622,173 Q622,246 593.5,283 Q565,320 503,335 V339 Q568,354 596,386 Q628,424 628,504 Q628,596 579,642 Q530,688 422,688 H307 Z M307,170.8 H336.8 Q360.6,170.8 372.9,171.8 Q385.2,172.8 391.1,176.9 Q397.1,181 399.2,188.1 Q401.4,195.2 401.4,208.8 Q401.4,221.8 399.2,228.9 Q397.1,236 391.1,240.1 Q385.2,244.2 372.9,245.2 Q360.6,246.2 336.8,246.2 H307 Z M307,435.9 H341.9 Q365.6,435.9 378,435.9 Q390.3,435.9 396.3,442.7 Q402.2,446.8 404.3,454.2 Q406.4,461.7 406.4,476.7 Q406.4,491 404.3,498.4 Q402.2,505.9 396.3,510 Q390.3,514.1 378,515.1 Q365.6,516.1 341.9,516.1 H307 Z" />
+                  <path d="M65,0 H265 V688 H65 Z M307,0 H421 Q622,0 622,173 Q622,246 593.5,283 Q565,320 503,335 V339 Q568,354 596,386 Q628,424 628,504 Q628,596 579,642 Q530,688 422,688 H307 Z M307,237.4 H331.5 Q351.1,237.4 361.3,236.6 Q371.4,235.8 376.3,232.7 Q381.2,229.6 382.9,224.1 Q384.7,218.6 384.7,208.8 Q384.7,198.4 382.9,192.9 Q381.2,187.4 376.3,184.3 Q371.4,181.2 361.3,180.4 Q351.1,179.6 331.5,179.6 H307 Z M307,506.7 H335.7 Q355.3,506.7 365.4,505.9 Q375.6,505.1 380.5,502 Q385.4,498.9 387.1,493.2 Q388.9,487.4 388.9,476.5 Q388.9,465.1 387.1,459.4 Q385.4,453.6 380.5,450.5 Q372.1,445.3 335.7,445.3 H307 Z" />
                 </svg>
               </span>
               <span className="beta-letter beta-letter-e inline-flex items-center">
                 <svg viewBox="0 0 616 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="E">
-                  <path d="M65,0 H265 V688 H65 Z M307,0 H561 V195 H307 Z M307,251 H514 V437 H307 Z M307,493 H561 V688 H307 Z" />
+                  <path d="M65,0 H265 V688 H65 Z M307,0 H561 V205 H307 Z M307,242 H514 V446 H307 Z M307,483 H561 V688 H307 Z" />
                 </svg>
               </span>
               <span className="beta-letter beta-letter-t inline-flex items-center">
                 <svg viewBox="0 0 581 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="T">
-                  <path d="M9,0 H572 V198 H9 Z M162,238 H418 V688 H162 Z" />
+                  <path d="M9,0 H572 V215 H9 Z M153,248 H428 V688 H153 Z" />
                 </svg>
               </span>
               <span className="beta-letter beta-letter-a inline-flex items-center">
                 <svg viewBox="0 0 687 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="A">
-                  <path d="M221,0 H238 L317,274 L202,688 H2 Z M446,566 H279 L321,412 H401 L283,0 H466 L685,688 H481 Z" />
+                  <path d="M221,0 H238 L317,274 L202,688 H2 Z M446,566 H279 L314,380 H385 L283,0 H466 L685,688 H481 Z" />
                 </svg>
               </span>
             </span>
