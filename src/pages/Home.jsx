@@ -769,69 +769,115 @@ export default function Home() {
           will-change: transform, opacity;
         }
 
-        /* SUBTLE CORPORATE AMBIENT BACKGROUND MOTION */
-        .hero-ambient-gradient {
-          background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0, 74, 173, 0.07) 0%, rgba(124, 58, 237, 0.04) 45%, transparent 75%);
-          animation: ambientGradShift 16s ease-in-out infinite alternate;
-          will-change: transform, opacity;
+        /* SUBTLE FULL-SCREEN CORPORATE AMBIENT BACKGROUND MOTION */
+        .hero-ambient-blob-1 {
+          background: radial-gradient(ellipse at center, rgba(0, 74, 173, 0.08) 0%, rgba(56, 189, 248, 0.04) 50%, transparent 75%);
+          animation: blobMotion1 22s ease-in-out infinite alternate;
+          will-change: transform;
         }
 
-        @keyframes ambientGradShift {
+        .hero-ambient-blob-2 {
+          background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.08) 0%, rgba(236, 72, 153, 0.04) 50%, transparent 75%);
+          animation: blobMotion2 26s ease-in-out infinite alternate;
+          will-change: transform;
+        }
+
+        .hero-ambient-blob-3 {
+          background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.06) 0%, rgba(124, 58, 237, 0.03) 45%, transparent 75%);
+          animation: blobMotion3 20s ease-in-out infinite alternate;
+          will-change: transform;
+        }
+
+        @keyframes blobMotion1 {
           0% {
-            transform: translate3d(-50%, -50%, 0) scale(0.96);
-            opacity: 0.7;
+            transform: translate3d(0, 0, 0) scale(1.0);
           }
           50% {
-            transform: translate3d(-48%, -52%, 0) scale(1.04);
-            opacity: 1;
+            transform: translate3d(6vw, 5vh, 0) scale(1.08);
+          }
+          100% {
+            transform: translate3d(3vw, 10vh, 0) scale(0.96);
+          }
+        }
+
+        @keyframes blobMotion2 {
+          0% {
+            transform: translate3d(0, 0, 0) scale(1.0);
+          }
+          50% {
+            transform: translate3d(-6vw, -5vh, 0) scale(1.06);
+          }
+          100% {
+            transform: translate3d(-4vw, -9vh, 0) scale(0.95);
+          }
+        }
+
+        @keyframes blobMotion3 {
+          0% {
+            transform: translate3d(-50%, -50%, 0) scale(0.96);
+          }
+          50% {
+            transform: translate3d(-48%, -52%, 0) scale(1.05);
           }
           100% {
             transform: translate3d(-52%, -48%, 0) scale(0.98);
-            opacity: 0.85;
           }
         }
 
         .hero-ambient-curves {
           will-change: transform;
-          animation: ambientCurvesDrift 20s ease-in-out infinite alternate;
+          animation: fullScreenCurvesDrift 28s ease-in-out infinite alternate;
         }
 
-        @keyframes ambientCurvesDrift {
+        @keyframes fullScreenCurvesDrift {
           0% {
-            transform: translate3d(-50%, -50%, 0);
+            transform: translate3d(0, 0, 0);
           }
           50% {
-            transform: translate3d(-49%, -52%, 0);
+            transform: translate3d(14px, -14px, 0);
           }
           100% {
-            transform: translate3d(-51%, -48%, 0);
+            transform: translate3d(-14px, 10px, 0);
           }
         }
 
-        .hero-curve-1 {
-          animation: curveShift1 14s ease-in-out infinite alternate;
+        .hero-fullscreen-curve-1 {
+          animation: fsCurveShift1 16s ease-in-out infinite alternate;
           transform-origin: center;
         }
-        .hero-curve-2 {
-          animation: curveShift2 18s ease-in-out infinite alternate;
+        .hero-fullscreen-curve-2 {
+          animation: fsCurveShift2 20s ease-in-out infinite alternate;
+          transform-origin: center;
+        }
+        .hero-fullscreen-curve-3 {
+          animation: fsCurveShift3 24s ease-in-out infinite alternate;
           transform-origin: center;
         }
 
-        @keyframes curveShift1 {
+        @keyframes fsCurveShift1 {
           0% {
             transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translate3d(14px, -10px, 0);
+            transform: translate3d(24px, -18px, 0);
           }
         }
 
-        @keyframes curveShift2 {
+        @keyframes fsCurveShift2 {
           0% {
             transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translate3d(-16px, 12px, 0);
+            transform: translate3d(-22px, 16px, 0);
+          }
+        }
+
+        @keyframes fsCurveShift3 {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(18px, 14px, 0);
           }
         }
 
@@ -860,61 +906,81 @@ export default function Home() {
             transform: none !important;
             visibility: visible !important;
           }
-          .hero-ambient-gradient,
+          .hero-ambient-blob-1,
+          .hero-ambient-blob-2,
+          .hero-ambient-blob-3,
           .hero-ambient-curves,
-          .hero-curve-1,
-          .hero-curve-2 {
+          .hero-fullscreen-curve-1,
+          .hero-fullscreen-curve-2,
+          .hero-fullscreen-curve-3 {
             animation: none !important;
           }
         }
       `}</style>
 
-      {/* HERO SECTION: SIDE-BY-SIDE LAYOUT */}
-      <div className="relative w-full mb-16 pt-6 pb-12 overflow-hidden">
+      {/* HERO SECTION: FULL-VIEWPORT EDGE-TO-EDGE CONTAINER */}
+      <div className="relative w-full min-h-screen mb-16 pt-6 pb-12 overflow-hidden flex flex-col justify-center">
 
-        {/* Subtle Corporate Ambient Background Motion Layer (Low opacity, GPU-accelerated, faint curves & soft gradient) */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none">
-          {/* Extremely slow subtle gradient shift */}
-          <div className="hero-ambient-gradient absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] rounded-full" />
+        {/* Full-Screen Edge-to-Edge Corporate Ambient Background Motion Layer */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0 select-none">
+          {/* Subtle full-screen gradient movement blooms */}
+          <div className="hero-ambient-blob-1 absolute -top-[10%] -left-[10%] w-[60vw] h-[60vh] min-w-[500px] min-h-[400px] rounded-full" />
+          <div className="hero-ambient-blob-2 absolute -bottom-[10%] -right-[10%] w-[65vw] h-[65vh] min-w-[550px] min-h-[450px] rounded-full" />
+          <div className="hero-ambient-blob-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] h-[60vh] min-w-[650px] min-h-[400px] rounded-full" />
 
-          {/* Faint curved light shapes moving gently behind typography */}
+          {/* Large faint curved light shapes moving slowly across the ENTIRE screen */}
           <svg
-            className="hero-ambient-curves absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[480px]"
-            viewBox="0 0 1200 480"
+            className="hero-ambient-curves absolute inset-0 w-full h-full"
+            viewBox="0 0 1920 1080"
+            preserveAspectRatio="xMidYMid slice"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
-              <linearGradient id="heroCurveGrad1" x1="0%" y1="20%" x2="100%" y2="80%">
+              <linearGradient id="fullScreenCurveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#004AAD" stopOpacity="0.08" />
-                <stop offset="45%" stopColor="#7C3AED" stopOpacity="0.10" />
-                <stop offset="100%" stopColor="#EC4899" stopOpacity="0.05" />
+                <stop offset="40%" stopColor="#7C3AED" stopOpacity="0.10" />
+                <stop offset="80%" stopColor="#C026D3" stopOpacity="0.06" />
+                <stop offset="100%" stopColor="#0284C7" stopOpacity="0.03" />
               </linearGradient>
-              <linearGradient id="heroCurveGrad2" x1="100%" y1="10%" x2="0%" y2="90%">
-                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.07" />
-                <stop offset="55%" stopColor="#6366F1" stopOpacity="0.09" />
-                <stop offset="100%" stopColor="#A855F7" stopOpacity="0.04" />
+              <linearGradient id="fullScreenCurveGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.08" />
+                <stop offset="50%" stopColor="#6366F1" stopOpacity="0.09" />
+                <stop offset="85%" stopColor="#A855F7" stopOpacity="0.06" />
+                <stop offset="100%" stopColor="#EC4899" stopOpacity="0.04" />
+              </linearGradient>
+              <linearGradient id="fullScreenCurveGrad3" x1="0%" y1="50%" x2="100%" y2="50%">
+                <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.05" />
+                <stop offset="50%" stopColor="#818CF8" stopOpacity="0.07" />
+                <stop offset="100%" stopColor="#C084FC" stopOpacity="0.04" />
               </linearGradient>
             </defs>
             <path
-              className="hero-curve-1"
-              d="M -40,240 C 220,110 440,360 780,200 C 980,110 1100,280 1240,220"
-              stroke="url(#heroCurveGrad1)"
-              strokeWidth="56"
+              className="hero-fullscreen-curve-1"
+              d="M -120,280 C 400,60 850,720 1380,300 C 1680,100 1880,480 2080,360"
+              stroke="url(#fullScreenCurveGrad1)"
+              strokeWidth="80"
               strokeLinecap="round"
             />
             <path
-              className="hero-curve-2"
-              d="M -20,310 C 260,390 500,140 840,300 C 1020,380 1100,190 1220,250"
-              stroke="url(#heroCurveGrad2)"
-              strokeWidth="42"
+              className="hero-fullscreen-curve-2"
+              d="M -120,780 C 350,960 760,360 1220,720 C 1580,940 1820,500 2080,640"
+              stroke="url(#fullScreenCurveGrad2)"
+              strokeWidth="70"
+              strokeLinecap="round"
+            />
+            <path
+              className="hero-fullscreen-curve-3"
+              d="M -100,500 C 460,580 920,160 1480,540 C 1780,720 1940,400 2060,480"
+              stroke="url(#fullScreenCurveGrad3)"
+              strokeWidth="60"
               strokeLinecap="round"
             />
           </svg>
         </div>
 
         {/* Hero Content Layer */}
-        <div className="relative z-10">
+        <div className="relative z-10 w-full">
           {/* Central main title / 5-Second 3-Scene 3D Typography Intro Area */}
           <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-2 pb-2 relative select-none hero-intro-stage min-h-[170px] sm:min-h-[200px] md:min-h-[220px] flex items-center justify-center ${heroIntroDone ? 'hero-intro-static' : ''}`}>
             
