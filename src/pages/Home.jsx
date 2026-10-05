@@ -1156,8 +1156,8 @@ export default function Home() {
                 </svg>
               </span>
               <span className="beta-letter beta-letter-t inline-flex items-center">
-                <svg viewBox="0 0 540 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="T">
-                  <path d="M10,0 H530 V165 H10 Z M185,220 H355 V688 H185 Z" />
+                <svg viewBox="0 0 540 688" className="h-[1.105em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="T">
+                  <path d="M6,0 H534 V178 H6 Z M170,222 H370 V688 H170 Z" />
                 </svg>
               </span>
               <span className="beta-letter beta-letter-a inline-flex items-center">
