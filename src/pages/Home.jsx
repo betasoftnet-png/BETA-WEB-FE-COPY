@@ -664,92 +664,92 @@ export default function Home() {
           transform-style: preserve-3d;
         }
 
-        /* SCENE 1 (0.0s - 1.5s): Where Imagination Meets Innovation */
+        /* SCENE 1 (0.0s - 1.5s): "Where Imagination Meets Innovation" */
         @keyframes animScene1 {
           0% {
             opacity: 0;
             transform: translate3d(0, 16px, 0) scale(0.96);
             visibility: visible;
           }
-          10% { /* 0.5s: softly faded in */
+          9% { /* 0.45s: softly faded and settled in */
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
             visibility: visible;
           }
-          24% { /* 1.2s: hold cleanly */
+          26% { /* 1.3s: hold stable and readable */
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
             visibility: visible;
           }
-          30% { /* 1.5s: transition out */
+          32% { /* 1.6s: smooth upward morph/reveal dissolve */
             opacity: 0;
-            transform: translate3d(0, -14px, 0) scale(0.98);
+            transform: translate3d(0, -12px, 0) scale(1.02);
             visibility: hidden;
           }
           100% {
             opacity: 0;
-            transform: translate3d(0, -14px, 0) scale(0.98);
+            transform: translate3d(0, -12px, 0) scale(1.02);
             visibility: hidden;
           }
         }
 
-        /* SCENE 2 (1.5s - 3.2s): Tomorrow’s Technology Turns Dreams Into Reality */
+        /* SCENE 2 (1.5s - 3.2s): "Tomorrow’s Technology Turns Dreams Into Reality" */
         @keyframes animScene2 {
-          0%, 29.9% {
+          0%, 26% {
             opacity: 0;
-            transform: translate3d(-16px, 0, 0) scale(0.97);
+            transform: translate3d(0, 14px, 0) scale(0.97);
             visibility: hidden;
           }
-          30% { /* 1.5s: horizontal reveal + scale entrance */
+          28% { /* 1.4s: begins unveiling as Scene 1 softly dissolves */
             opacity: 0;
-            transform: translate3d(-16px, 0, 0) scale(0.97);
+            transform: translate3d(0, 14px, 0) scale(0.97);
             visibility: visible;
           }
-          38% { /* 1.9s: arrived */
+          36% { /* 1.8s: fully arrived and crystal clear */
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
             visibility: visible;
           }
-          58% { /* 2.9s: hold */
+          58% { /* 2.9s: hold cleanly and readably */
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
             visibility: visible;
           }
-          64% { /* 3.2s: transition out */
+          65% { /* 3.25s: smooth morph transition out */
             opacity: 0;
-            transform: translate3d(16px, 0, 0) scale(0.98);
+            transform: translate3d(0, -12px, 0) scale(1.02);
             visibility: hidden;
           }
           100% {
             opacity: 0;
-            transform: translate3d(16px, 0, 0) scale(0.98);
+            transform: translate3d(0, -12px, 0) scale(1.02);
             visibility: hidden;
           }
         }
 
-        /* SCENE 3 (3.2s - 5.0s & Final Screen): Where Technology Meets Possibility */
+        /* SCENE 3 (3.2s - 5.0s & Final Screen): "Where Technology Meets Possibility" */
         @keyframes animScene3 {
-          0%, 63.9% {
+          0%, 62% {
             opacity: 0;
             transform: translate3d(0, 18px, 0) scale(0.96);
             visibility: hidden;
           }
-          64% { /* 3.2s: builds smoothly from previous scene */
+          64% { /* 3.2s: grand entrance begins */
             opacity: 0;
             transform: translate3d(0, 18px, 0) scale(0.96);
             visibility: visible;
           }
-          80% { /* 4.0s: fully arrived with 3D depth */
+          78% { /* 3.9s: arrived with smooth momentum */
+            opacity: 1;
+            transform: translate3d(0, -2px, 0) scale(1.005);
+            visibility: visible;
+          }
+          92% { /* 4.6s: settles smoothly into permanent position */
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
             visibility: visible;
           }
-          92% { /* 4.6s: subtle settling */
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1.0);
-            visibility: visible;
-          }
-          100% { /* 5.0s: stable composition */
+          100% { /* 5.0s: locked and stable */
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1.0);
             visibility: visible;
@@ -767,6 +767,72 @@ export default function Home() {
         .hero-scene-3 {
           animation: animScene3 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity;
+        }
+
+        /* SUBTLE CORPORATE AMBIENT BACKGROUND MOTION */
+        .hero-ambient-gradient {
+          background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0, 74, 173, 0.07) 0%, rgba(124, 58, 237, 0.04) 45%, transparent 75%);
+          animation: ambientGradShift 16s ease-in-out infinite alternate;
+          will-change: transform, opacity;
+        }
+
+        @keyframes ambientGradShift {
+          0% {
+            transform: translate3d(-50%, -50%, 0) scale(0.96);
+            opacity: 0.7;
+          }
+          50% {
+            transform: translate3d(-48%, -52%, 0) scale(1.04);
+            opacity: 1;
+          }
+          100% {
+            transform: translate3d(-52%, -48%, 0) scale(0.98);
+            opacity: 0.85;
+          }
+        }
+
+        .hero-ambient-curves {
+          will-change: transform;
+          animation: ambientCurvesDrift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes ambientCurvesDrift {
+          0% {
+            transform: translate3d(-50%, -50%, 0);
+          }
+          50% {
+            transform: translate3d(-49%, -52%, 0);
+          }
+          100% {
+            transform: translate3d(-51%, -48%, 0);
+          }
+        }
+
+        .hero-curve-1 {
+          animation: curveShift1 14s ease-in-out infinite alternate;
+          transform-origin: center;
+        }
+        .hero-curve-2 {
+          animation: curveShift2 18s ease-in-out infinite alternate;
+          transform-origin: center;
+        }
+
+        @keyframes curveShift1 {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(14px, -10px, 0);
+          }
+        }
+
+        @keyframes curveShift2 {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-16px, 12px, 0);
+          }
         }
 
         /* Post-5s Static Composition - Zero CPU/GPU animation load */
@@ -794,11 +860,58 @@ export default function Home() {
             transform: none !important;
             visibility: visible !important;
           }
+          .hero-ambient-gradient,
+          .hero-ambient-curves,
+          .hero-curve-1,
+          .hero-curve-2 {
+            animation: none !important;
+          }
         }
       `}</style>
 
       {/* HERO SECTION: SIDE-BY-SIDE LAYOUT */}
       <div className="relative w-full mb-16 pt-6 pb-12 overflow-hidden">
+
+        {/* Subtle Corporate Ambient Background Motion Layer (Low opacity, GPU-accelerated, faint curves & soft gradient) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none">
+          {/* Extremely slow subtle gradient shift */}
+          <div className="hero-ambient-gradient absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] rounded-full" />
+
+          {/* Faint curved light shapes moving gently behind typography */}
+          <svg
+            className="hero-ambient-curves absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[480px]"
+            viewBox="0 0 1200 480"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="heroCurveGrad1" x1="0%" y1="20%" x2="100%" y2="80%">
+                <stop offset="0%" stopColor="#004AAD" stopOpacity="0.08" />
+                <stop offset="45%" stopColor="#7C3AED" stopOpacity="0.10" />
+                <stop offset="100%" stopColor="#EC4899" stopOpacity="0.05" />
+              </linearGradient>
+              <linearGradient id="heroCurveGrad2" x1="100%" y1="10%" x2="0%" y2="90%">
+                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.07" />
+                <stop offset="55%" stopColor="#6366F1" stopOpacity="0.09" />
+                <stop offset="100%" stopColor="#A855F7" stopOpacity="0.04" />
+              </linearGradient>
+            </defs>
+            <path
+              className="hero-curve-1"
+              d="M -40,240 C 220,110 440,360 780,200 C 980,110 1100,280 1240,220"
+              stroke="url(#heroCurveGrad1)"
+              strokeWidth="56"
+              strokeLinecap="round"
+            />
+            <path
+              className="hero-curve-2"
+              d="M -20,310 C 260,390 500,140 840,300 C 1020,380 1100,190 1220,250"
+              stroke="url(#heroCurveGrad2)"
+              strokeWidth="42"
+              strokeLinecap="round"
+            />
+          </svg>
+        </div>
 
         {/* Hero Content Layer */}
         <div className="relative z-10">
@@ -808,7 +921,7 @@ export default function Home() {
             {/* SCENE 1 (0s to 1.5s): "Where Imagination Meets Innovation" */}
             <div className="hero-scene-1 absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
               <h2
-                className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight select-none text-center"
+                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight select-none text-center"
                 style={{
                   textShadow: '0 1px 2px rgba(0, 74, 173, 0.12)'
                 }}
@@ -821,7 +934,7 @@ export default function Home() {
             {/* SCENE 2 (1.5s to 3.2s): "Tomorrow’s Technology Turns Dreams Into Reality" */}
             <div className="hero-scene-2 absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
               <h2
-                className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight select-none text-center"
+                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight select-none text-center"
                 style={{
                   textShadow: '0 1px 2px rgba(0, 74, 173, 0.12)'
                 }}
@@ -846,9 +959,9 @@ export default function Home() {
               {/* Line 2: Possibility */}
               <div className="pt-0.5 block">
                 <span
-                  className="inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight text-[#7C3AED]"
+                  className="inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#EC4899] bg-clip-text text-transparent"
                   style={{
-                    textShadow: '0 1px 0 #581c87, 0 2px 0 #4c1d95, 0 3px 8px rgba(124, 58, 237, 0.16)'
+                    filter: 'drop-shadow(0 2px 8px rgba(124, 58, 237, 0.20))'
                   }}
                 >
                   Possibility
