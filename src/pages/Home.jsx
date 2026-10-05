@@ -1004,17 +1004,17 @@ export default function Home() {
           0% {
             opacity: 0;
             transform: translate3d(0, 18px, 0) scale(0.92);
-            text-shadow: 0 0 0 transparent;
+            filter: drop-shadow(0 0 0 transparent);
           }
           68% {
             opacity: 1;
             transform: translate3d(0, -1px, 0) scale(1.01);
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5), 0 2px 8px rgba(0, 74, 173, 0.25);
+            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5)) drop-shadow(0 2px 6px rgba(0, 74, 173, 0.25));
           }
           100% {
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1);
-            text-shadow: 0 1px 2px rgba(0, 74, 173, 0.12);
+            filter: drop-shadow(0 1px 2px rgba(0, 74, 173, 0.12));
           }
         }
 
@@ -1022,7 +1022,7 @@ export default function Home() {
           display: inline-block;
           color: #004AAD !important;
           animation: betaLetterReveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
-          will-change: transform, opacity, text-shadow;
+          will-change: transform, opacity, filter;
         }
 
         .beta-letter-b {
@@ -1118,15 +1118,34 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10 w-full">
-          {/* Top Brand Mark: BETA Text with Sequential Entrance Animation */}
+          {/* Top Brand Mark: BETA Text with Sequential Entrance Animation & Tightened Negative Space */}
           <div className="w-full flex items-center justify-center pt-1 pb-1 sm:pb-1.5 md:pb-2 select-none">
             <span
-              className="top-beta-brand-text text-5xl sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[102px] 2xl:text-[114px] select-none uppercase tracking-[-0.035em] leading-none inline-block"
+              className="top-beta-brand-text text-5xl sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[102px] 2xl:text-[114px] select-none uppercase tracking-[-0.035em] leading-none inline-flex items-center justify-center"
               style={{
                 fontFamily: "'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif"
               }}
             >
-              <span className="beta-letter beta-letter-b">B</span><span className="beta-letter beta-letter-e">E</span><span className="beta-letter beta-letter-t">T</span><span className="beta-letter beta-letter-a">A</span>
+              <span className="beta-letter beta-letter-b inline-flex items-center">
+                <svg viewBox="0 0 670 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="B">
+                  <path d="M65,0 H265 V688 H65 Z M307,0 H421 Q622,0 622,173 Q622,246 593.5,283 Q565,320 503,335 V339 Q568,354 596,386 Q628,424 628,504 Q628,596 579,642 Q530,688 422,688 H307 Z M307,170.8 H336.8 Q360.6,170.8 372.9,171.8 Q385.2,172.8 391.1,176.9 Q397.1,181 399.2,188.1 Q401.4,195.2 401.4,208.8 Q401.4,221.8 399.2,228.9 Q397.1,236 391.1,240.1 Q385.2,244.2 372.9,245.2 Q360.6,246.2 336.8,246.2 H307 Z M307,435.9 H341.9 Q365.6,435.9 378,435.9 Q390.3,435.9 396.3,442.7 Q402.2,446.8 404.3,454.2 Q406.4,461.7 406.4,476.7 Q406.4,491 404.3,498.4 Q402.2,505.9 396.3,510 Q390.3,514.1 378,515.1 Q365.6,516.1 341.9,516.1 H307 Z" />
+                </svg>
+              </span>
+              <span className="beta-letter beta-letter-e inline-flex items-center">
+                <svg viewBox="0 0 616 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="E">
+                  <path d="M65,0 H265 V688 H65 Z M307,0 H561 V195 H307 Z M307,251 H514 V437 H307 Z M307,493 H561 V688 H307 Z" />
+                </svg>
+              </span>
+              <span className="beta-letter beta-letter-t inline-flex items-center">
+                <svg viewBox="0 0 581 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="T">
+                  <path d="M9,0 H572 V198 H9 Z M162,238 H418 V688 H162 Z" />
+                </svg>
+              </span>
+              <span className="beta-letter beta-letter-a inline-flex items-center">
+                <svg viewBox="0 0 687 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="A">
+                  <path d="M221,0 H238 L317,274 L202,688 H2 Z M283,0 H466 L685,688 H481 L446,566 H279 L321,412 L283,0 Z M328,348 H386 L352,148 Z" />
+                </svg>
+              </span>
             </span>
           </div>
 
