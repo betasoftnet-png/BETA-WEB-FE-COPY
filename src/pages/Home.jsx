@@ -916,6 +916,93 @@ export default function Home() {
             animation: none !important;
           }
         }
+
+        /* BETA LOGO SHOWCASE CARD ANIMATIONS */
+        .beta-card-glow {
+          background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.6) 45%, rgba(238, 242, 255, 0.35) 70%, transparent 100%);
+          animation: betaCardGlowShift 10s ease-in-out infinite alternate;
+          will-change: transform, opacity;
+        }
+
+        @keyframes betaCardGlowShift {
+          0% {
+            transform: translate3d(-50%, -50%, 0) scale(0.95);
+            opacity: 0.8;
+          }
+          50% {
+            transform: translate3d(-48%, -52%, 0) scale(1.05);
+            opacity: 1;
+          }
+          100% {
+            transform: translate3d(-52%, -48%, 0) scale(0.98);
+            opacity: 0.85;
+          }
+        }
+
+        .beta-card-curve-1 {
+          animation: betaCardCurve1 12s ease-in-out infinite alternate;
+          transform-origin: center;
+        }
+        .beta-card-curve-2 {
+          animation: betaCardCurve2 15s ease-in-out infinite alternate;
+          transform-origin: center;
+        }
+
+        @keyframes betaCardCurve1 {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(10px, -8px, 0);
+          }
+        }
+
+        @keyframes betaCardCurve2 {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-10px, 8px, 0);
+          }
+        }
+
+        .beta-logo-animated {
+          animation: betaLogoEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards, betaLogoFloat 6s ease-in-out 1.2s infinite alternate;
+          will-change: transform, opacity;
+        }
+
+        @keyframes betaLogoEntrance {
+          0% {
+            opacity: 0;
+            transform: translate3d(0, 12px, 0) scale(0.92);
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1.0);
+          }
+        }
+
+        @keyframes betaLogoFloat {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(0, -6px, 0);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .beta-card-glow,
+          .beta-card-curve-1,
+          .beta-card-curve-2 {
+            animation: none !important;
+          }
+          .beta-logo-animated {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        }
       `}</style>
 
       {/* HERO SECTION: FULL-VIEWPORT EDGE-TO-EDGE CONTAINER */}
@@ -1067,18 +1154,60 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
-                  {/* Left Side inside Box: Styled BNX Showcase Card */}
-                  <div className="lg:col-span-1 w-full h-72 text-center overflow-hidden relative select-none flex flex-col items-center justify-center bg-gradient-to-b from-blue-50/70 via-slate-50/50 to-indigo-50/40 border border-blue-100/80 rounded-2xl p-5">
-                    <div className="relative z-10 flex flex-col items-center justify-center">
-                      <div className="bg-white border border-blue-100 p-3.5 rounded-2xl shadow-xs mb-3 transition-transform duration-300 hover:scale-105">
-                        <img src="/logo.png" alt="Beta Logo" className="h-16 w-auto object-contain select-none" />
-                      </div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#004AAD]">
-                        BETA Core Platform
-                      </span>
-                      <p className="text-xs text-slate-500 mt-1 font-medium">
-                        Unified Business Ecosystem
-                      </p>
+                  {/* Left Side inside Box: Styled BETA Logo Showcase Card */}
+                  <div className="lg:col-span-1 w-full h-72 lg:h-auto min-h-[280px] sm:min-h-[300px] text-center overflow-hidden relative select-none flex items-center justify-center bg-gradient-to-b from-blue-50/80 via-slate-50/60 to-indigo-50/50 border border-blue-100/90 rounded-2xl p-6 group">
+                    {/* Subtle, elegant human-designed animated background */}
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none">
+                      {/* Soft blue and white light gradient shifting */}
+                      <div className="beta-card-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full" />
+
+                      {/* One or two faint curved shapes moving slowly in the background */}
+                      <svg
+                        className="absolute inset-0 w-full h-full"
+                        viewBox="0 0 320 280"
+                        preserveAspectRatio="xMidYMid slice"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <defs>
+                          <linearGradient id="betaCardGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#004AAD" stopOpacity="0.09" />
+                            <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.06" />
+                            <stop offset="100%" stopColor="#818CF8" stopOpacity="0.03" />
+                          </linearGradient>
+                          <linearGradient id="betaCardGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.08" />
+                            <stop offset="70%" stopColor="#A855F7" stopOpacity="0.05" />
+                            <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.02" />
+                          </linearGradient>
+                        </defs>
+                        <path
+                          className="beta-card-curve-1"
+                          d="M -30,80 C 70,190 190,40 350,140"
+                          stroke="url(#betaCardGrad1)"
+                          strokeWidth="38"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          className="beta-card-curve-2"
+                          d="M -20,220 C 90,110 210,250 340,160"
+                          stroke="url(#betaCardGrad2)"
+                          strokeWidth="28"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </div>
+
+                    {/* Centered Large BETA Logo with Subtle Entrance and Floating Motion */}
+                    <div className="relative z-10 flex items-center justify-center w-full h-full p-4">
+                      <img
+                        src="/logo.png"
+                        alt="BETA"
+                        className="beta-logo-animated h-28 sm:h-32 md:h-36 lg:h-40 w-auto max-w-[85%] max-h-[75%] object-contain select-none transition-transform duration-300 group-hover:scale-105"
+                        style={{
+                          filter: 'drop-shadow(0 12px 24px rgba(0, 74, 173, 0.12))'
+                        }}
+                      />
                     </div>
                   </div>
 
