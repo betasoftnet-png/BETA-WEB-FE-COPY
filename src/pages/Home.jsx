@@ -1023,6 +1023,25 @@ export default function Home() {
           color: #004AAD !important;
           animation: betaLetterReveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
           will-change: transform, opacity, filter;
+          cursor: pointer;
+          position: relative;
+        }
+
+        .beta-letter:hover {
+          z-index: 20;
+        }
+
+        /* INDEPENDENT SUBTLE 3D HOVER LIFT & SCALE PER LETTER */
+        .beta-letter svg {
+          transform: translate3d(0, 0, 0) scale(1);
+          transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1),
+                      filter 300ms cubic-bezier(0.25, 1, 0.5, 1);
+          will-change: transform, filter;
+        }
+
+        .beta-letter:hover svg {
+          transform: translate3d(0, -6px, 0) scale(1.055);
+          filter: drop-shadow(0 8px 18px rgba(0, 74, 173, 0.30)) drop-shadow(0 2px 5px rgba(0, 74, 173, 0.18));
         }
 
         .beta-letter-b {
