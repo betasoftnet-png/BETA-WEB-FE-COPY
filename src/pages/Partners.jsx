@@ -383,8 +383,8 @@ function PartnerResourcesMarqueeSection() {
   );
 }
 
-// Professional, human-designed blue architectural side composition
-function ArchitecturalSideDecoration({ side = 'left' }) {
+// Clean, modern blue architectural side frame (approx 15% width, balanced & symmetrical)
+function BlueSideFrame({ side = 'left' }) {
   const isRight = side === 'right';
 
   return (
@@ -397,104 +397,64 @@ function ArchitecturalSideDecoration({ side = 'left' }) {
     >
       <svg
         className="w-full h-full"
-        viewBox="0 0 500 800"
+        viewBox="0 0 160 800"
         preserveAspectRatio="none"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* Layer 1 Gradient: Deepest Rich Corporate BETA Blue Base */}
-          <linearGradient id={`archGrad1_${side}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#002D72" stopOpacity="0.95" />
-            <stop offset="40%" stopColor="#004AAD" stopOpacity="0.90" />
-            <stop offset="80%" stopColor="#0052CC" stopOpacity="0.82" />
-            <stop offset="100%" stopColor="#0284C7" stopOpacity="0.70" />
+          {/* Shade 1: Primary Corporate BETA Deep Blue */}
+          <linearGradient id={`frameBlue1_${side}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#00358A" />
+            <stop offset="50%" stopColor="#004AAD" />
+            <stop offset="100%" stopColor="#0052CC" />
           </linearGradient>
 
-          {/* Layer 2 Gradient: Mid Structural Vibrant Blue */}
-          <linearGradient id={`archGrad2_${side}`} x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#004AAD" stopOpacity="0.86" />
-            <stop offset="50%" stopColor="#0066FF" stopOpacity="0.75" />
-            <stop offset="85%" stopColor="#0284C7" stopOpacity="0.62" />
-            <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.48" />
+          {/* Shade 2: Secondary Mid Vibrant Corporate Blue */}
+          <linearGradient id={`frameBlue2_${side}`} x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#0052CC" stopOpacity="0.90" />
+            <stop offset="50%" stopColor="#0284C7" stopOpacity="0.80" />
+            <stop offset="100%" stopColor="#0066FF" stopOpacity="0.70" />
           </linearGradient>
 
-          {/* Layer 3 Gradient: Subtle Transparent Sky Blue Layer */}
-          <linearGradient id={`archGrad3_${side}`} x1="0%" y1="50%" x2="100%" y2="50%">
-            <stop offset="0%" stopColor="#0066FF" stopOpacity="0.50" />
-            <stop offset="45%" stopColor="#0284C7" stopOpacity="0.36" />
-            <stop offset="80%" stopColor="#38BDF8" stopOpacity="0.22" />
-            <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.08" />
+          {/* Shade 3: Inward Translucent Sky Blue Accent (Natural transition into light center) */}
+          <linearGradient id={`frameBlue3_${side}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#0284C7" stopOpacity="0.32" />
+            <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#93C5FD" stopOpacity="0" />
           </linearGradient>
 
-          {/* Layer 4 Gradient: Softest Inner Flow Gradually Fading to Background */}
-          <linearGradient id={`archGrad4_${side}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0284C7" stopOpacity="0.24" />
-            <stop offset="45%" stopColor="#38BDF8" stopOpacity="0.14" />
-            <stop offset="80%" stopColor="#93C5FD" stopOpacity="0.04" />
-            <stop offset="100%" stopColor="#BAE6FD" stopOpacity="0" />
-          </linearGradient>
-
-          {/* Accent Line Gradients */}
-          <linearGradient id={`archLineGrad1_${side}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.60" />
-            <stop offset="50%" stopColor="#38BDF8" stopOpacity="0.45" />
-            <stop offset="100%" stopColor="#0284C7" stopOpacity="0.15" />
-          </linearGradient>
-
-          <linearGradient id={`archLineGrad2_${side}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#93C5FD" stopOpacity="0.45" />
-            <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.30" />
-            <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.08" />
-          </linearGradient>
-
-          <linearGradient id={`archLineGrad3_${side}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#0052CC" stopOpacity="0.10" />
+          {/* Subtle Inward Edge Accent Stroke */}
+          <linearGradient id={`frameStroke_${side}`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.20" />
+            <stop offset="50%" stopColor="#38BDF8" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.20" />
           </linearGradient>
         </defs>
 
-        {/* Layer 4: Softest innermost translucent aura gradually flowing toward center */}
+        {/* Layer 3: Soft Inward Curved Inflow (Translucent transition into center) */}
         <path
-          d="M 0,90 C 230,230 480,390 440,590 C 380,720 180,780 0,800 Z"
-          fill={`url(#archGrad4_${side})`}
+          d="M 0,0 L 155,0 C 180,200 185,310 142,400 C 98,490 180,600 155,800 L 0,800 Z"
+          fill={`url(#frameBlue3_${side})`}
         />
 
-        {/* Layer 3: Subtle transparent floating architectural wave */}
+        {/* Layer 2: Mid Layer Smooth Curved Wave Shape */}
         <path
-          d="M 0,30 C 190,190 440,350 380,560 C 320,680 190,760 0,800 Z"
-          fill={`url(#archGrad3_${side})`}
+          d="M 0,0 L 130,0 C 160,190 165,300 122,400 C 80,500 160,610 130,800 L 0,800 Z"
+          fill={`url(#frameBlue2_${side})`}
         />
 
-        {/* Layer 2: Mid structural vibrant blue shape */}
+        {/* Layer 1: Base Primary Deep Blue Shape */}
         <path
-          d="M 0,0 L 190,0 C 310,180 410,320 330,520 C 260,650 220,730 0,800 Z"
-          fill={`url(#archGrad2_${side})`}
+          d="M 0,0 L 105,0 C 135,180 140,290 102,400 C 64,510 135,620 105,800 L 0,800 Z"
+          fill={`url(#frameBlue1_${side})`}
         />
 
-        {/* Layer 1: Base deepest rich corporate BETA blue shape */}
+        {/* Subtle Inward Curved Edge Line for Architectural Definition */}
         <path
-          d="M 0,0 L 260,0 C 350,170 380,310 290,480 C 220,610 270,710 180,800 L 0,800 Z"
-          fill={`url(#archGrad1_${side})`}
-        />
-
-        {/* Thin curved line accents for subtle architectural depth */}
-        <path
-          d="M 0,60 C 210,210 435,360 375,570 C 315,680 150,770 0,800"
-          stroke={`url(#archLineGrad1_${side})`}
+          d="M 155,0 C 180,200 185,310 142,400 C 98,490 180,600 155,800"
+          stroke={`url(#frameStroke_${side})`}
           strokeWidth="1.5"
-          fill="none"
-        />
-        <path
-          d="M 0,130 C 180,265 405,420 335,610 C 275,710 100,780 0,800"
-          stroke={`url(#archLineGrad2_${side})`}
-          strokeWidth="1.2"
-          fill="none"
-        />
-        <path
-          d="M 0,0 L 220,0 C 330,175 365,305 275,485 C 210,605 250,705 170,800"
-          stroke={`url(#archLineGrad3_${side})`}
-          strokeWidth="1.0"
           fill="none"
         />
       </svg>
@@ -1091,15 +1051,15 @@ export default function Partners() {
 
       {/* SECTION 2: PARTNER ECOSYSTEM VISUALIZATION */}
       <section className="relative w-full py-16 md:py-24 bg-[#EDF4F9] overflow-hidden select-none">
-        {/* Layered Blue Architectural Side Compositions (Occupy ≈ 25vw left and 25vw right, center 50vw clean) */}
-        {/* Left Side Architectural Composition */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-28 md:w-[20vw] lg:w-[25vw] max-w-[460px] pointer-events-none z-0 overflow-hidden select-none">
-          <ArchitecturalSideDecoration side="left" />
+        {/* Modern Blue Side Frames (15% left + 15% right, center 70% clean) */}
+        {/* Left Side Frame */}
+        <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-14 md:w-[12%] lg:w-[15%] max-w-[240px] pointer-events-none z-0 overflow-hidden select-none">
+          <BlueSideFrame side="left" />
         </div>
 
-        {/* Right Side Architectural Composition (Mirrored) */}
-        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-28 md:w-[20vw] lg:w-[25vw] max-w-[460px] pointer-events-none z-0 overflow-hidden select-none">
-          <ArchitecturalSideDecoration side="right" />
+        {/* Right Side Frame (Mirrored) */}
+        <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-14 md:w-[12%] lg:w-[15%] max-w-[240px] pointer-events-none z-0 overflow-hidden select-none">
+          <BlueSideFrame side="right" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
