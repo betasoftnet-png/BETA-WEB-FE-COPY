@@ -991,57 +991,51 @@ export default function Home() {
           }
         }
 
-        /* TOP BRAND MARK BETA TEXT & MICRO-SETTLING EFFECT */
-        @keyframes betaWordmarkSettle {
-          0% {
-            opacity: 0.96;
-            transform: translate3d(0, 1.5px, 0) scale(0.992);
-          }
-          100% {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-        }
-
+        /* TOP BRAND MARK BETA TEXT (Static Container - Only letters animate individually) */
         .top-beta-brand-text {
           font-family: 'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif !important;
           color: #004AAD !important;
           letter-spacing: -0.035em !important;
           filter: drop-shadow(0 4px 12px rgba(0, 74, 173, 0.10));
-          animation: betaWordmarkSettle 350ms cubic-bezier(0.16, 1, 0.3, 1) 1.28s both;
-          will-change: transform, opacity;
         }
 
-        /* SUBTLE SEQUENTIAL ENTRANCE FOR BETA LETTERS (Runs once on load/refresh) */
-        @keyframes betaLetterEntrance {
+        /* INDIVIDUAL LETTER REVEAL ANIMATION (Left to Right: B -> E -> T -> A) */
+        @keyframes betaLetterReveal {
           0% {
             opacity: 0;
-            transform: translate3d(0, 14px, 0) scale(0.96);
+            transform: translate3d(0, 18px, 0) scale(0.92);
+            text-shadow: 0 0 0 transparent;
+          }
+          68% {
+            opacity: 1;
+            transform: translate3d(0, -1px, 0) scale(1.01);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5), 0 2px 8px rgba(0, 74, 173, 0.25);
           }
           100% {
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1);
+            text-shadow: 0 1px 2px rgba(0, 74, 173, 0.12);
           }
         }
 
         .beta-letter {
           display: inline-block;
           color: #004AAD !important;
-          animation: betaLetterEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
-          will-change: transform, opacity;
+          animation: betaLetterReveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+          will-change: transform, opacity, text-shadow;
         }
 
         .beta-letter-b {
           animation-delay: 0.05s;
         }
         .beta-letter-e {
-          animation-delay: 0.20s;
+          animation-delay: 0.22s;
         }
         .beta-letter-t {
-          animation-delay: 0.35s;
+          animation-delay: 0.39s;
         }
         .beta-letter-a {
-          animation-delay: 0.50s;
+          animation-delay: 0.56s;
         }
 
         @media (prefers-reduced-motion: reduce) {
