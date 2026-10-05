@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import {
   Handshake,
@@ -380,6 +380,80 @@ function PartnerResourcesMarqueeSection() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Clean, professional flowing dotted wave pattern for left and right edges
+function DottedWaveSide({ side = 'left' }) {
+  const streams = useMemo(() => {
+    // 7 progressive streams from outer edge moving toward center
+    const streamConfigs = [
+      { base: 14, stepY: 20, r: 4.2, opacity: 0.70, color: '#0052CC' },
+      { base: 46, stepY: 23, r: 3.5, opacity: 0.55, color: '#0066FF' },
+      { base: 80, stepY: 26, r: 2.9, opacity: 0.42, color: '#0284C7' },
+      { base: 116, stepY: 30, r: 2.3, opacity: 0.30, color: '#2563EB' },
+      { base: 154, stepY: 34, r: 1.8, opacity: 0.20, color: '#38BDF8' },
+      { base: 194, stepY: 40, r: 1.4, opacity: 0.12, color: '#60A5FA' },
+      { base: 236, stepY: 46, r: 1.1, opacity: 0.06, color: '#93C5FD' },
+    ];
+
+    const allDots = [];
+    const height = 700;
+
+    streamConfigs.forEach((cfg, sIdx) => {
+      for (let y = 14; y < height; y += cfg.stepY) {
+        // Natural gentle wave curve along height
+        const wave =
+          Math.sin((y / height) * Math.PI * 2.2 + sIdx * 0.26) * (18 + sIdx * 4) +
+          Math.cos((y / height) * Math.PI * 1.1) * 12;
+
+        const rawX = cfg.base + wave;
+        const x = side === 'left' ? rawX : 280 - rawX;
+
+        // Smooth vertical fade at top and bottom boundaries
+        let edgeFade = 1;
+        if (y < 50) edgeFade = y / 50;
+        else if (y > height - 50) edgeFade = (height - y) / 50;
+
+        // Subtle micro-variation in size
+        const microScale = 0.92 + 0.16 * Math.sin(y * 0.08 + sIdx);
+        const radius = +(cfg.r * microScale).toFixed(2);
+        const opacity = +(cfg.opacity * edgeFade).toFixed(3);
+
+        if (opacity > 0.02 && x >= 0 && x <= 280) {
+          allDots.push({
+            cx: +x.toFixed(1),
+            cy: y,
+            r: radius,
+            color: cfg.color,
+            opacity
+          });
+        }
+      }
+    });
+
+    return allDots;
+  }, [side]);
+
+  return (
+    <svg
+      className="w-full h-full"
+      viewBox="0 0 280 700"
+      preserveAspectRatio="none"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {streams.map((dot, i) => (
+        <circle
+          key={i}
+          cx={dot.cx}
+          cy={dot.cy}
+          r={dot.r}
+          fill={dot.color}
+          fillOpacity={dot.opacity}
+        />
+      ))}
+    </svg>
   );
 }
 
@@ -972,97 +1046,15 @@ export default function Partners() {
 
       {/* SECTION 2: PARTNER ECOSYSTEM VISUALIZATION */}
       <section className="relative w-full py-16 md:py-24 bg-[#EDF4F9] overflow-hidden select-none">
-        {/* Decorative curved side elements (Blue brand identity at far left and far right edges) */}
-        {/* Left Curved Decoration */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-36 md:w-48 lg:w-60 pointer-events-none z-0">
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 220 700"
-            preserveAspectRatio="none"
-            fill="none"
-          >
-            <defs>
-              <linearGradient id="blueSideGradLeft1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0052CC" stopOpacity="0.9" />
-                <stop offset="45%" stopColor="#0284C7" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.95" />
-              </linearGradient>
-              <linearGradient id="blueSideGradLeft2" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#003B99" stopOpacity="0.95" />
-                <stop offset="60%" stopColor="#0066FF" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.75" />
-              </linearGradient>
-              <linearGradient id="blueSideGradLeftAccent" x1="0%" y1="50%" x2="100%" y2="50%">
-                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.55" />
-                <stop offset="100%" stopColor="#0284C7" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M 0,0 L 95,0 C 165,180 185,320 115,500 C 75,600 45,660 0,700 Z"
-              fill="url(#blueSideGradLeft1)"
-            />
-            <path
-              d="M 0,0 L 55,0 C 135,220 145,400 75,580 C 45,640 25,680 0,700 Z"
-              fill="url(#blueSideGradLeft2)"
-            />
-            <path
-              d="M 0,80 C 145,240 165,420 45,650"
-              stroke="#60A5FA"
-              strokeWidth="2.5"
-              strokeOpacity="0.7"
-              fill="none"
-            />
-            <path
-              d="M 0,0 C 125,200 135,450 0,700 Z"
-              fill="url(#blueSideGradLeftAccent)"
-            />
-          </svg>
+        {/* Flowing Dotted Pattern along both LEFT and RIGHT edges */}
+        {/* Left Dotted Wave Decoration */}
+        <div className="absolute left-0 top-0 bottom-0 w-28 sm:w-40 md:w-56 lg:w-72 pointer-events-none z-0 overflow-hidden">
+          <DottedWaveSide side="left" />
         </div>
 
-        {/* Right Curved Decoration */}
-        <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-36 md:w-48 lg:w-60 pointer-events-none z-0">
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 220 700"
-            preserveAspectRatio="none"
-            fill="none"
-          >
-            <defs>
-              <linearGradient id="blueSideGradRight1" x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#0052CC" stopOpacity="0.9" />
-                <stop offset="45%" stopColor="#0284C7" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.95" />
-              </linearGradient>
-              <linearGradient id="blueSideGradRight2" x1="100%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stopColor="#003B99" stopOpacity="0.95" />
-                <stop offset="60%" stopColor="#0066FF" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.75" />
-              </linearGradient>
-              <linearGradient id="blueSideGradRightAccent" x1="100%" y1="50%" x2="0%" y2="50%">
-                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.55" />
-                <stop offset="100%" stopColor="#0284C7" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M 220,0 L 125,0 C 55,180 35,320 105,500 C 145,600 175,660 220,700 Z"
-              fill="url(#blueSideGradRight1)"
-            />
-            <path
-              d="M 220,0 L 165,0 C 85,220 75,400 145,580 C 175,640 195,680 220,700 Z"
-              fill="url(#blueSideGradRight2)"
-            />
-            <path
-              d="M 220,80 C 75,240 55,420 175,650"
-              stroke="#60A5FA"
-              strokeWidth="2.5"
-              strokeOpacity="0.7"
-              fill="none"
-            />
-            <path
-              d="M 220,0 L 220,700 C 100,450 110,200 220,0 Z"
-              fill="url(#blueSideGradRightAccent)"
-            />
-          </svg>
+        {/* Right Dotted Wave Decoration */}
+        <div className="absolute right-0 top-0 bottom-0 w-28 sm:w-40 md:w-56 lg:w-72 pointer-events-none z-0 overflow-hidden">
+          <DottedWaveSide side="right" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
