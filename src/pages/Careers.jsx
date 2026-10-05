@@ -71,6 +71,9 @@ const companyValues = [
     desc: 'Pushing the boundaries of technology, thinking outside the box to solve complex software engineering challenges.',
     icon: Sparkles,
     color: 'text-amber-500',
+    iconColor: 'text-amber-500',
+    iconBg: 'bg-[#FFF9EA]',
+    iconBorder: 'border-amber-200/80',
     bg: 'bg-amber-50/70 border-amber-100/50',
     glow: 'hover:shadow-amber-500/10 hover:border-amber-300'
   },
@@ -79,6 +82,9 @@ const companyValues = [
     desc: 'Acting like founders. We take full responsibility for our code, our products, and our users\' satisfaction.',
     icon: Target,
     color: 'text-rose-500',
+    iconColor: 'text-rose-500',
+    iconBg: 'bg-[#FFF0F3]',
+    iconBorder: 'border-rose-200/80',
     bg: 'bg-rose-50/70 border-rose-100/50',
     glow: 'hover:shadow-rose-500/10 hover:border-rose-300'
   },
@@ -86,7 +92,10 @@ const companyValues = [
     title: 'Integrity',
     desc: 'Operating with absolute transparency, honesty, and professional ethics in all internal and external relations.',
     icon: Shield,
-    color: 'text-indigo-500',
+    color: 'text-blue-600',
+    iconColor: 'text-blue-600',
+    iconBg: 'bg-[#EFF6FF]',
+    iconBorder: 'border-blue-200/80',
     bg: 'bg-indigo-50/70 border-indigo-100/50',
     glow: 'hover:shadow-indigo-500/10 hover:border-indigo-300'
   },
@@ -95,6 +104,9 @@ const companyValues = [
     desc: 'Empathizing with our customers and prioritizing their success and experience above all else.',
     icon: UserCheck,
     color: 'text-emerald-500',
+    iconColor: 'text-emerald-500',
+    iconBg: 'bg-[#ECFDF5]',
+    iconBorder: 'border-emerald-200/80',
     bg: 'bg-emerald-50/70 border-emerald-100/50',
     glow: 'hover:shadow-emerald-500/10 hover:border-emerald-300'
   },
@@ -103,6 +115,9 @@ const companyValues = [
     desc: 'Collaborating seamlessly, supporting one another, and achieving great things together as one unified force.',
     icon: Handshake,
     color: 'text-sky-500',
+    iconColor: 'text-sky-500',
+    iconBg: 'bg-[#F0F9FF]',
+    iconBorder: 'border-sky-200/80',
     bg: 'bg-sky-50/70 border-sky-100/50',
     glow: 'hover:shadow-sky-500/10 hover:border-sky-300'
   },
@@ -111,6 +126,9 @@ const companyValues = [
     desc: 'Fostering curiosity, embracing growth, and constantly refining our skills and knowledge.',
     icon: BookOpen,
     color: 'text-purple-500',
+    iconColor: 'text-purple-500',
+    iconBg: 'bg-[#F5F3FF]',
+    iconBorder: 'border-purple-200/80',
     bg: 'bg-purple-50/70 border-purple-100/50',
     glow: 'hover:shadow-purple-500/10 hover:border-purple-300'
   },
@@ -118,7 +136,10 @@ const companyValues = [
     title: 'Excellence',
     desc: 'Committing to the highest standards of quality, precision, and craftsmanship in everything we design and build.',
     icon: Award,
-    color: 'text-[#F59E0B]',
+    color: 'text-amber-500',
+    iconColor: 'text-amber-500',
+    iconBg: 'bg-[#FFFBEB]',
+    iconBorder: 'border-amber-200/80',
     bg: 'bg-amber-50/70 border-amber-200/50',
     glow: 'hover:shadow-amber-500/10 hover:border-amber-400'
   }
@@ -384,254 +405,137 @@ function WhatWeLookForCardsGrid() {
   );
 }
 
-// React Bits Vertical Stacked Card Scroll Deck for Our Culture / Values
-function OurValuesScrollStack() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const touchStartY = useRef(null);
-  const isDragging = useRef(false);
-  const dragStartY = useRef(0);
-  const lastInteractionTime = useRef(0);
-  const total = companyValues.length; // 7
-
-  const nextCard = React.useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % total);
-  }, [total]);
-
-  const prevCard = React.useCallback(() => {
-    setActiveIndex((prev) => (prev - 1 + total) % total);
-  }, [total]);
-
-  const triggerNext = React.useCallback(() => {
-    const now = Date.now();
-    if (now - lastInteractionTime.current < 700) return;
-    lastInteractionTime.current = now;
-    nextCard();
-  }, [nextCard]);
-
-  const triggerPrev = React.useCallback(() => {
-    const now = Date.now();
-    if (now - lastInteractionTime.current < 700) return;
-    lastInteractionTime.current = now;
-    prevCard();
-  }, [prevCard]);
-
-  // Continuous automatic card transition every 3 seconds
-  // Temporarily paused when hovered or during manual interaction; resumes after 3s of inactivity
-  useEffect(() => {
-    if (isHovered) return;
-
-    const interval = setInterval(() => {
-      if (Date.now() - lastInteractionTime.current >= 2900) {
-        nextCard();
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isHovered, nextCard]);
-
-  // Touch swipe handlers (Mobile)
-  const handleTouchStart = (e) => {
-    touchStartY.current = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = (e) => {
-    if (touchStartY.current === null) return;
-    const endY = e.changedTouches[0].clientY;
-    const delta = touchStartY.current - endY;
-    if (delta > 35) {
-      triggerNext(); // Swiped up -> next card
-    } else if (delta < -35) {
-      triggerPrev(); // Swiped down -> prev card
-    }
-    touchStartY.current = null;
-  };
-
-  // Mouse drag handlers (Desktop)
-  const handleMouseDown = (e) => {
-    isDragging.current = true;
-    dragStartY.current = e.clientY;
-  };
-
-  const handleMouseUp = (e) => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
-    const delta = dragStartY.current - e.clientY;
-    if (delta > 35) {
-      triggerNext();
-    } else if (delta < -35) {
-      triggerPrev();
-    }
-  };
-
-  // Mouse wheel & trackpad scroll handler (debounced to prevent skipping)
-  const handleWheel = (e) => {
-    if (Math.abs(e.deltaY) < 18) return;
-    if (e.deltaY > 0) {
-      triggerNext();
-    } else {
-      triggerPrev();
-    }
-  };
-
+// Value Card Component matching the reference pill-shaped design
+function ValuePillCard({ value }) {
+  const Icon = value.icon;
   return (
-    <div
-      className="relative w-full py-6 sm:py-10 select-none flex flex-col items-center justify-center overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        isDragging.current = false;
-      }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onWheel={handleWheel}
-    >
-      {/* Background Soft Ambient Light */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-        <div className="absolute -left-12 top-1/4 w-80 h-80 rounded-full bg-purple-100/25 blur-3xl" />
-        <div className="absolute -right-12 bottom-1/4 w-96 h-96 rounded-full bg-sky-100/30 blur-3xl" />
-        <div className="absolute w-[500px] h-[500px] rounded-full bg-blue-50/25 blur-[120px]" />
+    <div className="group/valcard relative flex items-center gap-4 sm:gap-5 px-5 sm:px-6 md:px-7 py-3.5 sm:py-4 bg-white rounded-full border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_12px_32px_rgba(0,74,173,0.09)] hover:border-blue-300/90 transition-all duration-300 w-[350px] sm:w-[420px] md:w-[470px] h-[112px] sm:h-[120px] md:h-[126px] shrink-0 select-none cursor-pointer">
+      {/* Large Circular Icon Area */}
+      <div
+        className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shrink-0 border transition-transform duration-300 group-hover/valcard:scale-105 shadow-xs ${value.iconBg} ${value.iconBorder}`}
+      >
+        <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${value.iconColor}`} />
       </div>
 
-      {/* Main Stack Deck Container — Centered, responsive: desktop 650–850px, tablet proportional, mobile full */}
-      <div className="relative w-full max-w-[92vw] sm:max-w-[85vw] md:max-w-[740px] lg:max-w-[820px] h-[460px] sm:h-[480px] md:h-[500px] flex items-center justify-center">
-        {companyValues.map((val, idx) => {
-          const order = (idx - activeIndex + total) % total;
-          const isActive = order === 0;
-          const Icon = val.icon;
+      {/* Value Title & Description */}
+      <div className="min-w-0 flex-1 pr-2 sm:pr-3 text-left">
+        <h4 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-snug group-hover/valcard:text-blue-600 transition-colors">
+          {value.title}
+        </h4>
+        <p className="text-xs sm:text-[13px] text-slate-500 font-normal leading-relaxed mt-1 line-clamp-3">
+          {value.desc}
+        </p>
+      </div>
+    </div>
+  );
+}
 
-          // Realistic depth calculations for stacked cards:
-          // Front card (order 0) is lowest and largest.
-          // Cards 1, 2, 3 stack upward behind it, each slightly higher, smaller, and lower opacity.
-          let translateY = 0;
-          let scale = 1;
-          let opacity = 1;
-          let blur = 0;
-          let zIndex = 10;
-          let pointerEvents = 'none';
+// Decorative divider elements between cards (inspired by reference)
+function ValueDecorativeDivider({ type = 0 }) {
+  switch (type % 6) {
+    case 0:
+      // Soft blue semicircle (facing right) + small dot
+      return (
+        <div className="flex items-center space-x-2 shrink-0 select-none pointer-events-none px-2.5 sm:px-3.5 opacity-85">
+          <div className="w-5 sm:w-6 h-10 sm:h-12 bg-sky-200/80 rounded-r-full" />
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-sky-400/90" />
+        </div>
+      );
+    case 1:
+      // Small dot + soft blue semicircle (facing left)
+      return (
+        <div className="flex items-center space-x-2 shrink-0 select-none pointer-events-none px-2.5 sm:px-3.5 opacity-85">
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-blue-400/90" />
+          <div className="w-5 sm:w-6 h-10 sm:h-12 bg-blue-200/80 rounded-l-full" />
+        </div>
+      );
+    case 2:
+      // Soft purple semicircle (facing right) + small dot
+      return (
+        <div className="flex items-center space-x-2 shrink-0 select-none pointer-events-none px-2.5 sm:px-3.5 opacity-85">
+          <div className="w-5 sm:w-6 h-10 sm:h-12 bg-purple-200/80 rounded-r-full" />
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-purple-400/90" />
+        </div>
+      );
+    case 3:
+      // Small dot + soft teal semicircle (facing left)
+      return (
+        <div className="flex items-center space-x-2 shrink-0 select-none pointer-events-none px-2.5 sm:px-3.5 opacity-85">
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-teal-400/90" />
+          <div className="w-5 sm:w-6 h-10 sm:h-12 bg-teal-200/80 rounded-l-full" />
+        </div>
+      );
+    case 4:
+      // Soft indigo semicircle (facing right) + small dot
+      return (
+        <div className="flex items-center space-x-2 shrink-0 select-none pointer-events-none px-2.5 sm:px-3.5 opacity-85">
+          <div className="w-5 sm:w-6 h-10 sm:h-12 bg-indigo-200/80 rounded-r-full" />
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-indigo-400/90" />
+        </div>
+      );
+    default:
+      // Small dot + soft sky semicircle (facing left)
+      return (
+        <div className="flex items-center space-x-2 shrink-0 select-none pointer-events-none px-2.5 sm:px-3.5 opacity-85">
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-sky-400/90" />
+          <div className="w-5 sm:w-6 h-10 sm:h-12 bg-sky-200/80 rounded-l-full" />
+        </div>
+      );
+  }
+}
 
-          if (order === 0) {
-            // Front active card: large, prominent, sharp
-            translateY = 60;
-            scale = 1.0;
-            opacity = 1;
-            blur = 0;
-            zIndex = 35;
-            pointerEvents = 'auto';
-          } else if (order === 1) {
-            // 2nd card: directly behind active, slightly smaller, header/title tab clearly peeking above
-            translateY = 8;
-            scale = 0.94;
-            opacity = 0.92;
-            blur = 0;
-            zIndex = 28;
-            pointerEvents = 'auto';
-          } else if (order === 2) {
-            // 3rd card: behind 2nd card, further up
-            translateY = -40;
-            scale = 0.88;
-            opacity = 0.70;
-            blur = 0.6;
-            zIndex = 22;
-            pointerEvents = 'auto';
-          } else if (order === 3) {
-            // 4th card: far back
-            translateY = -82;
-            scale = 0.82;
-            opacity = 0.42;
-            blur = 1.8;
-            zIndex = 16;
-          } else if (order === 4) {
-            // 5th card: very far back
-            translateY = -118;
-            scale = 0.76;
-            opacity = 0.18;
-            blur = 3.2;
-            zIndex = 10;
-          } else if (order === 6) {
-            // Exiting card that was previously active — smoothly glides upward, dissolves into back
-            translateY = -165;
-            scale = 0.82;
-            opacity = 0;
-            blur = 4;
-            zIndex = 40;
-          } else {
-            // Hidden in back
-            translateY = -135;
-            scale = 0.72;
-            opacity = 0;
-            blur = 5;
-            zIndex = 2;
-          }
+// Single marquee row track component with pause on hover
+function MarqueeRow({ items, direction = 'left', dividerOffset = 0, className = '' }) {
+  // Duplicate items sequence to create an infinite seamless loop without jumps
+  const duplicatedItems = [...items, ...items];
 
-          return (
-            <motion.div
-              key={val.title}
-              onClick={() => {
-                if (order === 1) triggerNext();
-                else if (order === 2) {
-                  lastInteractionTime.current = Date.now();
-                  setActiveIndex((prev) => (prev + 2) % total);
-                }
-              }}
-              animate={{
-                y: translateY,
-                scale,
-                opacity,
-                filter: `blur(${blur}px)`,
-                zIndex
-              }}
-              transition={{
-                duration: 0.95,
-                ease: [0.25, 1, 0.5, 1]
-              }}
-              style={{ pointerEvents }}
-              className="absolute w-full origin-center cursor-grab active:cursor-grabbing"
-            >
-              <div
-                className={`relative w-full bg-white rounded-[26px] sm:rounded-[32px] md:rounded-[36px] p-6 sm:p-8 md:p-10 text-left overflow-hidden transition-shadow duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[260px] md:min-h-[280px] ${
-                  isActive
-                    ? 'border-2 border-slate-200/90 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08),0_0_0_1px_rgba(255,255,255,0.9)_inset]'
-                    : 'border border-slate-200/70 shadow-[0_10px_32px_-10px_rgba(0,0,0,0.05)]'
-                }`}
-              >
-                {/* Subtle Organic Background Corner Glow */}
-                <div className="absolute -bottom-10 -right-10 w-44 h-44 rounded-full bg-gradient-to-tl from-slate-100/60 to-transparent pointer-events-none" />
+  return (
+    <div className={`values-marquee-row relative w-full overflow-hidden flex items-center py-1.5 ${className}`}>
+      <div className={direction === 'left' ? 'values-marquee-left' : 'values-marquee-right'}>
+        {duplicatedItems.map((val, idx) => (
+          <React.Fragment key={`${val.title}-${idx}`}>
+            <ValuePillCard value={val} />
+            <ValueDecorativeDivider type={idx + dividerOffset} />
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-                {/* Card Top Row: Icon Container + Title + Step Counter */}
-                {/* Positioned at the very top so when stacked behind, the icon and title are visible tabs */}
-                <div className="flex items-center justify-between relative z-10 gap-3">
-                  <div className="flex items-center space-x-3.5 sm:space-x-4 min-w-0">
-                    <div
-                      className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-2xl md:rounded-[20px] border flex items-center justify-center shadow-sm shrink-0 transition-transform duration-300 ${val.bg} ${
-                        isActive ? 'scale-105 shadow-md' : ''
-                      }`}
-                    >
-                      <Icon className={`h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 ${val.color}`} />
-                    </div>
+// Full horizontal scrolling multi-row marquee for Our Values
+function OurValuesHorizontalMarquee() {
+  // Row 1: Innovation, Ownership, Integrity, Customer First (matches Row 1 of reference)
+  const row1Values = [companyValues[0], companyValues[1], companyValues[2], companyValues[3]];
 
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug truncate">
-                      {val.title}
-                    </h3>
-                  </div>
+  // Row 2: Teamwork, Continuous Learning, Excellence, Innovation (matches Row 2 of reference)
+  const row2Values = [companyValues[4], companyValues[5], companyValues[6], companyValues[0]];
 
-                  <span className="text-xs sm:text-sm font-bold tracking-widest text-slate-400 uppercase bg-slate-50 px-3.5 py-1.5 rounded-full border border-slate-200/60 shrink-0">
-                    0{idx + 1} / 07
-                  </span>
-                </div>
+  // Row 3: Integrity, Customer First, Teamwork, Excellence, Ownership (matches Row 3 of reference)
+  const row3Values = [companyValues[2], companyValues[3], companyValues[4], companyValues[6], companyValues[1]];
 
-                {/* Card Body: Description */}
-                <div className="mt-5 sm:mt-6 relative z-10 pr-2">
-                  <p className="text-sm sm:text-base md:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl">
-                    {val.desc}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
+  return (
+    <div className="relative w-full overflow-hidden py-4 select-none">
+      {/* Subtle ambient light backdrop */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-blue-50/50 rounded-full blur-3xl" />
+        <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-sky-50/50 rounded-full blur-3xl" />
+      </div>
+
+      {/* Left & Right Smooth Edge Fade Masks for continuous entrance and exit */}
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 md:w-44 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-20" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 md:w-44 bg-gradient-to-l from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-20" />
+
+      {/* Row Tracks */}
+      <div className="space-y-4 sm:space-y-5 md:space-y-6 relative z-10">
+        {/* Row 1: Moves slowly from RIGHT -> LEFT (All screens) */}
+        <MarqueeRow items={row1Values} direction="left" dividerOffset={0} />
+
+        {/* Row 2: Moves slowly from LEFT -> RIGHT (All screens) */}
+        <MarqueeRow items={row2Values} direction="right" dividerOffset={2} />
+
+        {/* Row 3: Moves slowly from RIGHT -> LEFT (Desktop only: hidden on mobile/tablet, flex on lg+) */}
+        <MarqueeRow items={row3Values} direction="left" dividerOffset={4} className="hidden lg:flex" />
       </div>
     </div>
   );
@@ -1584,6 +1488,42 @@ export default function Careers() {
           scrollbar-width: none;
         }
 
+        /* Values Section Infinite Horizontal Marquee */
+        @keyframes valuesMarqueeLeft {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+        @keyframes valuesMarqueeRight {
+          0% {
+            transform: translate3d(-50%, 0, 0);
+          }
+          100% {
+            transform: translate3d(0, 0, 0);
+          }
+        }
+        .values-marquee-left {
+          display: flex;
+          width: max-content;
+          align-items: center;
+          animation: valuesMarqueeLeft 45s linear infinite;
+          will-change: transform;
+        }
+        .values-marquee-right {
+          display: flex;
+          width: max-content;
+          align-items: center;
+          animation: valuesMarqueeRight 48s linear infinite;
+          will-change: transform;
+        }
+        .values-marquee-row:hover .values-marquee-left,
+        .values-marquee-row:hover .values-marquee-right {
+          animation-play-state: paused !important;
+        }
+
         /* Hacker-style double borders for jobs */
         // .hacker-layout-box {
         //   background: rgba(255, 255, 255, 0.75) !important;
@@ -2533,7 +2473,7 @@ export default function Careers() {
             </div>
 
             {/* SECTION 9: OUR VALUES SECTION */}
-            <div className="careers-reveal space-y-16 py-16 mt-12 md:mt-16 border-t border-slate-100">
+            <div className="careers-reveal space-y-12 py-16 mt-12 md:mt-16 border-t border-slate-100 relative overflow-hidden">
               <div className="text-center max-w-3xl mx-auto space-y-4 px-4">
                 <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#8B5CF6]/10 to-[#EC4899]/10 border border-[#8B5CF6]/20 text-[#8B5CF6] text-xs font-extrabold uppercase tracking-widest">
                   <Sparkles className="h-3.5 w-3.5 text-[#EC4899] animate-pulse" />
@@ -2547,8 +2487,8 @@ export default function Careers() {
                 </p>
               </div>
 
-              {/* Premium Vertical Stacked Card Scroll Deck */}
-              <OurValuesScrollStack />
+              {/* Seamless Multi-Row Horizontal Pill Marquee */}
+              <OurValuesHorizontalMarquee />
             </div>
 
             {/* SECTION 10: PREMIUM CALL TO ACTION SECTION */}
