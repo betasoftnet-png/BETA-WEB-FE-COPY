@@ -1246,111 +1246,192 @@ export default function Home() {
 
             {/* Right Column: Enterprise suite */}
             <div className="w-full lg:w-1/2 h-full flex flex-col justify-center text-left">
-              <div className="glass-card bg-white/80 hover:bg-white/95 backdrop-blur-md border border-slate-200/90 p-4 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 w-full">
+              <div className="glass-card bg-white/90 hover:bg-white/95 backdrop-blur-md border border-slate-200/90 p-4 sm:p-5 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 w-full">
                 <div className="border-b border-slate-100 pb-2.5 w-full mb-4">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block">
                     Enterprise Suite
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
-                  {/* Left Side inside Box: Styled BETA Logo Showcase Card */}
-                  <div className="lg:col-span-1 w-full h-72 lg:h-auto min-h-[280px] sm:min-h-[300px] text-center overflow-hidden relative select-none flex items-center justify-center bg-gradient-to-b from-blue-50/80 via-slate-50/60 to-indigo-50/50 border border-blue-100/90 rounded-2xl p-6 group">
-                    {/* Subtle, elegant human-designed animated background */}
-                    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none">
-                      {/* Soft blue and white light gradient shifting */}
-                      <div className="beta-card-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+                  {/* Left Column: Circular Ecosystem Hub Visual (Clean empty center hub without BETA logo) */}
+                  <div className="relative w-full h-full min-h-[350px] sm:min-h-[370px] rounded-2xl border border-blue-100/80 bg-gradient-to-br from-[#EFF6FF]/90 via-[#F8FAFC]/80 to-[#EEF2FF]/70 overflow-hidden flex items-center justify-center p-3 select-none">
+                    {/* Soft background waves */}
+                    <svg
+                      className="absolute inset-0 w-full h-full pointer-events-none"
+                      viewBox="0 0 340 370"
+                      preserveAspectRatio="none"
+                      fill="none"
+                    >
+                      <path
+                        d="M -30,120 C 60,70 180,180 370,110 L 370,370 L -30,370 Z"
+                        fill="rgba(219, 234, 254, 0.35)"
+                      />
+                      <path
+                        d="M -30,200 C 80,140 200,240 370,170 L 370,370 L -30,370 Z"
+                        fill="rgba(238, 242, 255, 0.45)"
+                      />
+                    </svg>
 
-                      {/* One or two faint curved shapes moving slowly in the background */}
-                      <svg
-                        className="absolute inset-0 w-full h-full"
-                        viewBox="0 0 320 280"
-                        preserveAspectRatio="xMidYMid slice"
+                    {/* Concentric thin blue connector rings and small connection nodes */}
+                    <svg
+                      className="absolute inset-0 w-full h-full pointer-events-none"
+                      viewBox="0 0 340 370"
+                      preserveAspectRatio="xMidYMid meet"
+                    >
+                      {/* Outer connector circle */}
+                      <circle
+                        cx="170"
+                        cy="185"
+                        r="105"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <defs>
-                          <linearGradient id="betaCardGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#004AAD" stopOpacity="0.09" />
-                            <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.06" />
-                            <stop offset="100%" stopColor="#818CF8" stopOpacity="0.03" />
-                          </linearGradient>
-                          <linearGradient id="betaCardGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.08" />
-                            <stop offset="70%" stopColor="#A855F7" stopOpacity="0.05" />
-                            <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.02" />
-                          </linearGradient>
-                        </defs>
-                        <path
-                          className="beta-card-curve-1"
-                          d="M -30,80 C 70,190 190,40 350,140"
-                          stroke="url(#betaCardGrad1)"
-                          strokeWidth="38"
-                          strokeLinecap="round"
-                        />
-                        <path
-                          className="beta-card-curve-2"
-                          d="M -20,220 C 90,110 210,250 340,160"
-                          stroke="url(#betaCardGrad2)"
-                          strokeWidth="28"
-                          strokeLinecap="round"
-                        />
-                      </svg>
+                        stroke="#3B82F6"
+                        strokeWidth="1.5"
+                        strokeOpacity="0.45"
+                      />
+                      {/* Inner decorative circle */}
+                      <circle
+                        cx="170"
+                        cy="185"
+                        r="62"
+                        fill="none"
+                        stroke="#3B82F6"
+                        strokeWidth="1.2"
+                        strokeOpacity="0.25"
+                      />
+                      {/* 4 Connection Node Dots at 45 degree angles on the outer ring */}
+                      <circle cx="244" cy="111" r="3.5" fill="#FFFFFF" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.75" />
+                      <circle cx="244" cy="259" r="3.5" fill="#FFFFFF" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.75" />
+                      <circle cx="96" cy="259" r="3.5" fill="#FFFFFF" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.75" />
+                      <circle cx="96" cy="111" r="3.5" fill="#FFFFFF" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.75" />
+                    </svg>
+
+                    {/* Clean Empty Circular Hub Center (Completely empty - NO BETA logo or text) */}
+                    <div
+                      className="absolute z-10 rounded-full border border-blue-200/50 bg-white/40 backdrop-blur-[2px] pointer-events-none"
+                      style={{
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 'clamp(90px, 12vw, 115px)',
+                        height: 'clamp(90px, 12vw, 115px)',
+                        boxShadow: '0 4px 18px rgba(0, 74, 173, 0.04)'
+                      }}
+                    />
+
+                    {/* 1. Top Card: BNXmail */}
+                    <div className="absolute top-2.5 sm:top-3 left-1/2 -translate-x-1/2 z-20">
+                      <div className="w-20 sm:w-24 h-16 sm:h-18 bg-white rounded-2xl p-1.5 sm:p-2 shadow-[0_4px_16px_rgba(0,74,173,0.08)] border border-slate-100 flex flex-col items-center justify-center transition-transform duration-200 hover:scale-105">
+                        <img src="/bnx_mail_logo.png" alt="BNXmail" className="h-7 w-7 sm:h-8 sm:w-8 object-contain mb-0.5" />
+                        <span className="font-bold text-[10px] sm:text-[11px] text-slate-800 tracking-tight">BNXmail</span>
+                      </div>
                     </div>
 
-                    {/* Centered Large BETA Logo with Subtle Entrance and Floating Motion */}
-                    <div className="relative z-10 flex items-center justify-center w-full h-full p-4">
-                      <img
-                        src="/logo.png"
-                        alt="BETA"
-                        className="beta-logo-animated h-28 sm:h-32 md:h-36 lg:h-40 w-auto max-w-[85%] max-h-[75%] object-contain select-none transition-transform duration-300 group-hover:scale-105"
-                        style={{
-                          filter: 'drop-shadow(0 12px 24px rgba(0, 74, 173, 0.12))'
-                        }}
-                      />
+                    {/* 2. Right Card: Bit-Tool */}
+                    <div className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20">
+                      <div className="w-20 sm:w-24 h-16 sm:h-18 bg-white rounded-2xl p-1.5 sm:p-2 shadow-[0_4px_16px_rgba(0,74,173,0.08)] border border-slate-100 flex flex-col items-center justify-center transition-transform duration-200 hover:scale-105">
+                        <img src="/bit_tool_logo.png" alt="Bit-Tool" className="h-7 w-7 sm:h-8 sm:w-8 object-contain mb-0.5" />
+                        <span className="font-bold text-[10px] sm:text-[11px] text-slate-800 tracking-tight">Bit-Tool</span>
+                      </div>
+                    </div>
+
+                    {/* 3. Bottom Card: Cliks Business */}
+                    <div className="absolute bottom-2.5 sm:bottom-3 left-1/2 -translate-x-1/2 z-20">
+                      <div className="w-24 sm:w-28 h-16 sm:h-18 bg-white rounded-2xl p-1.5 sm:p-2 shadow-[0_4px_16px_rgba(0,74,173,0.08)] border border-slate-100 flex flex-col items-center justify-center transition-transform duration-200 hover:scale-105">
+                        <img src="/cliks_business_logo.png" alt="Cliks Business" className="h-7 w-7 sm:h-8 sm:w-8 object-contain mb-0.5" />
+                        <span className="font-bold text-[10px] sm:text-[11px] text-slate-800 tracking-tight whitespace-nowrap">Cliks Business</span>
+                      </div>
+                    </div>
+
+                    {/* 4. Left Card: B2Auth */}
+                    <div className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20">
+                      <div className="w-20 sm:w-24 h-16 sm:h-18 bg-white rounded-2xl p-1.5 sm:p-2 shadow-[0_4px_16px_rgba(0,74,173,0.08)] border border-slate-100 flex flex-col items-center justify-center transition-transform duration-200 hover:scale-105">
+                        <img src="/b2auth_logo.png" alt="B2Auth" className="h-7 w-7 sm:h-8 sm:w-8 object-contain mb-0.5" />
+                        <span className="font-bold text-[10px] sm:text-[11px] text-slate-800 tracking-tight">B2Auth</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Right Side: Vertical list of products (BNXmail and Cliks Business) */}
-                  <div className="lg:col-span-1 flex flex-col gap-4 h-full justify-between items-stretch lg:border-l lg:border-slate-200/80 lg:pl-4">
-                    {/* BNXmail */}
+                  {/* Right Column: 4 Horizontal Product Cards (BNXmail, Cliks Business, B2Auth, Bit-Tool) */}
+                  <div className="flex flex-col gap-2.5 justify-between h-full">
+                    {/* 1. BNXmail */}
                     <a
                       href="https://www.bnxmail.com/login"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex flex-col justify-center p-4 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50/70 hover:bg-slate-100 transition-all duration-300 group cursor-pointer text-left gap-1"
+                      className="flex items-center gap-3 p-3 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50/80 shadow-sm hover:shadow-md transition-all duration-200 group text-left cursor-pointer"
                     >
-                      <div className="flex items-center gap-2.5">
-                        <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                          <img src="/bnx_mail_logo.png" alt="BNX Mail" className="h-14 w-14 object-contain" />
-                        </div>
+                      <div className="h-11 w-11 flex-shrink-0 flex items-center justify-center rounded-xl p-1 transition-transform duration-200 group-hover:scale-105">
+                        <img src="/bnx_mail_logo.png" alt="BNXmail" className="h-full w-full object-contain" />
+                      </div>
+                      <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#004AAD] transition-colors duration-200">
                           BNXmail
                         </h4>
+                        <p className="text-slate-500 text-xs font-medium leading-relaxed line-clamp-2">
+                          Real time mail, always in sync. “Instant mail, Connected work.”
+                        </p>
                       </div>
-                      <p className="text-slate-500 text-xs font-medium leading-normal mt-0.5">
-                        Real time mail, always <span className="whitespace-nowrap">in sync.</span> “Instant mail, Connected work.”
-                      </p>
                     </a>
 
-                    {/* Cliks Business */}
+                    {/* 2. Cliks Business */}
                     <a
                       href="https://www.cliksbusiness.com/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex flex-col justify-center p-4 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50/70 hover:bg-slate-100 transition-all duration-300 group cursor-pointer text-left gap-1"
+                      className="flex items-center gap-3 p-3 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50/80 shadow-sm hover:shadow-md transition-all duration-200 group text-left cursor-pointer"
                     >
-                      <div className="flex items-center gap-2.5">
-                        <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                          <img src="/cliks_business_logo.png" alt="Cliks Business" className="h-12 w-12 object-contain" />
-                        </div>
+                      <div className="h-11 w-11 flex-shrink-0 flex items-center justify-center rounded-xl p-1 transition-transform duration-200 group-hover:scale-105">
+                        <img src="/cliks_business_logo.png" alt="Cliks Business" className="h-full w-full object-contain" />
+                      </div>
+                      <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#004AAD] transition-colors duration-200">
                           Cliks Business
                         </h4>
+                        <p className="text-slate-500 text-xs font-medium leading-relaxed line-clamp-2">
+                          Connecting businesses, creating opportunities, and enabling growth.
+                        </p>
                       </div>
-                      <p className="text-slate-500 text-xs font-medium leading-normal mt-0.5">
-                        "Connecting businesses, creating opportunities, and enabling growth."
-                      </p>
+                    </a>
+
+                    {/* 3. B2Auth */}
+                    <a
+                      href="https://b2auth.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-3 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50/80 shadow-sm hover:shadow-md transition-all duration-200 group text-left cursor-pointer"
+                    >
+                      <div className="h-11 w-11 flex-shrink-0 flex items-center justify-center rounded-xl p-1 transition-transform duration-200 group-hover:scale-105">
+                        <img src="/b2auth_logo.png" alt="B2Auth" className="h-full w-full object-contain" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#004AAD] transition-colors duration-200">
+                          B2Auth
+                        </h4>
+                        <p className="text-slate-500 text-xs font-medium leading-relaxed line-clamp-2">
+                          MFA & SSO Gateway for secure access.
+                        </p>
+                      </div>
+                    </a>
+
+                    {/* 4. Bit-Tool */}
+                    <a
+                      href="https://bit-tool.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-3 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50/80 shadow-sm hover:shadow-md transition-all duration-200 group text-left cursor-pointer"
+                    >
+                      <div className="h-11 w-11 flex-shrink-0 flex items-center justify-center rounded-xl p-1 transition-transform duration-200 group-hover:scale-105">
+                        <img src="/bit_tool_logo.png" alt="Bit-Tool" className="h-full w-full object-contain" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#004AAD] transition-colors duration-200">
+                          Bit-Tool
+                        </h4>
+                        <p className="text-slate-500 text-xs font-medium leading-relaxed line-clamp-2">
+                          Daily Utility Assistant.
+                        </p>
+                      </div>
                     </a>
                   </div>
                 </div>
