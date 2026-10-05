@@ -1140,7 +1140,7 @@ export default function Home() {
           {/* Top Brand Mark: BETA Text with Sequential Entrance Animation & Tightened Negative Space */}
           <div className="w-full flex items-center justify-center pt-1 pb-1 sm:pb-1.5 md:pb-2 select-none">
             <span
-              className="top-beta-brand-text text-5xl sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[102px] 2xl:text-[114px] select-none uppercase tracking-[-0.035em] leading-none inline-flex items-center justify-center"
+              className="top-beta-brand-text text-4xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[78px] 2xl:text-[86px] select-none uppercase tracking-[-0.035em] leading-none inline-flex items-center justify-center"
               style={{
                 fontFamily: "'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif"
               }}
