@@ -991,13 +991,15 @@ export default function Home() {
           }
         }
 
-        /* TOP BRAND MARK BETA LOGO */
-        .top-beta-brand-logo {
-          animation: topBetaLogoFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        /* TOP BRAND MARK BETA TEXT */
+        .top-beta-brand-text {
+          font-family: 'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif !important;
+          color: #004AAD !important;
+          animation: topBetaTextFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity;
         }
 
-        @keyframes topBetaLogoFadeIn {
+        @keyframes topBetaTextFadeIn {
           0% {
             opacity: 0;
             transform: translate3d(0, 6px, 0) scale(0.97);
@@ -1015,7 +1017,7 @@ export default function Home() {
             animation: none !important;
           }
           .beta-logo-animated,
-          .top-beta-brand-logo {
+          .top-beta-brand-text {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
@@ -1086,13 +1088,18 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10 w-full">
-          {/* Top Brand Mark: BETA Logo */}
-          <div className="w-full flex items-center justify-center pt-1 pb-3 sm:pb-4 select-none">
-            <img
-              src="/logo.png"
-              alt="BETA"
-              className="top-beta-brand-logo h-9 sm:h-11 md:h-12 lg:h-14 w-auto object-contain select-none"
-            />
+          {/* Top Brand Mark: BETA Text */}
+          <div className="w-full flex items-center justify-center pt-1 pb-2 sm:pb-3 md:pb-4 select-none">
+            <span
+              className="top-beta-brand-text text-4xl sm:text-6xl md:text-7xl lg:text-[80px] select-none uppercase tracking-wide leading-none"
+              style={{
+                fontFamily: "'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif",
+                color: '#004AAD',
+                display: 'inline-block'
+              }}
+            >
+              BETA
+            </span>
           </div>
 
           {/* Central main title / 5-Second 3-Scene 3D Typography Intro Area */}
