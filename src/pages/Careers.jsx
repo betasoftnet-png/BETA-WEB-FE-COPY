@@ -490,8 +490,8 @@ function MarqueeRow({ items, direction = 'left', dividerOffset = 0, className = 
   const duplicatedItems = [...items, ...items];
 
   return (
-    <div className={`values-marquee-row relative w-full overflow-hidden flex items-center py-1.5 ${className}`}>
-      <div className={direction === 'left' ? 'values-marquee-left' : 'values-marquee-right'}>
+    <div className={`marquee-row values-marquee-row w-full overflow-hidden flex items-center py-2 relative ${className}`}>
+      <div className={`scrolling-track ${direction === 'left' ? 'values-marquee-left' : 'values-marquee-right'}`}>
         {duplicatedItems.map((val, idx) => (
           <React.Fragment key={`${val.title}-${idx}`}>
             <ValuePillCard value={val} />
@@ -515,28 +515,21 @@ function OurValuesHorizontalMarquee() {
   const row3Values = [companyValues[2], companyValues[3], companyValues[4], companyValues[6], companyValues[1]];
 
   return (
-    <div className="relative w-full overflow-hidden py-4 select-none">
+    <div className="w-full space-y-4 sm:space-y-5 md:space-y-6 select-none relative">
       {/* Subtle ambient light backdrop */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-blue-50/50 rounded-full blur-3xl" />
         <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-sky-50/50 rounded-full blur-3xl" />
       </div>
 
-      {/* Left & Right Smooth Edge Fade Masks for continuous entrance and exit */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 md:w-44 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-20" />
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 md:w-44 bg-gradient-to-l from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-20" />
+      {/* Row 1: Moves slowly from RIGHT -> LEFT (All screens) */}
+      <MarqueeRow items={row1Values} direction="left" dividerOffset={0} />
 
-      {/* Row Tracks */}
-      <div className="space-y-4 sm:space-y-5 md:space-y-6 relative z-10">
-        {/* Row 1: Moves slowly from RIGHT -> LEFT (All screens) */}
-        <MarqueeRow items={row1Values} direction="left" dividerOffset={0} />
+      {/* Row 2: Moves slowly from LEFT -> RIGHT (All screens) */}
+      <MarqueeRow items={row2Values} direction="right" dividerOffset={2} />
 
-        {/* Row 2: Moves slowly from LEFT -> RIGHT (All screens) */}
-        <MarqueeRow items={row2Values} direction="right" dividerOffset={2} />
-
-        {/* Row 3: Moves slowly from RIGHT -> LEFT (Desktop only: hidden on mobile/tablet, flex on lg+) */}
-        <MarqueeRow items={row3Values} direction="left" dividerOffset={4} className="hidden lg:flex" />
-      </div>
+      {/* Row 3: Moves slowly from RIGHT -> LEFT (Desktop only: hidden on mobile/tablet, flex on lg+) */}
+      <MarqueeRow items={row3Values} direction="left" dividerOffset={4} className="hidden lg:flex" />
     </div>
   );
 }
@@ -1519,8 +1512,17 @@ export default function Careers() {
           animation: valuesMarqueeRight 48s linear infinite;
           will-change: transform;
         }
+        .values-marquee-row,
+        .marquee-row {
+          width: 100%;
+          overflow: hidden;
+          position: relative;
+        }
         .values-marquee-row:hover .values-marquee-left,
-        .values-marquee-row:hover .values-marquee-right {
+        .values-marquee-row:hover .values-marquee-right,
+        .marquee-row:hover .values-marquee-left,
+        .marquee-row:hover .values-marquee-right,
+        .marquee-row:hover .scrolling-track {
           animation-play-state: paused !important;
         }
 
@@ -2473,7 +2475,7 @@ export default function Careers() {
             </div>
 
             {/* SECTION 9: OUR VALUES SECTION */}
-            <div className="careers-reveal space-y-12 py-16 mt-12 md:mt-16 border-t border-slate-100 relative overflow-hidden">
+            <section className="careers-reveal space-y-10 sm:space-y-12 py-12 sm:py-16 mt-12 md:mt-16 border-t border-slate-100 w-full relative">
               <div className="text-center max-w-3xl mx-auto space-y-4 px-4">
                 <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#8B5CF6]/10 to-[#EC4899]/10 border border-[#8B5CF6]/20 text-[#8B5CF6] text-xs font-extrabold uppercase tracking-widest">
                   <Sparkles className="h-3.5 w-3.5 text-[#EC4899] animate-pulse" />
@@ -2489,7 +2491,7 @@ export default function Careers() {
 
               {/* Seamless Multi-Row Horizontal Pill Marquee */}
               <OurValuesHorizontalMarquee />
-            </div>
+            </section>
 
             {/* SECTION 10: PREMIUM CALL TO ACTION SECTION */}
             <div className="careers-reveal relative overflow-hidden rounded-[32px] md:rounded-[36px] p-8 sm:p-12 md:p-16 border border-[#D4E5F7] shadow-[0_20px_50px_rgba(59,130,246,0.07)] mt-12 md:mt-16 mx-4 md:mx-6 group min-h-[380px] md:min-h-[420px] flex items-center">

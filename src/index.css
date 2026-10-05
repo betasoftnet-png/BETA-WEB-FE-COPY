@@ -773,7 +773,17 @@ span.coming-soon-badge {
   will-change: transform;
 }
 
+.values-marquee-row,
+.marquee-row {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
 .values-marquee-row:hover .values-marquee-left,
-.values-marquee-row:hover .values-marquee-right {
+.values-marquee-row:hover .values-marquee-right,
+.marquee-row:hover .values-marquee-left,
+.marquee-row:hover .values-marquee-right,
+.marquee-row:hover .scrolling-track {
   animation-play-state: paused !important;
 }
