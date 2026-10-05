@@ -406,6 +406,14 @@ function Philosophy3DShowcase() {
 }
 
 export default function Home() {
+  const [heroIntroDone, setHeroIntroDone] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHeroIntroDone(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -648,6 +656,146 @@ export default function Home() {
             animation: none !important;
           }
         }
+
+        /* 4-SECOND PROFESSIONAL HERO INTRO ANIMATION */
+        @keyframes heroCenterSoftGlow {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.7);
+          }
+          17.5% { /* 0.7s: Soft blue light appears at center */
+            opacity: 0.95;
+            transform: translate(-50%, -50%) scale(1.0);
+          }
+          37.5% { /* 1.5s */
+            opacity: 0.8;
+            transform: translate(-50%, -50%) scale(1.04);
+          }
+          55% { /* 2.2s */
+            opacity: 0.6;
+            transform: translate(-50%, -50%) scale(1.0);
+          }
+          92.5% { /* 3.7s */
+            opacity: 0.35;
+            transform: translate(-50%, -50%) scale(1.0);
+          }
+          100% { /* 4.0s: Stable */
+            opacity: 0.25;
+            transform: translate(-50%, -50%) scale(1.0);
+          }
+        }
+
+        @keyframes heroLogoIntroAnim {
+          0%, 17.5% { /* 0.0s - 0.7s: Screen almost empty, hidden */
+            opacity: 0;
+            transform: translateY(-24px) scale(0.96);
+            filter: drop-shadow(0 2px 4px rgba(7, 87, 184, 0.05));
+          }
+          37.5% { /* 0.7s - 1.5s: Smooth entry from slightly above + fade in */
+            opacity: 1;
+            transform: translateY(0) scale(0.96);
+            filter: drop-shadow(0 8px 22px rgba(7, 87, 184, 0.18));
+          }
+          55% { /* 1.5s - 2.2s: Settles into position, subtle scale 96% -> 100% */
+            opacity: 1;
+            transform: translateY(0) scale(1.0);
+            filter: drop-shadow(0 4px 14px rgba(7, 87, 184, 0.12));
+          }
+          92.5% { /* 2.2s - 3.7s: Perfectly stable in position */
+            opacity: 1;
+            transform: translateY(0) scale(1.0);
+            filter: drop-shadow(0 4px 14px rgba(7, 87, 184, 0.12));
+          }
+          100% { /* 3.7s - 4.0s: Settled in final position */
+            opacity: 1;
+            transform: translateY(0) scale(1.0);
+            filter: drop-shadow(0 4px 12px rgba(7, 87, 184, 0.10));
+          }
+        }
+
+        @keyframes heroLine1IntroAnim {
+          0%, 55% { /* 0.0s - 2.2s: Hidden */
+            opacity: 0;
+            transform: translateY(18px);
+          }
+          75% { /* 2.2s - 3.0s: Upward fade */
+            opacity: 1;
+            transform: translateY(0);
+          }
+          92.5% { /* 3.0s - 3.7s: Stable */
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% { /* 3.7s - 4.0s: Settle */
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes heroLine2IntroAnim {
+          0%, 75% { /* 0.0s - 3.0s: Hidden */
+            opacity: 0;
+            transform: translateY(18px);
+          }
+          92.5% { /* 3.0s - 3.7s: Upward fade/slide */
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% { /* 3.7s - 4.0s: Settle into final position */
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .hero-intro-glow {
+          animation: heroCenterSoftGlow 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .hero-intro-logo {
+          animation: heroLogoIntroAnim 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+        }
+        .hero-intro-line1 {
+          animation: heroLine1IntroAnim 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+        }
+        .hero-intro-line2 {
+          animation: heroLine2IntroAnim 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+        }
+
+        /* Post-4s Static Clean State */
+        .hero-intro-static .hero-intro-glow {
+          animation: none !important;
+          opacity: 0.25 !important;
+          transform: translate(-50%, -50%) scale(1.0) !important;
+        }
+        .hero-intro-static .hero-intro-logo {
+          animation: none !important;
+          opacity: 1 !important;
+          transform: translateY(0) scale(1.0) !important;
+          filter: drop-shadow(0 4px 12px rgba(7, 87, 184, 0.10)) !important;
+        }
+        .hero-intro-static .hero-intro-line1 {
+          animation: none !important;
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+        .hero-intro-static .hero-intro-line2 {
+          animation: none !important;
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .hero-intro-glow,
+          .hero-intro-logo,
+          .hero-intro-line1,
+          .hero-intro-line2 {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        }
       `}</style>
 
       {/* HERO SECTION: SIDE-BY-SIDE LAYOUT */}
@@ -655,32 +803,39 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10">
-          {/* Central main title */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 text-center pt-0 mt-0">
-            <div className="space-y-2">
-              <h1
-                className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight cursor-pointer select-none flex items-center justify-center gap-0 mt-5 mb-1"
-                style={{ fontFamily: "'Inter', 'Roboto', 'Plus Jakarta Sans', system-ui, sans-serif" }}
-              >
-                {['B', 'E', 'T', 'A'].map((letter, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-block transition-all duration-300 ease-out hover:scale-110"
-                    style={{
-                      color: '#004AAD',
-                      textShadow: '0px 0px 30px rgba(0, 74, 173, 0.10)',
-                      padding: '0',
-                      marginLeft: letter === 'T' ? '4px' : '0px'
-                    }}
-                  >
-                    {letter}
-                  </span>
-                ))}
-              </h1>
+          {/* Central main title / Intro Animation Area */}
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center pt-2 relative ${heroIntroDone ? 'hero-intro-static' : ''}`}>
+            {/* 0.0-0.7s: Soft blue center glow */}
+            <div
+              className="hero-intro-glow absolute top-1/2 left-1/2 w-[340px] sm:w-[480px] md:w-[600px] h-[220px] sm:h-[280px] pointer-events-none rounded-full"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(7, 87, 184, 0.14) 0%, rgba(7, 87, 184, 0.04) 50%, rgba(248, 250, 252, 0) 75%)',
+                zIndex: 0
+              }}
+            />
 
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-blue-950 tracking-tight leading-tight max-w-4xl mx-auto">
-                Where Technology Meets{" "}
-                <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-transparent">
+            <div className="relative z-10 space-y-3">
+              {/* 0.7-2.2s: BETA Logo - Enters smoothly from slightly above, flat 2D, official BETA blue */}
+              <div className="hero-intro-logo flex items-center justify-center">
+                <img
+                  src="/logo.png"
+                  alt="BETA Logo"
+                  className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto object-contain select-none transition-transform duration-300 hover:scale-105"
+                  style={{
+                    filter: 'drop-shadow(0 4px 14px rgba(7, 87, 184, 0.12))'
+                  }}
+                />
+              </div>
+
+              {/* Tagline Heading */}
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight max-w-4xl mx-auto select-none">
+                {/* 2.2-3.0s: Where Technology Meets in dark BETA blue */}
+                <span className="hero-intro-line1 block text-[#002D7A]">
+                  Where Technology Meets
+                </span>
+
+                {/* 3.0-3.7s: Possibility in blue -> purple -> pink gradient */}
+                <span className="hero-intro-line2 block mt-1 sm:mt-2 bg-gradient-to-r from-[#0757B8] via-purple-600 to-pink-500 bg-clip-text text-transparent">
                   Possibility
                 </span>
               </h1>
