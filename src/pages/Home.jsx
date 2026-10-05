@@ -407,191 +407,189 @@ function Philosophy3DShowcase() {
 }
 
 // ==========================================
-// REDESIGNED BETA CORPORATE HERO INTRO
-// Centered, clean, human-designed & GPU-friendly
-// Visual Reference inspired by minimal corporate pill & geometric accents
+// ==========================================
+// PROFESSIONAL 4.5s CORPORATE WEBSITE INTRO ANIMATION
+// Official BETA Blue (#0757B8), Letter Assembly, Light Sweep & Centered Final Frame
 // ==========================================
 function BETAAnimatedHeroIntro() {
-  // Sequence timing (total ~2.8s):
-  // Step 0: Initial mount (0 - 150ms)
-  // Step 1: BETA logo fades in with small upward translation; light-blue geometric accents appear around logo (150ms - 650ms)
-  // Step 2: Logo subtle scale pulse + Phrase 1 "Building Better Software" (650ms - 1150ms)
-  // Step 3: Phrase 2 "Connecting Businesses" (1150ms - 1650ms)
-  // Step 4: Phrase 3 "Creating Digital Solutions" (1650ms - 2150ms)
-  // Step 5: Phrase 4 "Technology That Works" (2150ms - 2650ms)
-  // Step 6: Temporary text and temporary intro elements smoothly fade out (2650ms - 2850ms)
-  // Step 7: Final state permanently active (2850ms+)
+  // TIMELINE SEQUENCE:
+  // 0.0 - 0.8s: Background clean; small soft blue glow/line subtly appears in center
+  // 0.8 - 1.8s: BETA logo smoothly appears; B, E, T, A assemble smoothly into complete logo with subtle upward movement & fade-in
+  // 1.8 - 2.8s: Completed blue BETA logo gently scales up to final size; subtle blue light sweep glides across logo
+  // 2.8 - 4.5s: "WHERE TECHNOLOGY MEETS" in dark BETA blue & "POSSIBILITY" in blue->purple->pink gradient fade/slide upward
+  // 4.5s+: Final frame centered and stable
 
-  const [step, setStep] = useState(0);
-  const [activePhraseIndex, setActivePhraseIndex] = useState(0);
-
-  const phrases = [
-    'Building Better Software',
-    'Connecting Businesses',
-    'Creating Digital Solutions',
-    'Technology That Works'
-  ];
+  const [phase, setPhase] = useState(0); // 0: line glow, 1: logo & letters assemble, 2: scale & light sweep, 3: heading reveal, 4: final stable frame
+  const [assembledLetters, setAssembledLetters] = useState(0); // 0 to 4
 
   useEffect(() => {
-    const t1 = setTimeout(() => setStep(1), 150);
-    const t2 = setTimeout(() => {
-      setStep(2);
-      setActivePhraseIndex(0);
-    }, 650);
-    const t3 = setTimeout(() => setActivePhraseIndex(1), 1150);
-    const t4 = setTimeout(() => setActivePhraseIndex(2), 1650);
-    const t5 = setTimeout(() => setActivePhraseIndex(3), 2150);
-    const t6 = setTimeout(() => setStep(6), 2650);
-    const t7 = setTimeout(() => setStep(7), 2850);
+    // 0.0s: Phase 0 (glow line)
+    setPhase(0);
 
-    const handleKeyDown = (e) => {
+    // 0.8s: Phase 1 starts (logo appears, letters assemble)
+    const tLogo = setTimeout(() => setPhase(1), 800);
+
+    // Letter assembly timings:
+    const tB = setTimeout(() => setAssembledLetters(1), 850);
+    const tE = setTimeout(() => setAssembledLetters(2), 1050);
+    const tT = setTimeout(() => setAssembledLetters(3), 1250);
+    const tA = setTimeout(() => setAssembledLetters(4), 1450);
+
+    // 1.8s: Phase 2 (gentle scale up + subtle blue light sweep across logo)
+    const tSweep = setTimeout(() => setPhase(2), 1800);
+
+    // 2.8s: Phase 3 ("Where Technology Meets Possibility" slides & fades up)
+    const tHeading = setTimeout(() => setPhase(3), 2800);
+
+    // 4.5s: Phase 4 (final stable frame)
+    const tFinal = setTimeout(() => setPhase(4), 4500);
+
+    const handleSkipKey = (e) => {
       if (e.key === 'Escape' || e.key === ' ') {
-        setStep(7);
+        setPhase(4);
+        setAssembledLetters(4);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleSkipKey);
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
-      clearTimeout(t5);
-      clearTimeout(t6);
-      clearTimeout(t7);
-      window.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(tLogo);
+      clearTimeout(tB);
+      clearTimeout(tE);
+      clearTimeout(tT);
+      clearTimeout(tA);
+      clearTimeout(tSweep);
+      clearTimeout(tHeading);
+      clearTimeout(tFinal);
+      window.removeEventListener('keydown', handleSkipKey);
     };
   }, []);
 
-  const isFinalState = step >= 7;
-  const isIntroPulsing = step === 2;
-  const showIntroPhrase = step >= 2 && step < 6;
-  const showGeometricAccents = step >= 1 && step < 6;
+  const isFinalStable = phase >= 4;
 
   const handleSkip = (e) => {
     e.stopPropagation();
-    setStep(7);
+    setPhase(4);
+    setAssembledLetters(4);
   };
 
   return (
     <section
       className="relative w-full min-h-[calc(100vh-3.5rem)] md:h-[calc(100vh-3.5rem)] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 select-none overflow-hidden"
-      onClick={step < 7 ? handleSkip : undefined}
-      style={{
-        cursor: step < 7 ? 'pointer' : 'default'
-      }}
+      onClick={!isFinalStable ? handleSkip : undefined}
+      style={{ cursor: !isFinalStable ? 'pointer' : 'default' }}
     >
-      {/* Centered Main Hero Box */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
-
-        {/* --- 1. BETA LOGO WITH CORPORATE GEOMETRIC ACCENTS --- */}
-        <div className="relative flex items-center justify-center mb-3 sm:mb-4 md:mb-5">
-          {/* Subtle Left Geometric Elements (Reference style: soft pastel semicircles & dot) */}
+      {/* 0.0 - 0.8 sec: Center Soft Blue Glow / Line */}
+      {phase === 0 && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
           <div
-            className="flex items-center space-x-1.5 sm:space-x-2 mr-2 sm:mr-3 transition-all duration-500 ease-out"
+            className="center-line-glow h-[2px] rounded-full bg-gradient-to-r from-transparent via-[#0757B8] to-transparent"
             style={{
-              opacity: showGeometricAccents ? 1 : 0,
-              transform: showGeometricAccents ? 'translateX(0)' : 'translateX(10px)',
-              pointerEvents: 'none'
+              boxShadow: '0 0 16px rgba(7, 87, 184, 0.45)'
             }}
-          >
-            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-300" />
-            <div className="w-2.5 h-6 sm:w-3.5 sm:h-8 rounded-l-full bg-sky-100 border-l border-y border-sky-200/80" />
-          </div>
+          />
+        </div>
+      )}
 
-          {/* Logo Frame: Clean, corporate, rounded squircle with subtle border */}
-          <div
-            className={`relative p-2.5 sm:p-3.5 md:p-4 rounded-2xl sm:rounded-3xl bg-white border border-blue-100/90 shadow-sm transition-all duration-500 ease-out ${
-              step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            } ${isIntroPulsing ? 'hero-logo-pulse' : ''}`}
-            style={{ willChange: 'transform, opacity' }}
-          >
+      {/* Main Centered Composition Container */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
+
+        {/* 0.8 - 2.8 sec & FINAL: Official Blue BETA Logo & Assembled Wordmark */}
+        <div
+          className="relative transition-all duration-700 ease-out flex flex-col items-center justify-center"
+          style={{
+            opacity: phase >= 1 ? 1 : 0,
+            transform: phase >= 1
+              ? (phase >= 2 ? 'scale(1) translateY(0)' : 'scale(0.97) translateY(0)')
+              : 'scale(0.95) translateY(18px)',
+            transition: 'opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 800ms cubic-bezier(0.16, 1, 0.3, 1)'
+          }}
+        >
+          {/* Logo Mark Container with subtle corporate framing */}
+          <div className="relative overflow-hidden rounded-3xl p-3 sm:p-4 mb-2 sm:mb-3">
+            {/* The BETA Logo Image in official corporate blue (#0757B8) */}
             <img
               src="/logo.png"
               alt="BETA Logo"
-              className="h-14 sm:h-18 md:h-20 lg:h-22 w-auto object-contain transition-transform duration-300 select-none"
+              className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain select-none"
+              style={{
+                filter: 'drop-shadow(0 4px 16px rgba(7, 87, 184, 0.15))'
+              }}
             />
+
+            {/* 1.8 - 2.8 sec: Subtle Blue Light Sweep across logo */}
+            {phase === 2 && (
+              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl">
+                <div
+                  className="light-sweep-animate absolute -inset-y-4 w-1/2 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none"
+                  style={{ willChange: 'transform' }}
+                />
+              </div>
+            )}
           </div>
 
-          {/* Subtle Right Geometric Elements (Reference style: soft pastel semicircles & dot) */}
-          <div
-            className="flex items-center space-x-1.5 sm:space-x-2 ml-2 sm:mr-3 transition-all duration-500 ease-out"
-            style={{
-              opacity: showGeometricAccents ? 1 : 0,
-              transform: showGeometricAccents ? 'translateX(0)' : 'translateX(-10px)',
-              pointerEvents: 'none'
-            }}
-          >
-            <div className="w-2.5 h-6 sm:w-3.5 sm:h-8 rounded-r-full bg-sky-100 border-r border-y border-sky-200/80" />
-            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-300" />
+          {/* 0.8 - 1.8 sec: Letters B, E, T, A assemble smoothly into complete logo */}
+          <div className="flex items-center justify-center space-x-1 sm:space-x-2 mb-2 sm:mb-3">
+            {['B', 'E', 'T', 'A'].map((letter, idx) => {
+              const isVisible = phase > 1 || assembledLetters > idx;
+              return (
+                <span
+                  key={idx}
+                  className="inline-block font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-[#0757B8] select-none"
+                  style={{
+                    fontFamily: "'Inter', 'Roboto', 'Plus Jakarta Sans', system-ui, sans-serif",
+                    opacity: isVisible ? 1 : 0,
+                    transform: isVisible ? 'translateY(0)' : 'translateY(18px)',
+                    transition: 'opacity 450ms cubic-bezier(0.16, 1, 0.3, 1), transform 450ms cubic-bezier(0.16, 1, 0.3, 1)',
+                    textShadow: '0 4px 20px rgba(7, 87, 184, 0.10)'
+                  }}
+                >
+                  {letter}
+                </span>
+              );
+            })}
           </div>
         </div>
 
-        {/* --- 2. ANIMATED CYCLING TEXT PHRASES (DURING INTRO) --- */}
+        {/* 2.8 - 4.5 sec: WHERE TECHNOLOGY MEETS POSSIBILITY */}
         <div
-          className="h-10 sm:h-11 flex items-center justify-center transition-all duration-300"
+          className="transition-all duration-700 ease-out flex flex-col items-center justify-center max-w-4xl mx-auto px-2"
           style={{
-            opacity: showIntroPhrase ? 1 : 0,
-            transform: showIntroPhrase ? 'translateY(0)' : 'translateY(-6px)',
-            display: isFinalState ? 'none' : 'flex'
+            opacity: phase >= 3 ? 1 : 0,
+            transform: phase >= 3 ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 650ms cubic-bezier(0.16, 1, 0.3, 1), transform 650ms cubic-bezier(0.16, 1, 0.3, 1)',
+            pointerEvents: phase >= 3 ? 'auto' : 'none'
           }}
         >
-          {showIntroPhrase && (
-            <div
-              key={activePhraseIndex}
-              className="hero-phrase-animate inline-flex items-center px-4 sm:px-5 py-1.5 rounded-full bg-white/95 border border-blue-200/80 shadow-sm text-xs sm:text-sm md:text-base font-semibold text-[#004AAD] tracking-wide"
-            >
-              <span className="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse" />
-              {phrases[activePhraseIndex]}
-            </div>
-          )}
-        </div>
-
-        {/* --- 3. FINAL STATE HERO CONTENT --- */}
-        <div
-          className="transition-all duration-700 ease-out flex flex-col items-center justify-center"
-          style={{
-            opacity: isFinalState ? 1 : 0,
-            transform: isFinalState ? 'translateY(0)' : 'translateY(12px)',
-            pointerEvents: isFinalState ? 'auto' : 'none'
-          }}
-        >
-          {/* Brand Wordmark: BETA */}
-          <h2
-            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-[#004AAD] tracking-tight leading-none mb-1 sm:mb-2 select-none"
-            style={{
-              fontFamily: "'Inter', 'Roboto', 'Plus Jakarta Sans', system-ui, sans-serif",
-              textShadow: '0 4px 20px rgba(0, 74, 173, 0.08)'
-            }}
-          >
-            BETA
-          </h2>
-
-          {/* Heading: Where Technology Meets Possibility */}
-          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight max-w-4xl mx-auto mb-3 sm:mb-4 px-2">
-            <span className="text-[#002D7A]">Where Technology Meets</span>{' '}
-            <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-rose-500 bg-clip-text text-transparent">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight max-w-4xl mx-auto mb-3 sm:mb-4">
+            <span className="text-[#002D7A] block sm:inline">Where Technology Meets</span>{' '}
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
               Possibility
             </span>
           </h1>
 
-          {/* Clean Corporate Tagline */}
-          <p className="text-slate-600 text-sm sm:text-base md:text-lg font-medium max-w-2xl mx-auto mb-6 px-4 leading-relaxed">
+          {/* Clean Corporate Tagline & Action Prompt in Final Frame */}
+          <p
+            className="text-slate-600 text-sm sm:text-base md:text-lg font-medium max-w-2xl mx-auto mb-6 px-4 leading-relaxed transition-opacity duration-500"
+            style={{ opacity: phase >= 3 ? 1 : 0 }}
+          >
             Enterprise software engineered for real-time scale, security, and connected business operations.
           </p>
 
-          {/* Action links */}
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          <div
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 transition-all duration-500"
+            style={{ opacity: isFinalStable ? 1 : 0, transform: isFinalStable ? 'translateY(0)' : 'translateY(8px)' }}
+          >
             <a
               href="#platform-overview"
-              className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#004AAD] hover:bg-[#003c8f] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 rounded-full bg-[#0757B8] hover:bg-[#054391] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
             >
               <span>Explore Platform</span>
               <ArrowRight className="w-4 h-4" />
             </a>
             <Link
               to="/careers"
-              className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#004AAD] text-xs sm:text-sm font-bold shadow-sm transition-all duration-200"
+              className="inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#0757B8] text-xs sm:text-sm font-bold shadow-sm transition-all duration-200"
             >
               <span>Careers</span>
             </Link>
@@ -600,8 +598,8 @@ function BETAAnimatedHeroIntro() {
 
       </div>
 
-      {/* Discreet Minimal Skip Button (only during intro) */}
-      {!isFinalState && (
+      {/* Discreet Minimal Skip Button (during intro) */}
+      {!isFinalStable && (
         <button
           onClick={handleSkip}
           className="absolute bottom-5 right-5 text-[11px] sm:text-xs text-slate-400 hover:text-slate-700 uppercase tracking-widest font-bold transition-colors duration-200 cursor-pointer bg-white/80 border border-slate-200/60 py-1.5 px-3 rounded-full shadow-xs hover:bg-slate-100"
@@ -611,11 +609,11 @@ function BETAAnimatedHeroIntro() {
         </button>
       )}
 
-      {/* Gentle Scroll Indicator when in Final State */}
-      {isFinalState && (
+      {/* Final Frame Stable Scroll Cue */}
+      {isFinalStable && (
         <a
           href="#platform-overview"
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center text-slate-400 hover:text-[#004AAD] transition-colors duration-200 cursor-pointer"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center text-slate-400 hover:text-[#0757B8] transition-colors duration-200 cursor-pointer"
           aria-label="Scroll to platform overview"
         >
           <span className="text-[10px] uppercase font-bold tracking-widest mb-1">Scroll</span>
@@ -830,34 +828,45 @@ export default function Home() {
           background-size: 400% 400%;
           animation: gradientShift 15s ease infinite;
         }
-        @keyframes heroPhraseCycle {
+        @keyframes corporateLightSweep {
           0% {
+            transform: translateX(-160%) skewX(-20deg);
             opacity: 0;
-            transform: translateY(8px);
           }
-          15% {
-            opacity: 1;
-            transform: translateY(0);
+          20% {
+            opacity: 0.9;
           }
-          85% {
-            opacity: 1;
-            transform: translateY(0);
+          80% {
+            opacity: 0.9;
           }
           100% {
+            transform: translateX(260%) skewX(-20deg);
             opacity: 0;
-            transform: translateY(-6px);
           }
         }
-        .hero-phrase-animate {
-          animation: heroPhraseCycle 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .light-sweep-animate {
+          animation: corporateLightSweep 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes heroLogoPulse {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-          100% { transform: scale(1); }
+        @keyframes centerGlowLine {
+          0% {
+            width: 0px;
+            opacity: 0;
+          }
+          30% {
+            width: 60px;
+            opacity: 0.8;
+          }
+          70% {
+            width: 140px;
+            opacity: 0.95;
+          }
+          100% {
+            width: 180px;
+            opacity: 0;
+          }
         }
-        .hero-logo-pulse {
-          animation: heroLogoPulse 600ms cubic-bezier(0.16, 1, 0.3, 1);
+        .center-line-glow {
+          animation: centerGlowLine 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .hero-blue-banner h1, .hero-blue-banner h2, .hero-blue-banner h3 {
           color: #ffffff !important;
