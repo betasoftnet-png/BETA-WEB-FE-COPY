@@ -995,26 +995,26 @@ export default function Home() {
         .top-beta-brand-text {
           font-family: 'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif !important;
           color: #004AAD !important;
-          letter-spacing: -0.035em !important;
-          filter: drop-shadow(0 4px 12px rgba(0, 74, 173, 0.10));
+          letter-spacing: -0.03em !important;
+          filter: drop-shadow(0 2px 6px rgba(0, 74, 173, 0.08));
         }
 
         /* INDIVIDUAL LETTER REVEAL ANIMATION (Left to Right: B -> E -> T -> A) */
         @keyframes betaLetterReveal {
           0% {
             opacity: 0;
-            transform: translate3d(0, 18px, 0) scale(0.92);
+            transform: translate3d(0, 16px, 0) scale(0.94);
             filter: drop-shadow(0 0 0 transparent);
           }
           68% {
             opacity: 1;
-            transform: translate3d(0, -1px, 0) scale(1.01);
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5)) drop-shadow(0 2px 6px rgba(0, 74, 173, 0.25));
+            transform: translate3d(0, -1px, 0) scale(1.008);
+            filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.30)) drop-shadow(0 2px 4px rgba(0, 74, 173, 0.12));
           }
           100% {
             opacity: 1;
             transform: translate3d(0, 0, 0) scale(1);
-            filter: drop-shadow(0 1px 2px rgba(0, 74, 173, 0.12));
+            filter: drop-shadow(0 1px 2px rgba(0, 74, 173, 0.08));
           }
         }
 
@@ -1040,8 +1040,8 @@ export default function Home() {
         }
 
         .beta-letter:hover svg {
-          transform: translate3d(0, -6px, 0) scale(1.055);
-          filter: drop-shadow(0 8px 18px rgba(0, 74, 173, 0.30)) drop-shadow(0 2px 5px rgba(0, 74, 173, 0.18));
+          transform: translate3d(0, -5px, 0) scale(1.045);
+          filter: drop-shadow(0 6px 14px rgba(0, 74, 173, 0.18)) drop-shadow(0 2px 4px rgba(0, 74, 173, 0.10));
         }
 
         .beta-letter-b {
@@ -1069,7 +1069,7 @@ export default function Home() {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
-            filter: drop-shadow(0 4px 12px rgba(0, 74, 173, 0.10)) !important;
+            filter: drop-shadow(0 2px 6px rgba(0, 74, 173, 0.08)) !important;
           }
         }
       `}</style>
@@ -1137,32 +1137,32 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10 w-full">
-          {/* Top Brand Mark: BETA Text with Sequential Entrance Animation & Tightened Negative Space */}
+          {/* Top Brand Mark: Refined Corporate BETA Wordmark (Taller, Cleaner, Lighter Stroke, Minimal Shadow) */}
           <div className="w-full flex items-center justify-center pt-1 pb-1 sm:pb-1.5 md:pb-2 select-none">
             <span
-              className="top-beta-brand-text text-4xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[78px] 2xl:text-[86px] select-none uppercase tracking-[-0.035em] leading-none inline-flex items-center justify-center"
+              className="top-beta-brand-text text-5xl sm:text-6xl md:text-[68px] lg:text-[78px] xl:text-[88px] 2xl:text-[98px] select-none uppercase tracking-[-0.03em] leading-none inline-flex items-center justify-center gap-0.5 sm:gap-1"
               style={{
                 fontFamily: "'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif"
               }}
             >
               <span className="beta-letter beta-letter-b inline-flex items-center">
-                <svg viewBox="0 0 670 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="B">
-                  <path d="M65,0 H265 V688 H65 Z M307,0 H421 Q622,0 622,173 Q622,246 593.5,283 Q565,320 503,335 V339 Q568,354 596,386 Q628,424 628,504 Q628,596 579,642 Q530,688 422,688 H307 Z M307,237.4 H331.5 Q351.1,237.4 361.3,236.6 Q371.4,235.8 376.3,232.7 Q381.2,229.6 382.9,224.1 Q384.7,218.6 384.7,208.8 Q384.7,198.4 382.9,192.9 Q381.2,187.4 376.3,184.3 Q371.4,181.2 361.3,180.4 Q351.1,179.6 331.5,179.6 H307 Z M307,506.7 H335.7 Q355.3,506.7 365.4,505.9 Q375.6,505.1 380.5,502 Q385.4,498.9 387.1,493.2 Q388.9,487.4 388.9,476.5 Q388.9,465.1 387.1,459.4 Q385.4,453.6 380.5,450.5 Q372.1,445.3 335.7,445.3 H307 Z" />
+                <svg viewBox="0 0 630 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="B">
+                  <path d="M60,0 H225 V688 H60 Z M268,0 H392 Q585,0 585,168 Q585,242 558,280 Q530,316 472,332 V336 Q535,351 562,384 Q592,422 592,502 Q592,592 545,640 Q498,688 392,688 H268 Z M268,252 H312 Q338,252 351,250 Q364,248 371,242 Q378,236 381,227 Q384,218 384,206 Q384,193 381,184 Q378,175 371,169 Q364,163 351,161 Q338,159 312,159 H268 Z M268,520 H316 Q342,520 355,518 Q368,516 375,510 Q382,504 385,494 Q388,484 388,472 Q388,458 385,448 Q382,438 375,432 Q368,424 316,424 H268 Z" />
                 </svg>
               </span>
               <span className="beta-letter beta-letter-e inline-flex items-center">
-                <svg viewBox="0 0 616 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="E">
-                  <path d="M65,0 H265 V688 H65 Z M307,0 H561 V205 H307 Z M307,242 H514 V446 H307 Z M307,483 H561 V688 H307 Z" />
+                <svg viewBox="0 0 565 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="E">
+                  <path d="M60,0 H225 V688 H60 Z M268,0 H520 V165 H268 Z M268,252 H482 V417 H268 Z M268,504 H520 V688 H268 Z" />
                 </svg>
               </span>
               <span className="beta-letter beta-letter-t inline-flex items-center">
-                <svg viewBox="0 0 581 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="T">
-                  <path d="M9,0 H572 V215 H9 Z M153,248 H428 V688 H153 Z" />
+                <svg viewBox="0 0 540 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="T">
+                  <path d="M10,0 H530 V165 H10 Z M185,220 H355 V688 H185 Z" />
                 </svg>
               </span>
               <span className="beta-letter beta-letter-a inline-flex items-center">
-                <svg viewBox="0 0 687 688" className="h-[1em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="A">
-                  <path d="M221,0 H238 L317,274 L202,688 H2 Z M446,566 H279 L314,380 H385 L283,0 H466 L685,688 H481 Z" />
+                <svg viewBox="0 0 655 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="A">
+                  <path d="M205,0 H232 L310,290 L188,688 H12 Z M455,540 H272 L310,375 H375 L272,0 H448 L658,688 H478 Z" />
                 </svg>
               </span>
             </span>
