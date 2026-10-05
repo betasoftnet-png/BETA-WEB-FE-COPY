@@ -991,12 +991,25 @@ export default function Home() {
           }
         }
 
-        /* TOP BRAND MARK BETA TEXT */
+        /* TOP BRAND MARK BETA TEXT & MICRO-SETTLING EFFECT */
+        @keyframes betaWordmarkSettle {
+          0% {
+            opacity: 0.96;
+            transform: translate3d(0, 1.5px, 0) scale(0.992);
+          }
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+          }
+        }
+
         .top-beta-brand-text {
           font-family: 'Saira Stencil One', 'Plus Jakarta Sans', system-ui, sans-serif !important;
           color: #004AAD !important;
           letter-spacing: -0.035em !important;
           filter: drop-shadow(0 4px 12px rgba(0, 74, 173, 0.10));
+          animation: betaWordmarkSettle 350ms cubic-bezier(0.16, 1, 0.3, 1) 1.28s both;
+          will-change: transform, opacity;
         }
 
         /* SUBTLE SEQUENTIAL ENTRANCE FOR BETA LETTERS (Runs once on load/refresh) */
