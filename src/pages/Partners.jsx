@@ -383,44 +383,49 @@ function PartnerResourcesMarqueeSection() {
   );
 }
 
-// Clean, professional flowing dotted wave pattern for left and right edges
+// Elegant, human-designed flowing dotted wave pattern with subtle depth lines for left and right edges
 function DottedWaveSide({ side = 'left' }) {
+  const isLeft = side === 'left';
+
+  // Pre-calculate dot streams with balanced, natural variation between sides
   const streams = useMemo(() => {
-    // 7 progressive streams from outer edge moving toward center
+    // 6 progressive streams from outer edge to center
     const streamConfigs = [
-      { base: 14, stepY: 20, r: 4.2, opacity: 0.70, color: '#0052CC' },
-      { base: 46, stepY: 23, r: 3.5, opacity: 0.55, color: '#0066FF' },
-      { base: 80, stepY: 26, r: 2.9, opacity: 0.42, color: '#0284C7' },
-      { base: 116, stepY: 30, r: 2.3, opacity: 0.30, color: '#2563EB' },
-      { base: 154, stepY: 34, r: 1.8, opacity: 0.20, color: '#38BDF8' },
-      { base: 194, stepY: 40, r: 1.4, opacity: 0.12, color: '#60A5FA' },
-      { base: 236, stepY: 46, r: 1.1, opacity: 0.06, color: '#93C5FD' },
+      { base: 14, stepY: 20, r: 3.8, opacity: 0.68, color: '#0052CC' },
+      { base: 44, stepY: 23, r: 3.2, opacity: 0.52, color: '#0066FF' },
+      { base: 78, stepY: 27, r: 2.6, opacity: 0.38, color: '#0284C7' },
+      { base: 114, stepY: 31, r: 2.1, opacity: 0.26, color: '#2563EB' },
+      { base: 152, stepY: 36, r: 1.6, opacity: 0.16, color: '#38BDF8' },
+      { base: 194, stepY: 42, r: 1.1, opacity: 0.07, color: '#93C5FD' },
     ];
 
     const allDots = [];
     const height = 700;
+    const width = 240;
 
     streamConfigs.forEach((cfg, sIdx) => {
       for (let y = 14; y < height; y += cfg.stepY) {
-        // Natural gentle wave curve along height
-        const wave =
-          Math.sin((y / height) * Math.PI * 2.2 + sIdx * 0.26) * (18 + sIdx * 4) +
-          Math.cos((y / height) * Math.PI * 1.1) * 12;
+        // Natural gentle wave curve along height with subtle organic variance per side
+        const wave = isLeft
+          ? Math.sin((y / height) * Math.PI * 2.1 + sIdx * 0.28) * (14 + sIdx * 3.2) +
+            Math.cos((y / height) * Math.PI * 1.1) * 9
+          : Math.sin((y / height) * Math.PI * 2.3 + sIdx * 0.32 + 0.4) * (15 + sIdx * 3.5) +
+            Math.cos((y / height) * Math.PI * 1.25) * 8;
 
         const rawX = cfg.base + wave;
-        const x = side === 'left' ? rawX : 280 - rawX;
+        const x = isLeft ? rawX : width - rawX;
 
         // Smooth vertical fade at top and bottom boundaries
         let edgeFade = 1;
-        if (y < 50) edgeFade = y / 50;
-        else if (y > height - 50) edgeFade = (height - y) / 50;
+        if (y < 45) edgeFade = y / 45;
+        else if (y > height - 45) edgeFade = (height - y) / 45;
 
-        // Subtle micro-variation in size
+        // Micro-variation in radius along the stream
         const microScale = 0.92 + 0.16 * Math.sin(y * 0.08 + sIdx);
         const radius = +(cfg.r * microScale).toFixed(2);
         const opacity = +(cfg.opacity * edgeFade).toFixed(3);
 
-        if (opacity > 0.02 && x >= 0 && x <= 280) {
+        if (opacity > 0.02 && x >= 0 && x <= width) {
           allDots.push({
             cx: +x.toFixed(1),
             cy: y,
@@ -433,27 +438,136 @@ function DottedWaveSide({ side = 'left' }) {
     });
 
     return allDots;
-  }, [side]);
+  }, [isLeft]);
 
   return (
-    <svg
-      className="w-full h-full"
-      viewBox="0 0 280 700"
-      preserveAspectRatio="none"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {streams.map((dot, i) => (
-        <circle
-          key={i}
-          cx={dot.cx}
-          cy={dot.cy}
-          r={dot.r}
-          fill={dot.color}
-          fillOpacity={dot.opacity}
-        />
-      ))}
-    </svg>
+    <div className={`w-full h-full ${isLeft ? 'dotted-wave-left' : 'dotted-wave-right'}`}>
+      <style>{`
+        @keyframes dottedWaveFloatLeft {
+          0% {
+            transform: translate3d(0, 0, 0);
+            opacity: 0.88;
+          }
+          100% {
+            transform: translate3d(0, -10px, 0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes dottedWaveFloatRight {
+          0% {
+            transform: translate3d(0, -8px, 0);
+            opacity: 1;
+          }
+          100% {
+            transform: translate3d(0, 4px, 0);
+            opacity: 0.86;
+          }
+        }
+
+        .dotted-wave-left {
+          animation: dottedWaveFloatLeft 14s ease-in-out infinite alternate;
+          will-change: transform, opacity;
+        }
+
+        .dotted-wave-right {
+          animation: dottedWaveFloatRight 16s ease-in-out infinite alternate;
+          will-change: transform, opacity;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .dotted-wave-left,
+          .dotted-wave-right {
+            animation: none !important;
+          }
+        }
+      `}</style>
+
+      <svg
+        className="w-full h-full"
+        viewBox="0 0 240 700"
+        preserveAspectRatio="none"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id={`thinLineGrad_${side}_1`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#0052CC" stopOpacity="0.05" />
+            <stop offset="30%" stopColor="#0066FF" stopOpacity="0.22" />
+            <stop offset="70%" stopColor="#0284C7" stopOpacity="0.20" />
+            <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.05" />
+          </linearGradient>
+          <linearGradient id={`thinLineGrad_${side}_2`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#0284C7" stopOpacity="0.04" />
+            <stop offset="40%" stopColor="#38BDF8" stopOpacity="0.18" />
+            <stop offset="80%" stopColor="#60A5FA" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#93C5FD" stopOpacity="0.04" />
+          </linearGradient>
+          <linearGradient id={`thinLineGrad_${side}_3`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.03" />
+            <stop offset="50%" stopColor="#60A5FA" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#93C5FD" stopOpacity="0.02" />
+          </linearGradient>
+        </defs>
+
+        {/* Very thin curved blue lines behind the dots for organic depth */}
+        {isLeft ? (
+          <>
+            <path
+              d="M 16,0 C 44,160 20,340 50,520 C 65,600 36,660 20,700"
+              stroke={`url(#thinLineGrad_${side}_1)`}
+              strokeWidth="1.2"
+              fill="none"
+            />
+            <path
+              d="M 48,0 C 88,180 52,360 96,540 C 114,620 78,670 54,700"
+              stroke={`url(#thinLineGrad_${side}_2)`}
+              strokeWidth="1.0"
+              fill="none"
+            />
+            <path
+              d="M 90,0 C 138,200 96,390 148,560 C 166,630 132,680 104,700"
+              stroke={`url(#thinLineGrad_${side}_3)`}
+              strokeWidth="0.8"
+              fill="none"
+            />
+          </>
+        ) : (
+          <>
+            <path
+              d="M 224,0 C 196,170 220,350 190,530 C 175,610 204,660 220,700"
+              stroke={`url(#thinLineGrad_${side}_1)`}
+              strokeWidth="1.2"
+              fill="none"
+            />
+            <path
+              d="M 192,0 C 152,190 188,370 144,550 C 126,630 162,670 186,700"
+              stroke={`url(#thinLineGrad_${side}_2)`}
+              strokeWidth="1.0"
+              fill="none"
+            />
+            <path
+              d="M 150,0 C 102,210 144,400 92,570 C 74,640 108,680 136,700"
+              stroke={`url(#thinLineGrad_${side}_3)`}
+              strokeWidth="0.8"
+              fill="none"
+            />
+          </>
+        )}
+
+        {/* Small circular dots in smooth wave formation */}
+        {streams.map((dot, i) => (
+          <circle
+            key={i}
+            cx={dot.cx}
+            cy={dot.cy}
+            r={dot.r}
+            fill={dot.color}
+            fillOpacity={dot.opacity}
+          />
+        ))}
+      </svg>
+    </div>
   );
 }
 
@@ -1048,12 +1162,12 @@ export default function Partners() {
       <section className="relative w-full py-16 md:py-24 bg-[#EDF4F9] overflow-hidden select-none">
         {/* Flowing Dotted Pattern along both LEFT and RIGHT edges */}
         {/* Left Dotted Wave Decoration */}
-        <div className="absolute left-0 top-0 bottom-0 w-28 sm:w-40 md:w-56 lg:w-72 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-36 md:w-48 lg:w-60 pointer-events-none z-0 overflow-hidden">
           <DottedWaveSide side="left" />
         </div>
 
         {/* Right Dotted Wave Decoration */}
-        <div className="absolute right-0 top-0 bottom-0 w-28 sm:w-40 md:w-56 lg:w-72 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-36 md:w-48 lg:w-60 pointer-events-none z-0 overflow-hidden">
           <DottedWaveSide side="right" />
         </div>
 
