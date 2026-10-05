@@ -383,7 +383,7 @@ function PartnerResourcesMarqueeSection() {
   );
 }
 
-// Clean, modern blue architectural side frame (approx 15% width, balanced & symmetrical)
+// Minimal, elegant technology-inspired side accents (thin subtle curves & geometric details)
 function BlueSideFrame({ side = 'left' }) {
   const isRight = side === 'right';
 
@@ -397,65 +397,88 @@ function BlueSideFrame({ side = 'left' }) {
     >
       <svg
         className="w-full h-full"
-        viewBox="0 0 160 800"
+        viewBox="0 0 120 700"
         preserveAspectRatio="none"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* Shade 1: Primary Corporate BETA Deep Blue */}
-          <linearGradient id={`frameBlue1_${side}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00358A" />
-            <stop offset="50%" stopColor="#004AAD" />
-            <stop offset="100%" stopColor="#0052CC" />
+          {/* Subtle Primary Tech Line Gradient */}
+          <linearGradient id={`techLineGrad_${side}`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#004AAD" stopOpacity="0.08" />
+            <stop offset="25%" stopColor="#0284C7" stopOpacity="0.38" />
+            <stop offset="50%" stopColor="#004AAD" stopOpacity="0.48" />
+            <stop offset="75%" stopColor="#38BDF8" stopOpacity="0.32" />
+            <stop offset="100%" stopColor="#004AAD" stopOpacity="0.08" />
           </linearGradient>
 
-          {/* Shade 2: Secondary Mid Vibrant Corporate Blue */}
-          <linearGradient id={`frameBlue2_${side}`} x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0052CC" stopOpacity="0.90" />
-            <stop offset="50%" stopColor="#0284C7" stopOpacity="0.80" />
-            <stop offset="100%" stopColor="#0066FF" stopOpacity="0.70" />
-          </linearGradient>
-
-          {/* Shade 3: Inward Translucent Sky Blue Accent (Natural transition into light center) */}
-          <linearGradient id={`frameBlue3_${side}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0284C7" stopOpacity="0.32" />
-            <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="#93C5FD" stopOpacity="0" />
-          </linearGradient>
-
-          {/* Subtle Inward Edge Accent Stroke */}
-          <linearGradient id={`frameStroke_${side}`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.20" />
-            <stop offset="50%" stopColor="#38BDF8" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.20" />
+          {/* Very Soft Secondary Guide Gradient */}
+          <linearGradient id={`techSubtleGrad_${side}`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.04" />
+            <stop offset="30%" stopColor="#93C5FD" stopOpacity="0.22" />
+            <stop offset="70%" stopColor="#60A5FA" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#93C5FD" stopOpacity="0.04" />
           </linearGradient>
         </defs>
 
-        {/* Layer 3: Soft Inward Curved Inflow (Translucent transition into center) */}
+        {/* 1. Primary Gentle Tech Curve Line (Near edge) */}
         <path
-          d="M 0,0 L 155,0 C 180,200 185,310 142,400 C 98,490 180,600 155,800 L 0,800 Z"
-          fill={`url(#frameBlue3_${side})`}
-        />
-
-        {/* Layer 2: Mid Layer Smooth Curved Wave Shape */}
-        <path
-          d="M 0,0 L 130,0 C 160,190 165,300 122,400 C 80,500 160,610 130,800 L 0,800 Z"
-          fill={`url(#frameBlue2_${side})`}
-        />
-
-        {/* Layer 1: Base Primary Deep Blue Shape */}
-        <path
-          d="M 0,0 L 105,0 C 135,180 140,290 102,400 C 64,510 135,620 105,800 L 0,800 Z"
-          fill={`url(#frameBlue1_${side})`}
-        />
-
-        {/* Subtle Inward Curved Edge Line for Architectural Definition */}
-        <path
-          d="M 155,0 C 180,200 185,310 142,400 C 98,490 180,600 155,800"
-          stroke={`url(#frameStroke_${side})`}
-          strokeWidth="1.5"
+          d="M 18,0 C 42,180 48,320 26,440 C 12,530 38,630 20,700"
+          stroke={`url(#techLineGrad_${side})`}
+          strokeWidth="1.25"
           fill="none"
+        />
+
+        {/* 2. Secondary Delicate Dashed Curve */}
+        <path
+          d="M 8,0 C 24,190 28,340 14,460 C 4,550 24,640 10,700"
+          stroke={`url(#techSubtleGrad_${side})`}
+          strokeWidth="1"
+          strokeDasharray="4 6"
+          fill="none"
+        />
+
+        {/* 3. Subtle Outer Boundary Accent Segment */}
+        <path
+          d="M 52,140 C 66,230 64,360 44,480"
+          stroke={`url(#techSubtleGrad_${side})`}
+          strokeWidth="0.85"
+          fill="none"
+        />
+
+        {/* 4. Small Outlined Geometric Accent Circles */}
+        {/* Top geometric node */}
+        <circle cx="36" cy="190" r="3" fill="#FFFFFF" stroke="#004AAD" strokeWidth="1" opacity="0.6" />
+        <circle cx="36" cy="190" r="1.2" fill="#004AAD" opacity="0.65" />
+
+        {/* Center geometric satellite ring */}
+        <circle cx="34" cy="350" r="4.5" fill="none" stroke="#0284C7" strokeWidth="0.9" opacity="0.45" />
+        <circle cx="34" cy="350" r="1.5" fill="#0284C7" opacity="0.55" />
+
+        {/* Lower geometric node */}
+        <circle cx="22" cy="520" r="2.5" fill="#FFFFFF" stroke="#004AAD" strokeWidth="1" opacity="0.5" />
+
+        {/* 5. Minimal Tech Details: Short tick lines & subtle arcs */}
+        {/* Short technical tick lines */}
+        <line x1="26" y1="180" x2="44" y2="180" stroke="#0284C7" strokeWidth="0.9" opacity="0.3" />
+        <line x1="14" y1="360" x2="26" y2="360" stroke="#004AAD" strokeWidth="0.9" opacity="0.25" />
+        <line x1="28" y1="510" x2="40" y2="510" stroke="#0284C7" strokeWidth="0.9" opacity="0.3" />
+
+        {/* Small delicate arc accents */}
+        <path
+          d="M 48,245 A 16 16 0 0 1 58,272"
+          stroke="#004AAD"
+          strokeWidth="0.9"
+          strokeDasharray="2 3"
+          fill="none"
+          opacity="0.3"
+        />
+        <path
+          d="M 38,420 A 12 12 0 0 0 46,446"
+          stroke="#0284C7"
+          strokeWidth="0.9"
+          fill="none"
+          opacity="0.25"
         />
       </svg>
     </div>
@@ -1051,14 +1074,14 @@ export default function Partners() {
 
       {/* SECTION 2: PARTNER ECOSYSTEM VISUALIZATION */}
       <section className="relative w-full py-16 md:py-24 bg-[#EDF4F9] overflow-hidden select-none">
-        {/* Modern Blue Side Frames (15% left + 15% right, center 70% clean) */}
-        {/* Left Side Frame */}
-        <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-14 md:w-[12%] lg:w-[15%] max-w-[240px] pointer-events-none z-0 overflow-hidden select-none">
+        {/* Minimal Technology Side Accents (Subtle thin lines & geometric details on extreme edges) */}
+        {/* Left Side Accent */}
+        <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-16 md:w-24 lg:w-32 max-w-[130px] pointer-events-none z-0 overflow-hidden select-none">
           <BlueSideFrame side="left" />
         </div>
 
-        {/* Right Side Frame (Mirrored) */}
-        <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-14 md:w-[12%] lg:w-[15%] max-w-[240px] pointer-events-none z-0 overflow-hidden select-none">
+        {/* Right Side Accent (Mirrored) */}
+        <div className="absolute right-0 top-0 bottom-0 w-10 sm:w-16 md:w-24 lg:w-32 max-w-[130px] pointer-events-none z-0 overflow-hidden select-none">
           <BlueSideFrame side="right" />
         </div>
 
