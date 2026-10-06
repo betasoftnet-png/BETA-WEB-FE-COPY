@@ -405,6 +405,126 @@ function Philosophy3DShowcase() {
   );
 }
 
+// ==========================================
+// 3D CORPORATE BETA WORDMARK LETTER COMPONENT
+// ==========================================
+const BETA_EXTRUSION_STEPS = [
+  { dx: 5.0, dy: 16.0, color: '#001C46' }, // deepest base extrusion
+  { dx: 4.6, dy: 14.8, color: '#001E4B' },
+  { dx: 4.2, dy: 13.6, color: '#002151' },
+  { dx: 3.8, dy: 12.4, color: '#002457' },
+  { dx: 3.5, dy: 11.2, color: '#00275E' },
+  { dx: 3.1, dy: 10.0, color: '#002A65' },
+  { dx: 2.8, dy: 8.8,  color: '#002E6D' },
+  { dx: 2.4, dy: 7.6,  color: '#003175' },
+  { dx: 2.1, dy: 6.4,  color: '#00357D' },
+  { dx: 1.7, dy: 5.2,  color: '#003986' },
+  { dx: 1.4, dy: 4.0,  color: '#003E90' },
+  { dx: 1.0, dy: 2.8,  color: '#00429A' },
+  { dx: 0.7, dy: 1.8,  color: '#0046A3' },
+  { dx: 0.3, dy: 0.9,  color: '#004AAC' },
+];
+
+function Beta3DLetter({ letter, viewBox, path, heightClass = 'h-[1.08em]' }) {
+  const idPrefix = `beta3d-${letter.toLowerCase()}`;
+  return (
+    <svg
+      viewBox={viewBox}
+      className={`${heightClass} w-auto inline-block overflow-visible`}
+      fillRule="evenodd"
+      aria-label={letter}
+      style={{ overflow: 'visible' }}
+    >
+      <defs>
+        {/* Soft natural ground shadow filter */}
+        <filter id={`${idPrefix}-shadow`} x="-30%" y="-25%" width="160%" height="180%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="11" result="blurAmbient" />
+          <feOffset in="blurAmbient" dx="3" dy="20" result="offsetAmbient" />
+          <feFlood floodColor="#001C46" floodOpacity="0.32" result="ambientColor" />
+          <feComposite in="ambientColor" in2="offsetAmbient" operator="in" result="shadowAmbient" />
+
+          <feGaussianBlur in="SourceAlpha" stdDeviation="4.5" result="blurContact" />
+          <feOffset in="blurContact" dx="1.5" dy="8" result="offsetContact" />
+          <feFlood floodColor="#00112E" floodOpacity="0.28" result="contactColor" />
+          <feComposite in="contactColor" in2="offsetContact" operator="in" result="shadowContact" />
+
+          <feMerge>
+            <feMergeNode in="shadowAmbient" />
+            <feMergeNode in="shadowContact" />
+          </feMerge>
+        </filter>
+
+        {/* Clean brand blue front face gradient */}
+        <linearGradient id={`${idPrefix}-front`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#055DE7" />
+          <stop offset="30%" stopColor="#004AAD" />
+          <stop offset="80%" stopColor="#00409A" />
+          <stop offset="100%" stopColor="#003582" />
+        </linearGradient>
+
+        {/* Top edge bevel highlight gradient */}
+        <linearGradient id={`${idPrefix}-bevel-top`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.75" />
+          <stop offset="10%" stopColor="#BAE6FD" stopOpacity="0.45" />
+          <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.16" />
+          <stop offset="70%" stopColor="#004AAD" stopOpacity="0" />
+          <stop offset="100%" stopColor="#001838" stopOpacity="0.35" />
+        </linearGradient>
+
+        {/* Letter path definition */}
+        <path id={`${idPrefix}-path`} d={path} />
+      </defs>
+
+      {/* Layer 0: Ground Contact & Ambient Shadow */}
+      <use
+        href={`#${idPrefix}-path`}
+        filter={`url(#${idPrefix}-shadow)`}
+        fill="#001433"
+        opacity="0.36"
+      />
+
+      {/* Layer 1: 3D Dimensional Extrusion Stack (Realistic depth with darker blue side faces) */}
+      <g className="beta-3d-extrusion">
+        {BETA_EXTRUSION_STEPS.map((step, idx) => (
+          <use
+            key={idx}
+            href={`#${idPrefix}-path`}
+            transform={`translate(${step.dx}, ${step.dy})`}
+            fill={step.color}
+          />
+        ))}
+      </g>
+
+      {/* Layer 2: Clean Vibrant Blue Front Face */}
+      <use
+        href={`#${idPrefix}-path`}
+        transform="translate(0, 0)"
+        fill={`url(#${idPrefix}-front)`}
+      />
+
+      {/* Layer 3: Subtle Bevel Highlights & Depth on Upper Edges */}
+      <use
+        href={`#${idPrefix}-path`}
+        transform="translate(0, 0)"
+        fill="none"
+        stroke={`url(#${idPrefix}-bevel-top)`}
+        strokeWidth="3.2"
+        strokeLinejoin="round"
+      />
+
+      {/* Layer 4: Subtle Dark Edge Seam for Depth Separation */}
+      <use
+        href={`#${idPrefix}-path`}
+        transform="translate(0, 0)"
+        fill="none"
+        stroke="rgba(0, 24, 64, 0.22)"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function Home() {
   const [heroIntroDone, setHeroIntroDone] = useState(false);
 
@@ -1037,11 +1157,12 @@ export default function Home() {
           transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1),
                       filter 300ms cubic-bezier(0.25, 1, 0.5, 1);
           will-change: transform, filter;
+          overflow: visible !important;
         }
 
         .beta-letter:hover svg {
           transform: translate3d(0, -5px, 0) scale(1.045);
-          filter: drop-shadow(0 6px 14px rgba(0, 74, 173, 0.18)) drop-shadow(0 2px 4px rgba(0, 74, 173, 0.10));
+          filter: drop-shadow(0 8px 18px rgba(0, 74, 173, 0.22)) drop-shadow(0 2px 5px rgba(0, 74, 173, 0.12));
         }
 
         .beta-letter-b {
@@ -1138,8 +1259,19 @@ export default function Home() {
 
         {/* Hero Content Layer */}
         <div className="relative z-10 w-full">
-          {/* Top Brand Mark: Refined Corporate BETA Wordmark (Taller, Cleaner, Lighter Stroke, Minimal Shadow) */}
-          <div className="w-full flex items-center justify-center pt-1 pb-1 sm:pb-1.5 md:pb-2 select-none">
+          {/* Top Brand Mark: Professional 3D Corporate BETA Wordmark */}
+          <div className="w-full flex items-center justify-center pt-1 pb-1 sm:pb-1.5 md:pb-2 select-none relative">
+            {/* Soft corporate blue ambient backdrop aura as seen in reference design */}
+            <div
+              className="absolute pointer-events-none -z-10 rounded-full"
+              style={{
+                width: 'min(460px, 82vw)',
+                height: '84px',
+                background: 'radial-gradient(ellipse at center, rgba(0, 74, 173, 0.32) 0%, rgba(37, 99, 235, 0.16) 45%, rgba(96, 165, 250, 0.05) 70%, transparent 85%)',
+                filter: 'blur(22px)',
+                transform: 'translate3d(0, 2px, 0)'
+              }}
+            />
             <span
               className="top-beta-brand-text text-5xl sm:text-6xl md:text-[68px] lg:text-[78px] xl:text-[88px] 2xl:text-[98px] select-none uppercase tracking-[-0.03em] leading-none inline-flex items-center justify-center gap-0.5 sm:gap-1"
               style={{
@@ -1147,24 +1279,36 @@ export default function Home() {
               }}
             >
               <span className="beta-letter beta-letter-b inline-flex items-center">
-                <svg viewBox="52 0 548 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="B">
-                  <path d="M60,0 H225 V688 H60 Z M268,0 H392 Q585,0 585,168 Q585,242 558,280 Q530,316 472,332 V336 Q535,351 562,384 Q592,422 592,502 Q592,592 545,640 Q498,688 392,688 H268 Z M268,252 H285 Q305,252 316,250 Q325,248 331,242 Q336,236 338,227 Q340,218 340,206 Q340,193 338,184 Q336,175 331,169 Q325,163 316,161 Q305,159 285,159 H268 Z M268,520 H289 Q309,520 320,518 Q329,516 335,510 Q340,504 342,494 Q344,484 344,472 Q344,458 342,448 Q340,438 335,432 Q329,424 289,424 H268 Z" />
-                </svg>
+                <Beta3DLetter
+                  letter="B"
+                  viewBox="52 0 548 688"
+                  heightClass="h-[1.08em]"
+                  path="M60,0 H225 V688 H60 Z M268,0 H392 Q585,0 585,168 Q585,242 558,280 Q530,316 472,332 V336 Q535,351 562,384 Q592,422 592,502 Q592,592 545,640 Q498,688 392,688 H268 Z M268,252 H285 Q305,252 316,250 Q325,248 331,242 Q336,236 338,227 Q340,218 340,206 Q340,193 338,184 Q336,175 331,169 Q325,163 316,161 Q305,159 285,159 H268 Z M268,520 H289 Q309,520 320,518 Q329,516 335,510 Q340,504 342,494 Q344,484 344,472 Q344,458 342,448 Q340,438 335,432 Q329,424 289,424 H268 Z"
+                />
               </span>
               <span className="beta-letter beta-letter-e inline-flex items-center">
-                <svg viewBox="52 0 476 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="E">
-                  <path d="M60,0 H225 V688 H60 Z M268,0 H520 V184 H268 Z M268,230 H482 V432 H268 Z M268,478 H520 V688 H268 Z" />
-                </svg>
+                <Beta3DLetter
+                  letter="E"
+                  viewBox="52 0 476 688"
+                  heightClass="h-[1.08em]"
+                  path="M60,0 H225 V688 H60 Z M268,0 H520 V184 H268 Z M268,230 H482 V432 H268 Z M268,478 H520 V688 H268 Z"
+                />
               </span>
               <span className="beta-letter beta-letter-t inline-flex items-center">
-                <svg viewBox="-2 0 544 688" className="h-[1.105em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="T">
-                  <path d="M6,0 H534 V188 H6 Z M170,204 H370 V688 H170 Z" />
-                </svg>
+                <Beta3DLetter
+                  letter="T"
+                  viewBox="-2 0 544 688"
+                  heightClass="h-[1.105em]"
+                  path="M6,0 H534 V188 H6 Z M170,204 H370 V688 H170 Z"
+                />
               </span>
               <span className="beta-letter beta-letter-a inline-flex items-center -ml-[0.095em]">
-                <svg viewBox="4 0 662 688" className="h-[1.08em] w-auto inline-block fill-current" fillRule="evenodd" aria-label="A">
-                  <path d="M205,0 H252 L330,290 L204,688 H12 Z M455,535 H272 L315,360 H380 L272,0 H448 L658,688 H478 Z" />
-                </svg>
+                <Beta3DLetter
+                  letter="A"
+                  viewBox="4 0 662 688"
+                  heightClass="h-[1.08em]"
+                  path="M205,0 H252 L330,290 L204,688 H12 Z M455,535 H272 L315,360 H380 L272,0 H448 L658,688 H478 Z"
+                />
               </span>
             </span>
           </div>
