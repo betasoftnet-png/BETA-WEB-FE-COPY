@@ -132,6 +132,16 @@ export default function Footer() {
                   Cliks Business
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://bit-tool.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-600 hover:text-[#004AAD] transition-all duration-200 inline-block hover:translate-x-0.5"
+                >
+                  Bit-Tool
+                </a>
+              </li>
             </ul>
           </div>
 
