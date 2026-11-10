@@ -60,7 +60,7 @@ function CountUpNumber({ value }) {
 export default function About() {
   const leadership = [
     {
-      name: 'Mr.B',
+      name: 'Mr.Balaji Ravi',
       role: 'Founder & CEO',
       avatar: "/MR.B.png",
       desc: 'Former Engineering Director at AWS. Guiding enterprise software scaling and corporate direction.',
